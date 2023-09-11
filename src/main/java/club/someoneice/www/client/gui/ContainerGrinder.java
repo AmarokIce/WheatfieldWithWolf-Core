@@ -1,0 +1,91 @@
+package club.someoneice.www.client.gui;
+
+import club.someoneice.www.common.tile.TileGrinder;
+import club.someoneice.www.init.BlockList;
+import club.someoneice.www.init.ItemList;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.ChunkPosition;
+import net.minecraft.world.World;
+
+public class ContainerGrinder extends Container {
+    public IInventory inventory;
+    private World worldObj;
+    private ChunkPosition pos;
+
+    public ContainerGrinder(InventoryPlayer player, World world, int x, int y, int z, TileGrinder tile) {
+        this.worldObj = world;
+        this.pos = new ChunkPosition(x, y, z);
+        inventory = tile;
+
+        this.addSlotToContainer(new Slot(tile, 0, 56, 17));
+        this.addSlotToContainer(new SlotFlue(tile, 1, 56, 53, ItemList.grinder_knife));
+        this.addSlotToContainer(new SlotOutput(tile, 2, 116, 35));
+        this.addSlotToContainer(new Slot(tile, 3, 141, 35));
+
+        for (int h = 0; h < 3; ++h) {
+            for (int l = 0; l < 9; ++l) {
+                this.addSlotToContainer(new Slot(player, l + h * 9 + 9, 8 + l * 18, 84 + h * 18));
+            }
+        }
+
+
+        for (int l = 0; l < 9; ++l) {
+            this.addSlotToContainer(new Slot(player, l, 8 + l * 18, 142));
+        }
+    }
+
+    // TODO
+    public boolean canInteractWith(EntityPlayer player) {
+        return worldObj.getBlock(pos.chunkPosX, pos.chunkPosY, pos.chunkPosZ) == BlockList.grinder && player.getDistanceSq((double)this.pos.chunkPosX + 0.5D, (double)this.pos.chunkPosY + 0.5D, (double)this.pos.chunkPosZ + 0.5D) <= 64.0D;
+    }
+
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber) {
+        ItemStack itemstack = null;
+        Slot slot = (Slot)this.inventorySlots.get(slotNumber);
+
+        if (slot != null && slot.getHasStack()) {
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
+
+            if (slotNumber == 0) {
+                if (!this.mergeItemStack(itemstack1, 10, 36, true)) {
+                    return null;
+                }
+                slot.onSlotChange(itemstack1, itemstack);
+
+            } else if (slotNumber >= 10 && slotNumber < 27) {
+                if (!this.mergeItemStack(itemstack1, 27, 36, false)) {
+                    return null;
+                }
+
+            } else if (slotNumber >= 27 && slotNumber < 36) {
+                if (!this.mergeItemStack(itemstack1, 10, 27, false)) {
+                    return null;
+                }
+
+            } else if (!this.mergeItemStack(itemstack1, 10, 36, false)) {
+                return null;
+            }
+
+            if (itemstack1.stackSize == 0) {
+                slot.putStack(null);
+            } else {
+                slot.onSlotChanged();
+            }
+
+            if (itemstack1.stackSize == itemstack.stackSize) {
+                return null;
+            }
+
+            slot.onPickupFromSlot(player, itemstack1);
+        }
+
+        return itemstack;
+    }
+
+}
