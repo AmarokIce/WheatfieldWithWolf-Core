@@ -1,8 +1,8 @@
 package club.someoneice.www.common.bean.item;
 
-import club.someoneice.www.Tags;
-import club.someoneice.www.Util;
 import club.someoneice.www.common.bean.block.CropHellFactory;
+import club.someoneice.www.util.Tags;
+import club.someoneice.www.util.Util;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

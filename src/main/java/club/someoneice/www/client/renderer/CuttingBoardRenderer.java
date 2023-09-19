@@ -53,16 +53,13 @@ public class CuttingBoardRenderer extends TileEntitySpecialRenderer {
                     item.hoverStart = 0.0F;
                     RenderItem.renderInFrame = true;
 
-                    if (item.getEntityItem().getItem() == ItemList.knife)
-                    {
+                    if (item.getEntityItem().getItem() == ItemList.knife) {
                         GL11.glTranslatef((float) (posX + 0.26F), (float) (posY), (float) (posZ + 0.255D));
                         GL11.glScaled(1.25D, 1.25D, 1.25D);
                         GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
                         GL11.glRotatef(-90.0F, 0.0F, 1.0F, 1.0F);
                         GL11.glRotatef(-60.0F, 0.0F, 0.0F, 1.0F);
-                    }
-                    else
-                    {
+                    } else {
                         GL11.glTranslatef((float) (posX + 0.30F), (float) (posY - 0.20F), (float) (posZ + 0.50F));
                         GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
                         GL11.glRotatef(180.0F, 0.0F, 1.0F, 1.0F);

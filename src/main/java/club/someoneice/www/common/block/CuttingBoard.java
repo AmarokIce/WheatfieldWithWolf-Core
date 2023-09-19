@@ -1,11 +1,11 @@
 package club.someoneice.www.common.block;
 
-import club.someoneice.www.Util;
-import club.someoneice.www.WWWApi;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.tile.TileCuttingBoard;
 import club.someoneice.www.init.ItemList;
 import club.someoneice.www.proxy.ClientProxy;
+import club.someoneice.www.util.Util;
+import club.someoneice.www.util.WWWApi;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -27,12 +27,13 @@ public class CuttingBoard extends BlockContainer {
         this.setBlockTextureName(Util.init.getTexturesName("cutting_board"));
         this.setCreativeTab(WWWMain.TABS);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1F, 1.0F);
+        this.setTickRandomly(true);
 
         GameRegistry.registerBlock(this, "cutting_board");
     }
 
     @Override
-    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileCuttingBoard();
     }
 
@@ -50,32 +51,33 @@ public class CuttingBoard extends BlockContainer {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
-            TileEntity tileEntity = world.getTileEntity(x, y, z);
-            if (tileEntity instanceof TileCuttingBoard) {
-                TileCuttingBoard tile = (TileCuttingBoard) tileEntity;
-                if (player.isSneaking() && player.getHeldItem() == null && tile.itemInv != null) {
-                    player.inventory.addItemStackToInventory(tile.itemInv.copy());
-                    tile.itemInv = null;
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity instanceof TileCuttingBoard) {
+            TileCuttingBoard tile = (TileCuttingBoard) tileEntity;
+
+            if (player.isSneaking() && player.getHeldItem() == null && tile.itemInv != null) {
+                player.inventory.addItemStackToInventory(tile.itemInv.copy());
+                tile.itemInv = null;
+                return true;
+            }
+
+            if (tile.itemInv == null && player.getHeldItem() != null) {
+                tile.itemInv = player.getHeldItem().copy();
+                player.inventory.mainInventory[player.inventory.currentItem] = null;
+                world.notifyBlockChange(x, y, z, this);
+
+                return true;
+            } else if (tile.itemInv != null && player.getHeldItem() != null && player.getHeldItem().getItem() == ItemList.knife) {
+                if (WWWApi.CUT_MAP.containsKey(tile.itemInv.getItem())) {
+                    ItemStack output = WWWApi.CUT_MAP.get(tile.itemInv.getItem());
+                    tile.itemInv.stackSize--;
+                    if (tile.itemInv.stackSize == 0) tile.itemInv = null;
+                    world.spawnEntityInWorld(new EntityItem(world, x + 0.5D, y + 0.5D, z + 0.5D, output));
+
                     return true;
-                }
-
-                if (tile.itemInv == null && player.getHeldItem() != null) {
-                    tile.itemInv = player.getHeldItem().copy();
-                    player.inventory.mainInventory[player.inventory.currentItem] = null;
-                    world.notifyBlockChange(x, y, z, this);
-
-                    return true;
-                } else if (tile.itemInv != null && player.getHeldItem() != null && player.getHeldItem().getItem() == ItemList.knife) {
-                    if (WWWApi.CUT_MAP.containsKey(tile.itemInv.getItem())) {
-                        ItemStack output = WWWApi.CUT_MAP.get(tile.itemInv.getItem());
-                        tile.itemInv.stackSize--;
-                        if (tile.itemInv.stackSize == 0) tile.itemInv = null;
-                        world.spawnEntityInWorld(new EntityItem(world, x + 0.5D, y + 0.5D, z + 0.5D, output));
-
-                        return true;
-                    }
                 }
             }
+        }
         return false;
     }
 

@@ -1,9 +1,9 @@
 package club.someoneice.www.common.bean.block;
 
-import club.someoneice.www.Tags;
-import club.someoneice.www.Util;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.bean.item.ItemHellCrop;
+import club.someoneice.www.util.Tags;
+import club.someoneice.www.util.Util;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;

@@ -1,4 +1,4 @@
-package club.someoneice.www;
+package club.someoneice.www.util;
 
 import club.someoneice.togocup.tags.Tag;
 import club.someoneice.togocup.tags.TagsManager;

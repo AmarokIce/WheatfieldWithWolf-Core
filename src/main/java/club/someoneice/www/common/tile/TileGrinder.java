@@ -1,8 +1,8 @@
 package club.someoneice.www.common.tile;
 
-import club.someoneice.www.WWWApi;
 import club.someoneice.www.init.ItemList;
 import club.someoneice.www.init.recipe.RecipeGrinder;
+import club.someoneice.www.util.WWWApi;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;

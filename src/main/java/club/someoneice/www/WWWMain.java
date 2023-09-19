@@ -4,7 +4,9 @@ import club.someoneice.www.init.BlockList;
 import club.someoneice.www.init.GuiHandler;
 import club.someoneice.www.init.ItemList;
 import club.someoneice.www.init.Others;
+import club.someoneice.www.network.SimpleNetWorkHandler;
 import club.someoneice.www.proxy.CommonProxy;
+import club.someoneice.www.util.Tags;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -38,6 +40,7 @@ public class WWWMain {
         new Others();
 
         proxy.initRender();
+        SimpleNetWorkHandler.init();
     }
 
     @Mod.EventHandler

@@ -1,4 +1,4 @@
-package club.someoneice.www;
+package club.someoneice.www.util;
 
 import club.someoneice.www.init.recipe.RecipeGrinder;
 import com.google.common.collect.Maps;

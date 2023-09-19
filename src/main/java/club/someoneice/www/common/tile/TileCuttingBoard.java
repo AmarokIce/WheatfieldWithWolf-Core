@@ -19,20 +19,17 @@ public class TileCuttingBoard extends TileEntity {
         this.itemInv = item;
     }
 
-    public ItemStack getItemSource() {
-        return this.itemInv;
-    }
-
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
-        if (this.itemInv != null) nbt.setTag("itemInv", itemInv.writeToNBT(new NBTTagCompound()));
-        else nbt.removeTag("itemInv");
+        if (this.itemInv != null)
+            nbt.setTag("itemInv", itemInv.writeToNBT(new NBTTagCompound()));
         super.writeToNBT(nbt);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        if (nbt.hasKey("itemInv")) this.itemInv = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("itemInv"));
+        if (nbt.hasKey("itemInv"))
+            this.itemInv = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("itemInv"));
     }
 }

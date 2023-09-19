@@ -1,7 +1,7 @@
 package club.someoneice.www.common.bean.item;
 
-import club.someoneice.www.Util;
 import club.someoneice.www.WWWMain;
+import club.someoneice.www.util.Util;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;

@@ -1,7 +1,7 @@
 package club.someoneice.www.common.block;
 
-import club.someoneice.www.Util;
 import club.someoneice.www.WWWMain;
+import club.someoneice.www.util.Util;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
