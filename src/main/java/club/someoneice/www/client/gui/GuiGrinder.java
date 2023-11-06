@@ -26,7 +26,7 @@ public class GuiGrinder extends GuiContainer {
 
         if (tile.burnTime > 0) {
             int process = (int) (Math.floor(tile.burnTime) * (13 / 8000.0D));
-            this.drawTexturedModalRect(foo + 56, bar + 36 + 13 - process, 176, 13 - process, 15, process);
+            this.drawTexturedModalRect(foo + 56, bar + 36 + (13 - process), 176, 13 - process, 15, process);
         }
 
         if (tile.time > 0) {

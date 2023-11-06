@@ -11,18 +11,18 @@ public class RecipeGrinder {
     public final int cooking_time;
     public final ItemStack bottle;
 
-    private RecipeGrinder(ItemStack input, ItemStack output, int cooking_time, @Nullable ItemStack bottle) {
+    public RecipeGrinder(ItemStack input, ItemStack output, int cooking_time, @Nullable ItemStack bottle) {
         this.input = input;
         this.output = output;
         this.cooking_time = cooking_time;
         this.bottle = bottle;
     }
 
-    public static RecipeGrinder initRecipe(ItemStack input, ItemStack output, int cooking_time, @Nullable ItemStack bottle) {
-        return new RecipeGrinder(input, output, cooking_time, bottle);
+    public static RecipeGrinder initRecipe(ItemStack input, ItemStack output, @Nullable ItemStack bottle) {
+        return new RecipeGrinder(input, output, 200, bottle);
     }
 
-    public static RecipeGrinder initRecipe(Item input, Item output, int cooking_time, Item bottle) {
-        return initRecipe(new ItemStack(input), new ItemStack(output), cooking_time, new ItemStack(bottle));
+    public static RecipeGrinder initRecipe(Item input, Item output, @Nullable Item bottle) {
+        return initRecipe(new ItemStack(input), new ItemStack(output), new ItemStack(bottle));
     }
 }

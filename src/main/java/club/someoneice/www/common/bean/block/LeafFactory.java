@@ -35,8 +35,8 @@ public class LeafFactory extends BlockLeaves {
 
         if (world.getBlockLightValue(x, y + 1, z) >= 9) {
             int meta = world.getBlockMetadata(x, y, z);
-            if (meta < 1 && random.nextInt(100 + 1) < 30)
-                world.setBlockMetadataWithNotify(x, y, z, ++meta, 2);
+            if (meta < 1 && random.nextInt(100 + 1) <= 25)
+                world.setBlockMetadataWithNotify(x, y, z, ++meta, 3);
         }
     }
 
@@ -55,8 +55,8 @@ public class LeafFactory extends BlockLeaves {
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
         int meta = world.getBlockMetadata(x, y, z);
-        if (meta == 1) {
-            player.inventory.addItemStackToInventory(new ItemStack(this.fruit, world.rand.nextInt(2) + 1));
+        if (meta >= 1) {
+            player.inventory.addItemStackToInventory(new ItemStack(this.fruit, world.rand.nextInt(3) + 1));
             world.setBlockMetadataWithNotify(x, y, z, 0, 2);
             return true;
         }

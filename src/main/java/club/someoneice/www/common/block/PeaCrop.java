@@ -1,7 +1,6 @@
 package club.someoneice.www.common.block;
 
 import club.someoneice.www.common.bean.block.CropFactory;
-import club.someoneice.www.init.ItemList;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,8 +23,7 @@ public class PeaCrop extends CropFactory {
         if (meta == 7) {
             List<ItemStack> rat = Lists.newArrayList();
 
-            rat.add(new ItemStack(ItemList.soybean, world.rand.nextInt(5) + 1));
-            rat.add(new ItemStack(this.func_149866_i()));
+            rat.add(new ItemStack(this.func_149866_i(), world.rand.nextInt(5) + 1));
             for (ItemStack item : rat) player.inventory.addItemStackToInventory(item);
 
             world.setBlockMetadataWithNotify(x, y, z, 0, 2);

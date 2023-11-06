@@ -2,6 +2,7 @@ package club.someoneice.www.common.bean.block;
 
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.bean.TreeFactory;
+import club.someoneice.www.util.Tags;
 import club.someoneice.www.util.Util;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -22,10 +23,11 @@ public class TreeSaplingFactory extends BlockBush implements IGrowable {
         this.setLightLevel(0.3f);
         this.setBlockName(name);
         this.setBlockTextureName(Util.init.getTexturesName(name));
-        // this.setLightLevel(5F);
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
         this.setCreativeTab(WWWMain.TABS);
         this.setStepSound(soundTypeGrass);
+
+        Tags.SEED_TAG.put(Item.getItemFromBlock(this));
 
         this.leaf = leaf;
         GameRegistry.registerBlock(this, name);

@@ -82,10 +82,8 @@ public class TreeFactory extends WorldGenAbstractTree {
                                 if (Math.abs(j2) != l1 || Math.abs(l2) != l1 || rand.nextInt(2) != 0 && i3 != 0) {
                                     Block block1 = world.getBlock(i2, k1, k2);
 
-                                    int meta = rand.nextInt(3) + 1;
-
                                     if (block1.isAir(world, i2, k1, k2) || block1.isLeaves(world, i2, k1, k2)) {
-                                        this.setBlockAndNotifyAdequately(world, i2, k1, k2, this.Leaf, meta);
+                                        this.setBlockAndNotifyAdequately(world, i2, k1, k2, this.Leaf, 0);
                                     }
                                 }
                             }

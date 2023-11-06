@@ -2,6 +2,7 @@ package club.someoneice.www.common.bean.block;
 
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.bean.item.ItemSeedFactory;
+import club.someoneice.www.util.SeedTagUtil;
 import club.someoneice.www.util.Tags;
 import club.someoneice.www.util.Util;
 import com.google.common.collect.Lists;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 public class CropFactory extends BlockCrops {
-    protected final Item crop, seed;
+    public final Item crop, seed;
     protected final boolean oneOnly;
     public final String name;
 
@@ -36,7 +37,7 @@ public class CropFactory extends BlockCrops {
         this.setBlockTextureName(Util.init.getTexturesName(name));
         this.setCreativeTab(WWWMain.TABS);
 
-        Tags.SEED_TAG.put(this.seed != null? seed : Item.getItemFromBlock(this));
+        SeedTagUtil.CROPS.add(this);
         GameRegistry.registerBlock(this, ItemSeedFactory.class, name);
     }
 
@@ -65,7 +66,7 @@ public class CropFactory extends BlockCrops {
         this.icons = new IIcon[4];
 
         for(int i = 0; i < 4; ++i) {
-            this.icons[i] = register.registerIcon(WWWMain.MODID + ":" + this.textureName + "_" + i);
+            this.icons[i] = register.registerIcon(this.textureName + "_crop_" + i);
         }
     }
 
@@ -73,6 +74,10 @@ public class CropFactory extends BlockCrops {
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         switch(meta) {
+            case 0:
+            case 1:
+            default:
+                return this.icons[0];
             case 2:
             case 3:
                 return this.icons[1];
@@ -83,20 +88,16 @@ public class CropFactory extends BlockCrops {
             case 7:
             case 8:
                 return this.icons[3];
-            case 0:
-            case 1:
-            default:
-                return this.icons[0];
         }
     }
 
     @Override
-    protected Item func_149866_i() {
+    public Item func_149866_i() {
         return this.seed != null? seed : Item.getItemFromBlock(this);
     }
 
     @Override
-    protected Item func_149865_P() {
+    public Item func_149865_P() {
         return this.crop != null? this.crop : Item.getItemFromBlock(this);
     }
 

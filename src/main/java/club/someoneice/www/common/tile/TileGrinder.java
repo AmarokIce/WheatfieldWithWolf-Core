@@ -24,28 +24,37 @@ public class TileGrinder extends TileEntity implements IInventory, ISidedInvento
         this.burnTime = 0;
     }
 
+    RecipeGrinder recipe = null;
+
     @Override
     public void updateEntity() {
         super.updateEntity();
-        if (!canBurn() || this.inventory[0] == null) return;
-        if (WWWApi.GRINDER.containsKey(this.inventory[0].getItem())) {
-            RecipeGrinder recipe = WWWApi.GRINDER.get(this.inventory[0].getItem());
-            if (time >= recipe.cooking_time) {
+        if (!canBurn() || this.inventory[0] == null) {
+            recipe = null;
+        } else if (WWWApi.GRINDER.containsKey(this.inventory[0].getItem())) {
+            if (recipe == null) {
+                recipe = WWWApi.GRINDER.get(this.inventory[0].getItem());
+            }
 
-                if (recipe.bottle == null || this.inventory[3] == recipe.bottle) {
-                    this.inventory[3].stackSize--;
-                } else return;
+            if (time >= recipe.cooking_time) {
+                if (recipe.bottle != null) {
+                    if (this.inventory[3].getItem() == recipe.bottle.getItem()) {
+                        this.inventory[3].stackSize--;
+                    } else return;
+                }
 
                 if (this.inventory[2] == null) {
-                    this.inventory[2] = recipe.output;
-                } else if (this.inventory[2] == recipe.output) {
+                    this.inventory[2] = recipe.output.copy();
+                } else if (this.inventory[2].getItem() == recipe.output.getItem()) {
                     if (inventory[2].stackSize < inventory[2].getMaxStackSize()) {
                         this.inventory[2].stackSize += recipe.output.stackSize;
-                    }
+                    } else return;
                 } else return;
 
                 if (this.inventory[0].stackSize - 1 == 0) this.inventory[0] = null;
                 else this.inventory[0].stackSize--;
+
+                recipe = null;
                 time = 0;
 
             } else ++time;

@@ -2,6 +2,7 @@ package club.someoneice.www.common.bean.block;
 
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.bean.item.ItemWaterCrop;
+import club.someoneice.www.util.SeedTagUtil;
 import club.someoneice.www.util.Tags;
 import club.someoneice.www.util.Util;
 import com.google.common.collect.Lists;
@@ -36,7 +37,7 @@ public class CropWaterFactory extends BlockCrops {
         this.setBlockTextureName(Util.init.getTexturesName(name));
         this.setCreativeTab(WWWMain.TABS);
 
-        Tags.SEED_TAG.put(this.seed != null? seed : Item.getItemFromBlock(this));
+        SeedTagUtil.WATER_CROPS.add(this);
         GameRegistry.registerBlock(this, ItemWaterCrop.class, name);
     }
 
@@ -63,12 +64,12 @@ public class CropWaterFactory extends BlockCrops {
     }
 
     @Override
-    protected Item func_149866_i() {
+    public Item func_149866_i() {
         return this.seed != null? seed : Item.getItemFromBlock(this);
     }
 
     @Override
-    protected Item func_149865_P() {
+    public Item func_149865_P() {
         return this.crop != null? this.crop : Item.getItemFromBlock(this);
     }
 

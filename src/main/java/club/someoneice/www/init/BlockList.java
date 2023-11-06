@@ -9,43 +9,36 @@ public class BlockList {
     public static final Block red_beans = new CropFactory("red_beans");
     public static final Block green_beans = new CropFactory("green_beans");
     public static final Block vanilla = new CropFactory("vanilla");
-    public static final Block spice = new CropFactory("spice");
     public static final Block pea = new PeaCrop();
     public static final Block coffee_beans = new CropFactory("coffee_beans");
     public static final Block chickpeas = new CropFactory("chickpeas");
-    public static final Block scallion = new CropFactory("scallion");
+    public static final Block soybean = new CropFactory("soybean");
     public static final Block sesame  = new CropFactory("sesame");
-    public static final Block cassava  = new CropFactory("cassava");
     public static final Block kale  = new CropFactory("kale");
-    public static final Block sweet_potato  = new CropFactory("sweet_potato");
+    public static final Block sweet_potato  = new CropFactory("sweetpotato");
     public static final Block ginger  = new CropFactory("ginger");
     public static final Block garlic  = new CropFactory("garlic");
     public static final Block peanut = new CropFactory("peanut");
-    public static final Block horseradish = new CropFactory("horseradish");
     public static final Block onion_seed = new CropFactory("onion");
 
     public static final Block pineapple_crop = new CropFactory("pineapple_crop", ItemList.pineapple);
-    public static final Block strawberry_seed = new CropFactory("strawberry_crop", ItemList.strawberry);
+    public static final Block strawberry_seed = new CropFactory("strawberry_seed", ItemList.strawberry);
     public static final Block tomato_seed = new TomatoCrop();
     public static final Block cucumber_seed = new CropFactory("cucumber_seed", ItemList.cucumber);
     public static final Block eggplant_seed = new CropFactory("eggplant_seed", ItemList.eggplant);
     public static final Block leek_seed = new CropFactory("leek_seed", ItemList.leek);
     public static final Block cabbage_seed = new CropFactory("cabbage_seed", ItemList.cabbage);
     public static final Block asparagus_seed = new CropFactory("asparagus_seed", ItemList.asparagus);
-    public static final Block celery_seed = new CropFactory("celery_seed", ItemList.celery);
     public static final Block lettuce_seed = new CropFactory("lettuce_seed", ItemList.lettuce);
     public static final Block okra_seed = new CropFactory("okra_seed", ItemList.okra);
     public static final Block spinach_seed = new CropFactory("spinach_seed", ItemList.spinach);
     public static final Block tea_leaves_seed = new CropFactory("tea_leaves_seed", ItemList.tea_leaves);
-    public static final Block cauliflower_seed = new CropFactory("cauliflower_seed", ItemList.cauliflower);
     public static final Block beetroot_seed = new CropFactory("beetroot_seed", ItemList.beetroot);
     public static final Block broccoli_seed = new CropFactory("broccoli_seed", ItemList.broccoli);
 
     public static final Block chili_seed = new CropHellFactory("chili_seed", ItemList.chili);
     public static final Block rice = new CropWaterFactory("rice");
 
-    public static final Block cotton_seed = new CropFactory("cotton_seed", ItemList.cotton);
-    public static final Block zucchini_seed = new CropFactory("zucchini_seed", ItemList.zucchini);
 
     /* Tree Leaf */
     public static final Block lemon_leaf = new LeafFactory("lemon_leaf", ItemList.lemon);
