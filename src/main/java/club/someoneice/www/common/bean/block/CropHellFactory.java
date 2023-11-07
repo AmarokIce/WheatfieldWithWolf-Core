@@ -40,6 +40,10 @@ public class CropHellFactory extends BlockCrops {
 
         SeedTagUtil.HELL_CROPS.add(this);
         GameRegistry.registerBlock(this, ItemHellCrop.class, name);
+
+        if (this.seed != null) {
+            GameRegistry.addShapelessRecipe(new ItemStack(seed, 2), this);
+        }
     }
 
     public CropHellFactory(String name, Item crop, boolean oneOnly) {

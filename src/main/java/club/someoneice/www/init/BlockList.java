@@ -22,7 +22,7 @@ public class BlockList {
     public static final Block peanut = new CropFactory("peanut");
     public static final Block onion = new CropFactory("onion");
 
-    public static final Block pineapple_crop = new CropFactory("pineapple_crop", ItemList.pineapple);
+    public static final Block pineapple_crop = new CropFactory("pineapple_seed", ItemList.pineapple);
     public static final Block strawberry_seed = new CropFactory("strawberry_seed", ItemList.strawberry);
     public static final Block tomato_seed = new TomatoCrop();
     public static final Block cucumber_seed = new CropFactory("cucumber_seed", ItemList.cucumber);

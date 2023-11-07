@@ -48,6 +48,9 @@ public class Others {
 
     private void RecipeCookingPot() {
         WWWApi.POT_MAP.add(new RecipePot(new ItemStack(ItemList.cheese), null, Items.milk_bucket, Items.milk_bucket, Items.sugar));
+        WWWApi.POT_MAP.add(new RecipePot(new ItemStack(ItemList.butter), null, Items.milk_bucket, ItemList.salt));
+        WWWApi.POT_MAP.add(new RecipePot(new ItemStack(ItemList.salt), null, Items.water_bucket, Items.paper));
+        WWWApi.POT_MAP.add(new RecipePot(new ItemStack(ItemList.cooked_cut_onion), null, ItemList.cut_onion, ItemList.oil));
     }
 
     private void RecipeSmelting() {
@@ -55,7 +58,6 @@ public class Others {
         GameRegistry.addSmelting(ItemList.meat_stuffing, new ItemStack(ItemList.cooked_meat_stuffing), 0.2f);
         GameRegistry.addSmelting(ItemList.chicken_breast, new ItemStack(ItemList.cooked_chicken_breast), 0.2f);
         GameRegistry.addSmelting(ItemList.cut_eggplant, new ItemStack(ItemList.cooked_cut_eggplant), 0.2f);
-        GameRegistry.addSmelting(ItemList.cut_onion, new ItemStack(ItemList.cooked_cut_onion), 0.2f);
         GameRegistry.addSmelting(ItemList.bread_slice, new ItemStack(ItemList.toast), 0.2f);
     }
 

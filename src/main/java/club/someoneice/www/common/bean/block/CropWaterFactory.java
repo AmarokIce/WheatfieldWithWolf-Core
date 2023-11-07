@@ -43,6 +43,10 @@ public class CropWaterFactory extends BlockCrops {
 
         SeedTagUtil.WATER_CROPS.add(this);
         GameRegistry.registerBlock(this, ItemWaterCrop.class, name);
+
+        if (this.seed != null) {
+            GameRegistry.addShapelessRecipe(new ItemStack(seed, 2), this);
+        }
     }
 
     public CropWaterFactory(String name, Item crop, boolean oneOnly) {
