@@ -67,17 +67,25 @@ public class CuttingBoard extends BlockContainer {
 
                 return true;
             } else if (tile.itemInv != null && player.getHeldItem() != null && player.getHeldItem().getItem() == ItemList.knife) {
-                if (WWWApi.CUT_MAP.containsKey(tile.itemInv.getItem())) {
-                    ItemStack output = WWWApi.CUT_MAP.get(tile.itemInv.getItem()).copy();
-                    tile.itemInv.stackSize--;
-                    if (tile.itemInv.stackSize == 0) tile.itemInv = null;
-                    if (!player.inventory.addItemStackToInventory(output.copy()))
-                        world.spawnEntityInWorld(new EntityItem(world, x + 0.5D, y + 0.5D, z + 0.5D, output.copy()));
-
-                    return true;
-                }
+                return cutting(tile, world, player, x, y, z);
             }
         }
+        return false;
+    }
+
+    private boolean cutting(TileCuttingBoard tile, World world, EntityPlayer player, int x, int y, int z) {
+        if (WWWApi.CUT_MAP.containsKey(tile.itemInv.getItem())) {
+            ItemStack output = WWWApi.CUT_MAP.get(tile.itemInv.getItem()).copy();
+            tile.itemInv.stackSize--;
+            if (tile.itemInv.stackSize == 0) tile.itemInv = null;
+            if (!player.inventory.addItemStackToInventory(output.copy())) {
+                if (world.isRemote) return true;
+                world.spawnEntityInWorld(new EntityItem(world, x + 0.5D, y + 0.5D, z + 0.5D, output.copy()));
+            }
+
+            return true;
+        }
+
         return false;
     }
 

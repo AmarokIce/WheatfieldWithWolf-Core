@@ -3,12 +3,15 @@ package club.someoneice.www.common.tile;
 import club.someoneice.www.init.ItemList;
 import club.someoneice.www.init.recipe.RecipeGrinder;
 import club.someoneice.www.util.WWWApi;
+import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+
+import java.util.List;
 
 public class TileGrinder extends TileEntity implements IInventory, ISidedInventory {
     private static final int[] slotsTop = new int[] { 0 };
@@ -196,5 +199,9 @@ public class TileGrinder extends TileEntity implements IInventory, ISidedInvento
         else if (slot == 3) return true;
 
         return true;
+    }
+
+    public List<ItemStack> getInventory() {
+        return Lists.newArrayList(this.inventory);
     }
 }

@@ -1,10 +1,7 @@
 package club.someoneice.www.init;
 
 import club.someoneice.www.common.bean.block.*;
-import club.someoneice.www.common.block.CuttingBoard;
-import club.someoneice.www.common.block.Grinder;
-import club.someoneice.www.common.block.PeaCrop;
-import club.someoneice.www.common.block.TomatoCrop;
+import club.someoneice.www.common.block.*;
 import net.minecraft.block.Block;
 
 @SuppressWarnings("unused")
@@ -23,7 +20,7 @@ public class BlockList {
     public static final Block ginger = new CropFactory("ginger");
     public static final Block garlic = new CropFactory("garlic");
     public static final Block peanut = new CropFactory("peanut");
-    public static final Block onion_seed = new CropFactory("onion");
+    public static final Block onion = new CropFactory("onion");
 
     public static final Block pineapple_crop = new CropFactory("pineapple_crop", ItemList.pineapple);
     public static final Block strawberry_seed = new CropFactory("strawberry_seed", ItemList.strawberry);
@@ -62,4 +59,5 @@ public class BlockList {
     /* Tile */
     public static final Block grinder = new Grinder();
     public static final Block cutting_board = new CuttingBoard();
+    public static final Block pot = new BlockPot();
 }

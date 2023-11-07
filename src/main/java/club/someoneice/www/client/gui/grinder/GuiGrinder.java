@@ -1,4 +1,4 @@
-package club.someoneice.www.client.gui;
+package club.someoneice.www.client.gui.grinder;
 
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.tile.TileGrinder;
@@ -31,7 +31,7 @@ public class GuiGrinder extends GuiContainer {
 
         if (tile.time > 0) {
             int process = (int) (Math.floor(tile.time) * (20 / 200.0D));
-            this.drawTexturedModalRect(foo + 79, bar + 37, 176, 17, 20 - process, 11);
+            this.drawTexturedModalRect(foo + 79, bar + 37, 176, 17, process, 11);
         }
     }
 }

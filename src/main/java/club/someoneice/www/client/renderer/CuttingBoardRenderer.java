@@ -23,7 +23,7 @@ public class CuttingBoardRenderer extends TileEntitySpecialRenderer {
     public CuttingBoardRenderer() {
         this.model = AdvancedModelLoader.loadModel(objModelLocation);
     }
-    private EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld, 0.0D, 0.0D, 0.0D);
+    private final EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld, 0.0D, 0.0D, 0.0D);
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double posX, double posY, double posZ, float f) {

@@ -1,5 +1,7 @@
-package club.someoneice.www.client.gui;
+package club.someoneice.www.client.gui.grinder;
 
+import club.someoneice.www.client.gui.SlotFlue;
+import club.someoneice.www.client.gui.SlotOutput;
 import club.someoneice.www.common.tile.TileGrinder;
 import club.someoneice.www.init.BlockList;
 import club.someoneice.www.init.ItemList;

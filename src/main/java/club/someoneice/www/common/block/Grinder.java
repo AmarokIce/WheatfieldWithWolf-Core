@@ -17,6 +17,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Grinder extends BlockContainer {
     IIcon topIcon;
@@ -46,7 +47,10 @@ public class Grinder extends BlockContainer {
 
     @Override
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-        return Lists.newArrayList(new ItemStack(this));
+        TileGrinder grinder = (TileGrinder) world.getTileEntity(x, y, z);
+        ArrayList<ItemStack> list = Lists.newArrayList(new ItemStack(this));
+        list.addAll(grinder.getInventory());
+        return list;
     }
 
     @SideOnly(Side.CLIENT)

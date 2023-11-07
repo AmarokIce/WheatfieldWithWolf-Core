@@ -22,6 +22,7 @@ public class Util {
                 if (!intArray.contains(i) && a == bArray[i]) {
                     intArray.add(i);
                     has = true;
+                    break;
                 }
             }
             if (!has) return false;
