@@ -14,5 +14,5 @@ public class Tags {
     public static final Tag<Block> WATER_TAG = manager.registerTag("blockWater", Blocks.water, Blocks.flowing_water);
 
     public static final Tag<Item> SEED_TAG = manager.registerTag("seeds", Items.wheat_seeds, Items.melon_seeds, Items.pumpkin_seeds, Items.potato, Items.carrot);
-    public static final Tag<Block> HOT_SOURCE = manager.registerTag("blockHotSource", Blocks.fire, Blocks.lava, Blocks.flowing_lava);
+    public static final Tag<Block> HOT_SOURCE = manager.registerTag("blockHotSource", Blocks.fire, Blocks.lava, Blocks.flowing_lava, Blocks.furnace, Blocks.lit_furnace);
 }
