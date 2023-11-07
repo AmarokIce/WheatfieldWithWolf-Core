@@ -2,7 +2,7 @@ package club.someoneice.www.common.bean.block;
 
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.bean.TreeFactory;
-import club.someoneice.www.util.Tags;
+import club.someoneice.www.init.Tags;
 import club.someoneice.www.util.Util;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
+@SuppressWarnings("unused")
 public class TreeSaplingFactory extends BlockBush implements IGrowable {
     private final Block leaf;
     public TreeSaplingFactory(String name, Block leaf) {
@@ -76,15 +77,6 @@ public class TreeSaplingFactory extends BlockBush implements IGrowable {
 
     public boolean growable(World world, int x, int y, int z, int meta) {
         return world.getBlock(x, y, z) == this && (world.getBlockMetadata(x, y, z) & 7) == meta;
-    }
-
-    public int damageDropped(int meta) {
-        return 0;
-    }
-
-    @Override
-    public Item getItemDropped(int number, Random random, int number2) {
-        return Item.getItemFromBlock(this);
     }
 
     public boolean func_149851_a(World world, int x, int y, int z, boolean flag) {

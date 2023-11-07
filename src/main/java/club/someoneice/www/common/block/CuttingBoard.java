@@ -27,7 +27,6 @@ public class CuttingBoard extends BlockContainer {
         this.setBlockTextureName(Util.init.getTexturesName("cutting_board"));
         this.setCreativeTab(WWWMain.TABS);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1F, 1.0F);
-        this.setTickRandomly(true);
 
         GameRegistry.registerBlock(this, "cutting_board");
     }

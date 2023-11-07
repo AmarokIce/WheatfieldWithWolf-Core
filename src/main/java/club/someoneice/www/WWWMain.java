@@ -1,14 +1,10 @@
 package club.someoneice.www;
 
 import club.someoneice.www.event.EventBlockBreak;
-import club.someoneice.www.init.BlockList;
-import club.someoneice.www.init.GuiHandler;
-import club.someoneice.www.init.ItemList;
-import club.someoneice.www.init.Others;
+import club.someoneice.www.init.*;
 import club.someoneice.www.network.SimpleNetWorkHandler;
 import club.someoneice.www.proxy.CommonProxy;
 import club.someoneice.www.util.SeedTagUtil;
-import club.someoneice.www.util.Tags;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -36,7 +32,7 @@ public class WWWMain {
     @Mod.Instance("wheatfieldwitlwolf")
     public static WWWMain INSTANCE;
 
-    @Mod.EventHandler
+    @Mod.EventHandler @SuppressWarnings("all")
     public void initCommon(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
         new ItemList();

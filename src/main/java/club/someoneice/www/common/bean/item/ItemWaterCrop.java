@@ -1,7 +1,7 @@
 package club.someoneice.www.common.bean.item;
 
 import club.someoneice.www.common.bean.block.CropWaterFactory;
-import club.someoneice.www.util.Tags;
+import club.someoneice.www.init.Tags;
 import club.someoneice.www.util.Util;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

@@ -1,6 +1,6 @@
 package club.someoneice.www.event;
 
-import club.someoneice.www.util.Tags;
+import club.someoneice.www.init.Tags;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;

@@ -2,17 +2,21 @@ package club.someoneice.www.common.bean.block;
 
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.bean.item.ItemWaterCrop;
+import club.someoneice.www.init.Tags;
 import club.someoneice.www.util.SeedTagUtil;
-import club.someoneice.www.util.Tags;
 import club.someoneice.www.util.Util;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
@@ -51,6 +55,39 @@ public class CropWaterFactory extends BlockCrops {
 
     public CropWaterFactory(String name) {
         this(name, null, null, false);
+    }
+
+    IIcon[] icons;
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister register) {
+        this.icons = new IIcon[4];
+
+        for(int i = 0; i < 4; ++i) {
+            this.icons[i] = register.registerIcon(this.textureName.replaceAll("_seed", "") + "_crop_" + i);
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int meta) {
+        switch(meta) {
+            case 0:
+            case 1:
+            default:
+                return this.icons[0];
+            case 2:
+            case 3:
+                return this.icons[1];
+            case 4:
+            case 5:
+            case 6:
+                return this.icons[2];
+            case 7:
+            case 8:
+                return this.icons[3];
+        }
     }
 
     @Override

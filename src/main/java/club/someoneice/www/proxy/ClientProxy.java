@@ -12,10 +12,13 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 
 public class ClientProxy extends CommonProxy{
     public static int CuttingBoardRenderID;
+    public static int PotRenderID;
 
     @SideOnly(Side.CLIENT)
     public void initRender() {
         ClientProxy.CuttingBoardRenderID = RenderingRegistry.getNextAvailableRenderId();
+        ClientProxy.PotRenderID = RenderingRegistry.getNextAvailableRenderId();
+
         ClientRegistry.bindTileEntitySpecialRenderer(TileCuttingBoard.class, new CuttingBoardRenderer());
 
         RenderingRegistry.registerEntityRenderingHandler(EntityRottenTomato.class, new RenderSnowball(ItemList.rotten_tomato));

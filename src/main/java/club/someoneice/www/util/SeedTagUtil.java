@@ -3,6 +3,7 @@ package club.someoneice.www.util;
 import club.someoneice.www.common.bean.block.CropFactory;
 import club.someoneice.www.common.bean.block.CropHellFactory;
 import club.someoneice.www.common.bean.block.CropWaterFactory;
+import club.someoneice.www.init.Tags;
 import com.google.common.collect.Lists;
 
 import java.util.List;

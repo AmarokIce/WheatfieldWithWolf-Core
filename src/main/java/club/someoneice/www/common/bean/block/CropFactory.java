@@ -2,8 +2,8 @@ package club.someoneice.www.common.bean.block;
 
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.bean.item.ItemSeedFactory;
+import club.someoneice.www.init.Tags;
 import club.someoneice.www.util.SeedTagUtil;
-import club.someoneice.www.util.Tags;
 import club.someoneice.www.util.Util;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Random;
 
+@SuppressWarnings("unused")
 public class CropFactory extends BlockCrops {
     public final Item crop, seed;
     protected final boolean oneOnly;
@@ -66,7 +67,7 @@ public class CropFactory extends BlockCrops {
         this.icons = new IIcon[4];
 
         for(int i = 0; i < 4; ++i) {
-            this.icons[i] = register.registerIcon(this.textureName + "_crop_" + i);
+            this.icons[i] = register.registerIcon(this.textureName.replaceAll("_seed", "") + "_crop_" + i);
         }
     }
 
@@ -103,7 +104,7 @@ public class CropFactory extends BlockCrops {
 
     @Override
     public int quantityDropped(Random random) {
-        return 1;
+        return super.quantityDropped(random);
     }
 
     @Override

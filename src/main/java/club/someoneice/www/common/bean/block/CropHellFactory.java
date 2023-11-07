@@ -2,22 +2,27 @@ package club.someoneice.www.common.bean.block;
 
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.bean.item.ItemHellCrop;
+import club.someoneice.www.init.Tags;
 import club.someoneice.www.util.SeedTagUtil;
-import club.someoneice.www.util.Tags;
 import club.someoneice.www.util.Util;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Random;
 
+@SuppressWarnings("unused")
 public class CropHellFactory extends BlockCrops {
     protected final Item crop, seed;
     protected final boolean oneOnly;
@@ -49,6 +54,40 @@ public class CropHellFactory extends BlockCrops {
         this(name, null, null, false);
     }
 
+    IIcon[] icons;
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister register) {
+        this.icons = new IIcon[4];
+
+        for(int i = 0; i < 4; ++i) {
+            this.icons[i] = register.registerIcon(this.textureName.replaceAll("_seed", "") + "_crop_" + i);
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int meta) {
+        switch(meta) {
+            case 0:
+            case 1:
+            default:
+                return this.icons[0];
+            case 2:
+            case 3:
+                return this.icons[1];
+            case 4:
+            case 5:
+            case 6:
+                return this.icons[2];
+            case 7:
+            case 8:
+                return this.icons[3];
+        }
+    }
+
+
     @Override
     protected boolean canPlaceBlockOn(Block block) {
         return Tags.SOUL_SAND_TAG.has(block);
@@ -62,11 +101,6 @@ public class CropHellFactory extends BlockCrops {
     @Override
     public Item func_149865_P() {
         return this.crop != null? this.crop : Item.getItemFromBlock(this);
-    }
-
-    @Override
-    public int quantityDropped(Random random) {
-        return 1;
     }
 
     @Override

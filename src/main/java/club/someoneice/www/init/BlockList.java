@@ -1,9 +1,13 @@
 package club.someoneice.www.init;
 
 import club.someoneice.www.common.bean.block.*;
-import club.someoneice.www.common.block.*;
+import club.someoneice.www.common.block.CuttingBoard;
+import club.someoneice.www.common.block.Grinder;
+import club.someoneice.www.common.block.PeaCrop;
+import club.someoneice.www.common.block.TomatoCrop;
 import net.minecraft.block.Block;
 
+@SuppressWarnings("unused")
 public class BlockList {
     /* Crop */
     public static final Block red_beans = new CropFactory("red_beans");
@@ -13,11 +17,11 @@ public class BlockList {
     public static final Block coffee_beans = new CropFactory("coffee_beans");
     public static final Block chickpeas = new CropFactory("chickpeas");
     public static final Block soybean = new CropFactory("soybean");
-    public static final Block sesame  = new CropFactory("sesame");
-    public static final Block kale  = new CropFactory("kale");
-    public static final Block sweet_potato  = new CropFactory("sweetpotato");
-    public static final Block ginger  = new CropFactory("ginger");
-    public static final Block garlic  = new CropFactory("garlic");
+    public static final Block sesame = new CropFactory("sesame");
+    public static final Block kale = new CropFactory("kale");
+    public static final Block sweet_potato = new CropFactory("sweetpotato");
+    public static final Block ginger = new CropFactory("ginger");
+    public static final Block garlic = new CropFactory("garlic");
     public static final Block peanut = new CropFactory("peanut");
     public static final Block onion_seed = new CropFactory("onion");
 
@@ -58,7 +62,4 @@ public class BlockList {
     /* Tile */
     public static final Block grinder = new Grinder();
     public static final Block cutting_board = new CuttingBoard();
-
-    public static final Block hotter = new BlockHot();
-
 }
