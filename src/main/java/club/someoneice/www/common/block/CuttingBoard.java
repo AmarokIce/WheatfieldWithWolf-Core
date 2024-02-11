@@ -51,26 +51,27 @@ public class CuttingBoard extends BlockContainer {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
-        if (world.isRemote) return true;
         TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity instanceof TileCuttingBoard) {
             TileCuttingBoard tile = (TileCuttingBoard) tileEntity;
 
             if (player.isSneaking() && player.getHeldItem() == null && tile.itemInv != null) {
                 player.inventory.addItemStackToInventory(tile.itemInv.copy());
-                tile.itemInv = null;
+                tile.setItemInv(null);
+                tile.updateItem();
                 return true;
             }
 
             if (tile.itemInv == null && player.getHeldItem() != null) {
-                tile.itemInv = player.getHeldItem().copy();
+                tile.setItemInv(player.getHeldItem().copy());
                 player.inventory.mainInventory[player.inventory.currentItem] = null;
                 world.notifyBlockChange(x, y, z, this);
-
+                tile.updateItem();
                 return true;
             } else if (tile.itemInv != null && player.getHeldItem() != null && player.getHeldItem().getItem() == ItemList.knife) {
                 return cutting(tile, world, player, x, y, z);
             }
+            tile.updateItem();
         }
         return false;
     }
@@ -78,12 +79,12 @@ public class CuttingBoard extends BlockContainer {
     private boolean cutting(TileCuttingBoard tile, World world, EntityPlayer player, int x, int y, int z) {
         for (Map.Entry<ItemStack, ItemStack> kv : WWWApi.CUT_RECIPES.entrySet()) {
             if (!Util.init.stackSameAs(kv.getKey(), tile.itemInv)) continue;
-            ItemStack output = kv.getValue().copy();
-            tile.itemInv.stackSize--;
-            if (tile.itemInv.stackSize == 0) tile.itemInv = null;
-            if (!player.inventory.addItemStackToInventory(output.copy())) {
+            ItemStack output = kv.getValue();
+            if (!player.inventory.addItemStackToInventory(output.copy()))
                 world.spawnEntityInWorld(new EntityItem(world, x + 0.5D, y + 0.5D, z + 0.5D, output.copy()));
-            }
+            tile.itemInv.stackSize--;
+            if (tile.itemInv.stackSize == 0) tile.setItemInv(null);
+            else tile.updateItem();
             return true;
         }
 

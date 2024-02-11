@@ -69,6 +69,8 @@ public class CuttingBoardRenderer extends TileEntitySpecialRenderer {
                     RenderItem.renderInFrame = false;
                 }
                 GL11.glPopMatrix();
+            } else {
+                item.setEntityItemStack(null);
             }
         }
     }
