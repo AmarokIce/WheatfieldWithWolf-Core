@@ -17,11 +17,7 @@ import java.util.List;
 public class TilePot extends TileEntity implements IInventory {
     private final ItemStack[] inventory = new ItemStack[9];
 
-    public int time;
-
-    public TilePot() {
-        this.time = 0;
-    }
+    public int time = 0;
 
     @Override
     public void updateEntity() {
