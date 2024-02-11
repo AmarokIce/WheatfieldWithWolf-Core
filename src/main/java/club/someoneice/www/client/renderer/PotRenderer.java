@@ -1,0 +1,40 @@
+package club.someoneice.www.client.renderer;
+
+import club.someoneice.www.WWWMain;
+import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
+import org.lwjgl.opengl.GL11;
+
+public class PotRenderer extends TileEntitySpecialRenderer {
+    public static final ResourceLocation texture = new ResourceLocation(WWWMain.MODID, "model/textures/pot.png");
+    public static final ResourceLocation objModelLocation = new ResourceLocation(WWWMain.MODID, "model/pot.obj");
+    IModelCustom model;
+
+    public PotRenderer() {
+        this.model = AdvancedModelLoader.loadModel(objModelLocation);
+    }
+    private final EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld, 0.0D, 0.0D, 0.0D);
+
+    @Override
+    public void renderTileEntityAt(TileEntity tileEntity, double posX, double posY, double posZ, float f) {
+        GL11.glPushMatrix();
+        {
+            GL11.glTranslated(posX + 0.45D, posY + 0.75D, posZ + 0.55D);
+            GL11.glScalef(1.5f, 1.5f, 1.5f);
+            GL11.glPushMatrix();
+            {
+                GL11.glRotatef(1.0f, 0F, 1.0F, 0.5F);
+                (FMLClientHandler.instance().getClient()).renderEngine.bindTexture(texture);
+                this.model.renderAll();
+            }
+            GL11.glPopMatrix();
+        }
+        GL11.glPopMatrix();
+    }
+}

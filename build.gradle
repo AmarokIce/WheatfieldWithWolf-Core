@@ -1,0 +1,69 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://jcenter.bintray.com/" }
+        maven { url = "https://maven.minecraftforge.net/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+apply plugin: 'java'
+apply plugin: "maven-publish"
+
+version = "Day-1"
+group= "club.someoneice.www"
+archivesBaseName = "WheatfieldWithWolf-1.7.10"
+
+ext {
+    PineapplePsychicVersion = "1.4.2"
+    PineappleTagsVersion = "1.3"
+
+    NEIVersion = "2.5.17"
+    CCVersion = "1.2.1"
+}
+
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
+    runDir = "eclipse"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://maven.snowlyicewolf.club/" }
+    maven { url "https://api.modrinth.com/maven"   }
+}
+
+dependencies {
+    compile "club.someoneice.pineapplepsychic:pineapple-psychic:${PineapplePsychicVersion}"
+    compile "club.someoneice.togocup.pineapple_tag:pineapple-tag:${PineappleTagsVersion}"
+
+    compile "maven.modrinth:notenoughitems-unofficial:${NEIVersion}-GTNH"
+    compile "maven.modrinth:codechickencore-unofficial:${CCVersion}"
+    compile "maven.modrinth:codechickenlib-unofficial:${CCVersion}"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+    
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+sourceCompatibility = targetCompatibility = "1.8"
+
+tasks.withType(Jar) {
+    compileJava.options.encoding = 'UTF-8'
+    compileJava.options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}

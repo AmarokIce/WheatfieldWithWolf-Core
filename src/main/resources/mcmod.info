@@ -1,0 +1,16 @@
+[
+{
+  "modid": "wheatfieldwitlwolf",
+  "name": "wheatfieldwitlwolf",
+  "description": "wheatfieldwitlwolf",
+  "version": "Day-1",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Someoneice"],
+  "credits": "Someoneice",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
