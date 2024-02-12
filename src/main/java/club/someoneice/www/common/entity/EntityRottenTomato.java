@@ -7,11 +7,19 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityRottenTomato extends EntityThrowable {
+    public EntityRottenTomato(World world)
+    {
+        super(world);
+    }
+
     public EntityRottenTomato(World world, EntityLivingBase base)
     {
         super(world, base);
     }
 
+    public EntityRottenTomato(World world, double x, double y, double z) {
+        super(world, x, y, z);
+    }
 
     @Override
     protected void onImpact(MovingObjectPosition position) {
