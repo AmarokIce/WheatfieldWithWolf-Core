@@ -1,16 +1,16 @@
 [
-{
-  "modid": "wheatfieldwitlwolf",
-  "name": "wheatfieldwitlwolf",
-  "description": "wheatfieldwitlwolf",
-  "version": "Day-1",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["Someoneice"],
-  "credits": "Someoneice",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
-}
+    {
+      "modid": "wheatfieldwithwolf",
+      "name": "WheatField With Wolf",
+      "description": "We must be the best farm's Mod in 1.7.10!",
+      "version": "Day-1",
+      "mcversion": "${mcversion}",
+      "url": "",
+      "updateUrl": "",
+      "authorList": ["Someoneice"],
+      "credits": "Someoneice",
+      "logoFile": "",
+      "screenshots": [],
+      "dependencies": []
+    }
 ]

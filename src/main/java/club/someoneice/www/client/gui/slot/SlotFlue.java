@@ -1,6 +1,6 @@
 package club.someoneice.www.client.gui.slot;
 
-import club.someoneice.www.util.Util;
+import club.someoneice.pineapplepsychic.util.Util;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -16,6 +16,6 @@ public class SlotFlue extends Slot {
 
     @Override
     public boolean isItemValid(ItemStack item) {
-        return Arrays.stream(this.items).anyMatch(it -> Util.init.stackSameAs(it, item));
+        return Arrays.stream(this.items).anyMatch(it -> Util.itemStackEquals(it, item));
     }
 }

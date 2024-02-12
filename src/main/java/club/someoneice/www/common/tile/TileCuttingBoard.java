@@ -56,6 +56,7 @@ public class TileCuttingBoard extends TileEntity {
         this.readFromNBT(pkt.func_148857_g());
     }
 
+    @SuppressWarnings("unchecked")
     public void updateItem() {
         if (worldObj.isRemote) return;
         ((List<EntityPlayer>) this.worldObj.playerEntities).forEach(it -> {

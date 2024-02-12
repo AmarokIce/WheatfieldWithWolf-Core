@@ -1,7 +1,7 @@
 package club.someoneice.www.client.nei;
 
+import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.WWWMain;
-import club.someoneice.www.util.Util;
 import club.someoneice.www.util.WWWApi;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIClientUtils;
@@ -54,7 +54,7 @@ public class NEIRecipeCutting extends TemplateRecipeHandler {
     public void loadCraftingRecipes(ItemStack result) {
         if (result == null) findAllRecipe();
         else WWWApi.CUT_RECIPES.entrySet().forEach(it -> {
-            if (Util.init.stackSameAs(it.getValue(), result)) arecipes.add(this.getCachedRecipe(it));
+            if (Util.itemStackEquals(it.getValue(), result)) arecipes.add(this.getCachedRecipe(it));
         });
     }
 
@@ -62,7 +62,7 @@ public class NEIRecipeCutting extends TemplateRecipeHandler {
     public void loadUsageRecipes(ItemStack ingredient) {
         if (ingredient == null) findAllRecipe();
         else WWWApi.CUT_RECIPES.entrySet().forEach(it -> {
-            if (Util.init.stackSameAs(it.getKey(), ingredient)) arecipes.add(this.getCachedRecipe(it));
+            if (Util.itemStackEquals(it.getKey(), ingredient)) arecipes.add(this.getCachedRecipe(it));
         });
     }
 

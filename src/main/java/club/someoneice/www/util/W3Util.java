@@ -1,13 +1,14 @@
 package club.someoneice.www.util;
 
+import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.WWWMain;
 import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public class Util {
-    public static final Util init = new Util();
+public class W3Util {
+    public static final W3Util init = new W3Util();
 
     public String getTexturesName(String name) {
         return WWWMain.MODID + ":" + name;
@@ -39,7 +40,7 @@ public class Util {
             if (a == null) continue;
             boolean has = false;
             for (int i = 0; i < A.length; i++) {
-                if (!intArray.contains(i) && stackSameAs(a, B[i])) {
+                if (!intArray.contains(i) && Util.itemStackEquals(a, B[i])) {
                     intArray.add(i);
                     has = true;
                     break;
@@ -49,9 +50,5 @@ public class Util {
         }
 
         return true;
-    }
-
-    public boolean stackSameAs(ItemStack A, ItemStack B) {
-        return (A == null && B == null) || (A != null && B != null && A.getItem() == B.getItem() && A.getItemDamage() == B.getItemDamage());
     }
 }

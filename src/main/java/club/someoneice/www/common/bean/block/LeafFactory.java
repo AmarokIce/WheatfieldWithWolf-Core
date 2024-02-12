@@ -1,7 +1,7 @@
 package club.someoneice.www.common.bean.block;
 
 import club.someoneice.www.WWWMain;
-import club.someoneice.www.util.Util;
+import club.someoneice.www.util.W3Util;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -47,8 +47,8 @@ public class LeafFactory extends BlockLeaves {
 
     @Override
     public void registerBlockIcons(IIconRegister register) {
-        icon0 = register.registerIcon(Util.init.getTexturesName(this.name) + 0);
-        icon1 = register.registerIcon(Util.init.getTexturesName(this.name) + 1);
+        icon0 = register.registerIcon(W3Util.init.getTexturesName(this.name) + 0);
+        icon1 = register.registerIcon(W3Util.init.getTexturesName(this.name) + 1);
     }
 
     @Override

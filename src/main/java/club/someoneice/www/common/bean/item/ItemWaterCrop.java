@@ -2,7 +2,7 @@ package club.someoneice.www.common.bean.item;
 
 import club.someoneice.www.common.bean.block.CropWaterFactory;
 import club.someoneice.www.init.Tags;
-import club.someoneice.www.util.Util;
+import club.someoneice.www.util.W3Util;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -28,7 +28,7 @@ public class ItemWaterCrop extends ItemBlock {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
-        this.icon = register.registerIcon(Util.init.getTexturesName(this.name));
+        this.icon = register.registerIcon(W3Util.init.getTexturesName(this.name));
     }
 
     @Override

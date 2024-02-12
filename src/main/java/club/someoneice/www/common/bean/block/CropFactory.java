@@ -4,7 +4,7 @@ import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.bean.item.ItemSeedFactory;
 import club.someoneice.www.init.Tags;
 import club.someoneice.www.util.SeedTagUtil;
-import club.someoneice.www.util.Util;
+import club.someoneice.www.util.W3Util;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -35,7 +35,7 @@ public class CropFactory extends BlockCrops {
         this.oneOnly = oneOnly;
 
         this.setBlockName(name);
-        this.setBlockTextureName(Util.init.getTexturesName(name));
+        this.setBlockTextureName(W3Util.init.getTexturesName(name));
         this.setCreativeTab(WWWMain.TABS);
 
         SeedTagUtil.CROPS.add(this);

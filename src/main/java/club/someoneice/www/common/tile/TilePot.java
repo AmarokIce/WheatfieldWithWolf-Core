@@ -1,8 +1,9 @@
 package club.someoneice.www.common.tile;
 
+import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.init.Tags;
 import club.someoneice.www.init.recipe.RecipePot;
-import club.someoneice.www.util.Util;
+import club.someoneice.www.util.W3Util;
 import club.someoneice.www.util.WWWApi;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.item.EntityItem;
@@ -34,14 +35,14 @@ public class TilePot extends TileEntity implements IInventory {
             if (this.inventory[i] != null) itemInput[i] = this.inventory[i];
         }
 
-        RecipePot recipe = WWWApi.POT_RECIPES.stream().filter(it -> Util.init.stackArraySame(it.input, itemInput)).findFirst().orElse(null);;
+        RecipePot recipe = WWWApi.POT_RECIPES.stream().filter(it -> W3Util.init.stackArraySame(it.input, itemInput)).findFirst().orElse(null);;
 
         if (recipe == null) {
             time = 0;
             return;
         }
 
-        if (this.time >= 200 && (recipe.bowl == null || Util.init.stackSameAs(this.inventory[6], recipe.bowl))) {
+        if (this.time >= 200 && (recipe.bowl == null || Util.itemStackEquals(this.inventory[6], recipe.bowl))) {
             if (this.inventory[7] == null) {
                 this.inventory[7] = recipe.output.copy();
             } else if (this.inventory[7].getItem() == recipe.output.getItem()){

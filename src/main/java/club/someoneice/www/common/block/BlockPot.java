@@ -3,7 +3,7 @@ package club.someoneice.www.common.block;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.tile.TilePot;
 import club.someoneice.www.proxy.ClientProxy;
-import club.someoneice.www.util.Util;
+import club.someoneice.www.util.W3Util;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -21,7 +21,7 @@ public class BlockPot extends BlockContainer {
     public BlockPot() {
         super(Material.rock);
         this.setBlockName("pot");
-        this.setBlockTextureName(Util.init.getTexturesName("pot"));
+        this.setBlockTextureName(W3Util.init.getTexturesName("pot"));
         this.setCreativeTab(WWWMain.TABS);
         this.setBlockBounds(0.15F, 0.0F, 0.15F, 0.85F, 0.4F, 0.85F);
 

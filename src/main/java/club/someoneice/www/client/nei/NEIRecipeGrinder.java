@@ -1,9 +1,9 @@
 package club.someoneice.www.client.nei;
 
+import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.init.ItemList;
 import club.someoneice.www.init.recipe.RecipeGrinder;
-import club.someoneice.www.util.Util;
 import club.someoneice.www.util.WWWApi;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIClientUtils;
@@ -56,16 +56,16 @@ public class NEIRecipeGrinder extends TemplateRecipeHandler {
     public void loadCraftingRecipes(ItemStack result) {
         if (result == null) findAllRecipe();
         else WWWApi.GRINDER_RECIPES.forEach(it -> {
-            if (Util.init.stackSameAs(it.output, result)) arecipes.add(this.getCachedRecipe(it));
+            if (Util.itemStackEquals(it.output, result)) arecipes.add(this.getCachedRecipe(it));
         });
     }
 
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
         if (ingredient == null) findAllRecipe();
-        else if (Util.init.stackSameAs(new ItemStack(ItemList.grinder_knife), ingredient)) findAllRecipe();
+        else if (Util.itemStackEquals(new ItemStack(ItemList.grinder_knife), ingredient)) findAllRecipe();
         else WWWApi.GRINDER_RECIPES.forEach(it -> {
-            if (Util.init.stackSameAs(it.input, ingredient) || Util.init.stackSameAs(it.bottle, ingredient))
+            if (Util.itemStackEquals(it.input, ingredient) || Util.itemStackEquals(it.bottle, ingredient))
                 arecipes.add(this.getCachedRecipe(it));
         });
     }

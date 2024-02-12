@@ -1,20 +1,22 @@
 package club.someoneice.www.common.tile;
 
+import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.init.ItemList;
 import club.someoneice.www.init.recipe.RecipeGrinder;
-import club.someoneice.www.util.Util;
 import club.someoneice.www.util.WWWApi;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.List;
 
-public class TileGrinder extends TileEntity implements IInventory, ISidedInventory {
+public class TileGrinder extends TileEntity implements ISidedInventory {
     private static final int[] slotsTop = new int[] { 0 };
     private static final int[] slotsBottom = new int[] { 2, 1 };
     private static final int[] slotsSides = new int[] { 1 };
@@ -31,7 +33,7 @@ public class TileGrinder extends TileEntity implements IInventory, ISidedInvento
     @Override
     public void updateEntity() {
         super.updateEntity();
-        WWWApi.GRINDER_RECIPES.stream().filter(it -> Util.init.stackSameAs(it.input, this.inventory[0])).findFirst().ifPresent(it -> {
+        WWWApi.GRINDER_RECIPES.stream().filter(it -> Util.itemStackEquals(it.input, this.inventory[0])).findFirst().ifPresent(it -> {
             if (burnTime > 0) burnTime--;
             if (time < it.cooking_time) {
                 ++time;
@@ -49,7 +51,8 @@ public class TileGrinder extends TileEntity implements IInventory, ISidedInvento
         }}
 
     private boolean checkTheBottle(RecipeGrinder recipe) {
-        if (recipe.bottle != null && this.inventory[3].getItem() == recipe.bottle.getItem()) {
+        if (recipe.bottle == null) return true;
+        if (Util.itemStackEquals(this.inventory[3], recipe.bottle)) {
             this.inventory[3].stackSize--;
             return true;
         }
@@ -190,5 +193,18 @@ public class TileGrinder extends TileEntity implements IInventory, ISidedInvento
 
     public List<ItemStack> getInventory() {
         return Lists.newArrayList(this.inventory);
+    }
+
+    @Override
+    public Packet getDescriptionPacket() {
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        this.writeToNBT(nbttagcompound);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 5, nbttagcompound);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+        super.onDataPacket(net, pkt);
+        this.readFromNBT(pkt.func_148857_g());
     }
 }

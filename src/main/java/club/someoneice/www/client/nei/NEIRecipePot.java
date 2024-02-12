@@ -1,8 +1,8 @@
 package club.someoneice.www.client.nei;
 
+import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.init.recipe.RecipePot;
-import club.someoneice.www.util.Util;
 import club.someoneice.www.util.WWWApi;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIClientUtils;
@@ -56,7 +56,7 @@ public class NEIRecipePot extends TemplateRecipeHandler {
     public void loadCraftingRecipes(ItemStack result) {
         if (result == null) findAllRecipe();
         else WWWApi.POT_RECIPES.forEach(it -> {
-            if (Util.init.stackSameAs(it.output, result)) arecipes.add(this.getCachedRecipe(it));
+            if (Util.itemStackEquals(it.output, result)) arecipes.add(this.getCachedRecipe(it));
         });
     }
 
@@ -64,7 +64,7 @@ public class NEIRecipePot extends TemplateRecipeHandler {
     public void loadUsageRecipes(ItemStack ingredient) {
         if (ingredient == null) findAllRecipe();
         else WWWApi.POT_RECIPES.forEach(it -> {
-            if (Arrays.stream(it.input).anyMatch(in -> Util.init.stackSameAs(in, ingredient)))
+            if (Arrays.stream(it.input).anyMatch(in -> Util.itemStackEquals(in, ingredient)))
                 arecipes.add(this.getCachedRecipe(it));
         });
     }
@@ -90,7 +90,7 @@ public class NEIRecipePot extends TemplateRecipeHandler {
 
             @Override
             public PositionedStack getResult() {
-                return new PositionedStack(it.output, 116, 19);
+                return new PositionedStack(it.output, 117, 20);
             }
         };
     }

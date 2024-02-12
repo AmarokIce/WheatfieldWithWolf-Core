@@ -2,7 +2,7 @@ package club.someoneice.www.common.block;
 
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.tile.TileGrinder;
-import club.someoneice.www.util.Util;
+import club.someoneice.www.util.W3Util;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -25,7 +25,7 @@ public class Grinder extends BlockContainer {
     public Grinder() {
         super(Material.rock);
         this.setBlockName("grinder");
-        this.setBlockTextureName(Util.init.getTexturesName("grinder"));
+        this.setBlockTextureName(W3Util.init.getTexturesName("grinder"));
         this.setCreativeTab(WWWMain.TABS);
 
         GameRegistry.registerBlock(this, "grinder");

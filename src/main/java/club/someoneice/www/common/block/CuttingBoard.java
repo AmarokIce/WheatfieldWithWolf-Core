@@ -1,10 +1,11 @@
 package club.someoneice.www.common.block;
 
+import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.tile.TileCuttingBoard;
 import club.someoneice.www.init.ItemList;
 import club.someoneice.www.proxy.ClientProxy;
-import club.someoneice.www.util.Util;
+import club.someoneice.www.util.W3Util;
 import club.someoneice.www.util.WWWApi;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -25,7 +26,7 @@ public class CuttingBoard extends BlockContainer {
     public CuttingBoard() {
         super(Material.wood);
         this.setBlockName("cutting_board");
-        this.setBlockTextureName(Util.init.getTexturesName("cutting_board"));
+        this.setBlockTextureName(W3Util.init.getTexturesName("cutting_board"));
         this.setCreativeTab(WWWMain.TABS);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1F, 1.0F);
 
@@ -78,7 +79,7 @@ public class CuttingBoard extends BlockContainer {
 
     private boolean cutting(TileCuttingBoard tile, World world, EntityPlayer player, int x, int y, int z) {
         for (Map.Entry<ItemStack, ItemStack> kv : WWWApi.CUT_RECIPES.entrySet()) {
-            if (!Util.init.stackSameAs(kv.getKey(), tile.itemInv)) continue;
+            if (!Util.itemStackEquals(kv.getKey(), tile.itemInv)) continue;
             ItemStack output = kv.getValue();
             if (!player.inventory.addItemStackToInventory(output.copy()))
                 world.spawnEntityInWorld(new EntityItem(world, x + 0.5D, y + 0.5D, z + 0.5D, output.copy()));

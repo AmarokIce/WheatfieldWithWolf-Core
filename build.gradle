@@ -1,12 +1,13 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url "https://jcenter.bintray.com/" }
-        maven { url = "https://maven.minecraftforge.net/" }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://files.minecraftforge.net/maven"                    }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/"  }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.1.+') {
+            changing = true
+        }
     }
 }
 
@@ -14,7 +15,7 @@ apply plugin: 'forge'
 apply plugin: 'java'
 apply plugin: "maven-publish"
 
-version = "Day-1"
+version = "Day-1-Fix2"
 group= "club.someoneice.www"
 archivesBaseName = "WheatfieldWithWolf-1.7.10"
 
@@ -39,12 +40,12 @@ repositories {
 }
 
 dependencies {
-    compile "club.someoneice.pineapplepsychic:pineapple-psychic:${PineapplePsychicVersion}"
-    compile "club.someoneice.togocup.pineapple_tag:pineapple-tag:${PineappleTagsVersion}"
+    implementation "club.someoneice.pineapplepsychic:pineapple-psychic:${PineapplePsychicVersion}"
+    implementation "club.someoneice.togocup.pineapple_tag:pineapple-tag:${PineappleTagsVersion}"
 
-    compile "maven.modrinth:notenoughitems-unofficial:${NEIVersion}-GTNH"
-    compile "maven.modrinth:codechickencore-unofficial:${CCVersion}"
-    compile "maven.modrinth:codechickenlib-unofficial:${CCVersion}"
+    implementation "maven.modrinth:notenoughitems-unofficial:${NEIVersion}-GTNH"
+    implementation "maven.modrinth:codechickencore-unofficial:${CCVersion}"
+    implementation "maven.modrinth:codechickenlib-unofficial:${CCVersion}"
 }
 
 processResources {

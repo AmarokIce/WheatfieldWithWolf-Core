@@ -1,3 +1,9 @@
+itemGroup.wheatfieldwithwolf=Wheatfield With Wolf
+
+nei.www_grinder=Grind
+nei.www_pot=Pot Recipe
+nei.www_cutting=Cutting Out
+
 tile.red_beans.name=Red Beans
 tile.green_beans.name=Green Beans
 tile.vanilla.name=Vanilla

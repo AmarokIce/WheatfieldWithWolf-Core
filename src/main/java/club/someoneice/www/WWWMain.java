@@ -23,7 +23,7 @@ public class WWWMain {
     @SidedProxy(modId = WWWMain.MODID, clientSide = "club.someoneice.www.proxy.ClientProxy", serverSide = "club.someoneice.www.proxy.CommonProxy")
     public static CommonProxy proxy;
 
-    public static final CreativeTabs TABS = new CreativeTabs("www_crop") {
+    public static final CreativeTabs TABS = new CreativeTabs("wheatfieldwithwolf") {
         @Override
         public Item getTabIconItem() {
             return ItemList.pineapple;
