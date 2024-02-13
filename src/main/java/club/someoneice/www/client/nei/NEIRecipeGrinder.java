@@ -4,6 +4,7 @@ import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.init.ItemList;
 import club.someoneice.www.init.recipe.RecipeGrinder;
+import club.someoneice.www.util.W3Util;
 import club.someoneice.www.util.WWWApi;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIClientUtils;
@@ -65,7 +66,7 @@ public class NEIRecipeGrinder extends TemplateRecipeHandler {
         if (ingredient == null) findAllRecipe();
         else if (Util.itemStackEquals(new ItemStack(ItemList.grinder_knife), ingredient)) findAllRecipe();
         else WWWApi.GRINDER_RECIPES.forEach(it -> {
-            if (Util.itemStackEquals(it.input, ingredient) || Util.itemStackEquals(it.bottle, ingredient))
+            if (W3Util.init.compareIngredientContains(it.input, ingredient) || Util.itemStackEquals(it.bottle, ingredient))
                 arecipes.add(this.getCachedRecipe(it));
         });
     }
@@ -79,7 +80,7 @@ public class NEIRecipeGrinder extends TemplateRecipeHandler {
             @Override
             public List<PositionedStack> getIngredients() {
                 ArrayList<PositionedStack> stacks = Lists.newArrayList();
-                stacks.add(new PositionedStack(it.input, 31, 9));
+                stacks.add(new PositionedStack(it.input.getObj(), 31, 9));
                 if (it.bottle != null) stacks.add(new PositionedStack(it.bottle, 51, 9));
 
                 return stacks;

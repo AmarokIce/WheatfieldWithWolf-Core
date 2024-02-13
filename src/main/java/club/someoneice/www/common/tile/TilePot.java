@@ -35,7 +35,7 @@ public class TilePot extends TileEntity implements IInventory {
             if (this.inventory[i] != null) itemInput[i] = this.inventory[i];
         }
 
-        RecipePot recipe = WWWApi.POT_RECIPES.stream().filter(it -> W3Util.init.stackArraySame(it.input, itemInput)).findFirst().orElse(null);;
+        RecipePot recipe = WWWApi.POT_RECIPES.stream().filter(it -> W3Util.init.compareRecipe(it.input, itemInput)).findFirst().orElse(null);
 
         if (recipe == null) {
             time = 0;

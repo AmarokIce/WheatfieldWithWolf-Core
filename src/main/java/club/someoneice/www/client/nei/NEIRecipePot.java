@@ -3,6 +3,8 @@ package club.someoneice.www.client.nei;
 import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.init.recipe.RecipePot;
+import club.someoneice.www.util.Ingredient;
+import club.someoneice.www.util.W3Util;
 import club.someoneice.www.util.WWWApi;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIClientUtils;
@@ -64,7 +66,7 @@ public class NEIRecipePot extends TemplateRecipeHandler {
     public void loadUsageRecipes(ItemStack ingredient) {
         if (ingredient == null) findAllRecipe();
         else WWWApi.POT_RECIPES.forEach(it -> {
-            if (Arrays.stream(it.input).anyMatch(in -> Util.itemStackEquals(in, ingredient)))
+            if (Arrays.stream(it.input).anyMatch(in -> W3Util.init.compareIngredientContains(in, ingredient)))
                 arecipes.add(this.getCachedRecipe(it));
         });
     }
@@ -79,8 +81,8 @@ public class NEIRecipePot extends TemplateRecipeHandler {
             public List<PositionedStack> getIngredients() {
                 ArrayList<PositionedStack> stacks = Lists.newArrayList();
                 for (int h = 0; h < 2; h ++) for (int l = 0; l < 3; l ++) {
-                    ItemStack item = it.input[l + h * 3];
-                    if (item != null) stacks.add(new PositionedStack(item, 33 + l * 18, 10 + h * 18));
+                    Ingredient ingredient = it.input[l + h * 3];
+                    if (ingredient != null) stacks.add(new PositionedStack(ingredient.getObj(), 33 + l * 18, 10 + h * 18));
                 }
 
                 if (it.bowl != null) stacks.add(new PositionedStack(it.bowl, 91, 40));

@@ -15,7 +15,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = WWWMain.MODID, name = WWWMain.MODNAME, version = WWWMain.VERSION, dependencies = "required-after:pieapple_tags")
+// @Mod(modid = WWWMain.MODID, name = WWWMain.MODNAME, version = WWWMain.VERSION, dependencies = "required-after:pieapple_tags")
+@Mod(modid = WWWMain.MODID, name = WWWMain.MODNAME, version = WWWMain.VERSION, dependencies = "")
 public class WWWMain {
     public static final String MODID = "wheatfieldwithwolf";
     public static final String MODNAME = "WheatfieldWithWolf";
@@ -40,7 +41,6 @@ public class WWWMain {
         new BlockList();
         new Others();
 
-        // Pointer 'this' will leak if here not use some List holds the CropSeeds.
         SeedTagUtil.inputTags();
 
         proxy.initRender();

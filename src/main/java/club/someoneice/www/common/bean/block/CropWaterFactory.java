@@ -22,10 +22,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 
 import java.util.List;
-import java.util.Random;
 
 import static net.minecraftforge.common.EnumPlantType.Water;
 
+@SuppressWarnings("unused")
 public class CropWaterFactory extends BlockCrops {
     protected final Item crop, seed;
     protected final boolean oneOnly;
@@ -112,11 +112,6 @@ public class CropWaterFactory extends BlockCrops {
     @Override
     public Item func_149865_P() {
         return this.crop != null? this.crop : Item.getItemFromBlock(this);
-    }
-
-    @Override
-    public int quantityDropped(Random random) {
-        return 1;
     }
 
     @Override

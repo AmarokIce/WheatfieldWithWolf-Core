@@ -78,9 +78,4 @@ public class LeafFactory extends BlockLeaves {
     public boolean isOpaqueCube() {
         return false;
     }
-
-    @Override
-    public int getRenderType() {
-        return 0;
-    }
 }

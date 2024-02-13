@@ -1,10 +1,13 @@
 package club.someoneice.www.common.bean.item;
 
+import club.someoneice.togocup.tags.ItemStackTag;
+import club.someoneice.togocup.tags.Tag;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.util.W3Util;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -34,6 +37,16 @@ public class FoodFactory extends ItemFood {
 
     public FoodFactory(String name, int hunger, float saturation) {
         this(name, hunger, saturation, false, false, false, false, null);
+    }
+
+    public FoodFactory addTag(Tag<Item> tag) {
+        tag.put(this);
+        return this;
+    }
+
+    public FoodFactory addTag(ItemStackTag tag) {
+        tag.put(new ItemStack(this));
+        return this;
     }
 
     @Override

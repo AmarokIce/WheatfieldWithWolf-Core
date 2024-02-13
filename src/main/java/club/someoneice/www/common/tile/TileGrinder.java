@@ -3,6 +3,7 @@ package club.someoneice.www.common.tile;
 import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.init.ItemList;
 import club.someoneice.www.init.recipe.RecipeGrinder;
+import club.someoneice.www.util.W3Util;
 import club.someoneice.www.util.WWWApi;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,7 +34,7 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
     @Override
     public void updateEntity() {
         super.updateEntity();
-        WWWApi.GRINDER_RECIPES.stream().filter(it -> Util.itemStackEquals(it.input, this.inventory[0])).findFirst().ifPresent(it -> {
+        WWWApi.GRINDER_RECIPES.stream().filter(it -> W3Util.init.compareIngredientContains(it.input, this.inventory[0])).findFirst().ifPresent(it -> {
             if (burnTime > 0) burnTime--;
             if (time < it.cooking_time) {
                 ++time;

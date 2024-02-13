@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -28,7 +28,7 @@ public class TreeSaplingFactory extends BlockBush implements IGrowable {
         this.setCreativeTab(WWWMain.TABS);
         this.setStepSound(soundTypeGrass);
 
-        Tags.SEED_TAG.put(Item.getItemFromBlock(this));
+        Tags.SEED_TAG.put(new ItemStack(this));
 
         this.leaf = leaf;
         GameRegistry.registerBlock(this, name);
