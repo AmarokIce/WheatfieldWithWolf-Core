@@ -1,6 +1,6 @@
 package club.someoneice.www.init.recipe;
 
-import club.someoneice.www.util.Ingredient;
+import club.someoneice.togocup.tags.Ingredient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

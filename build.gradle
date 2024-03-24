@@ -13,6 +13,7 @@ buildscript {
 
 apply plugin: 'forge'
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: "maven-publish"
 
 version = "Day-1-Fix3"
@@ -21,7 +22,7 @@ archivesBaseName = "WheatfieldWithWolf-1.7.10"
 
 ext {
     PineapplePsychicVersion = "1.5"
-    PineappleTagsVersion = "1.+"
+    PineappleTagsVersion = "1.5"
 
     NEIVersion = "2.5.17"
     CCVersion = "1.2.1"
@@ -43,6 +44,8 @@ repositories {
 }
 
 dependencies {
+    // compileOnly "club.someoneice.togocup.recipebook:PineappleRecipeBook:1.0"
+
     implementation "club.someoneice.pineapplepsychic:pineapple-psychic:${PineapplePsychicVersion}"
     implementation "club.someoneice.togocup.pineapple_tag:pineapple-tag:${PineappleTagsVersion}"
 

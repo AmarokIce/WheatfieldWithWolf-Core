@@ -1,9 +1,9 @@
 package club.someoneice.www.client.nei;
 
 import club.someoneice.pineapplepsychic.util.Util;
+import club.someoneice.togocup.tags.Ingredient;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.init.recipe.RecipePot;
-import club.someoneice.www.util.Ingredient;
 import club.someoneice.www.util.W3Util;
 import club.someoneice.www.util.WWWApi;
 import codechicken.lib.gui.GuiDraw;

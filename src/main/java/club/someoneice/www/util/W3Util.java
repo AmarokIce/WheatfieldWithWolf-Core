@@ -2,6 +2,7 @@ package club.someoneice.www.util;
 
 import club.someoneice.pineapplepsychic.inventory.SimpleInventory;
 import club.someoneice.pineapplepsychic.util.Util;
+import club.someoneice.togocup.tags.Ingredient;
 import club.someoneice.www.WWWMain;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.item.EntityItem;
@@ -9,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -45,22 +45,14 @@ public class W3Util {
         if (recipeIn.length != input.length) return false;
         List<Integer> intArray = Lists.newArrayList();
         for (Ingredient recipeIngredient : recipeIn) {
-            if (recipeIngredient == null || recipeIngredient.obj == null) continue;
-            Object obj = recipeIngredient.obj;
+            if (recipeIngredient == null || recipeIngredient.getObj().isEmpty()) continue;
             boolean has = false;
             for (int i = 0; i < recipeIn.length; i++) {
                 if (intArray.contains(i)) continue;
-                if (obj instanceof ItemStack[]) {
-                    if (!isStackArrayContains((ItemStack[]) obj, input[i])) continue;
-                    intArray.add(i);
-                    has = true;
-                    break;
-                } else if (obj instanceof ItemStack) {
-                    if (!Util.itemStackEquals((ItemStack) obj, input[i])) continue;
-                    intArray.add(i);
-                    has = true;
-                    break;
-                }
+                if (!isStackArrayContains(recipeIngredient.getObj(), input[i])) continue;
+                intArray.add(i);
+                has = true;
+                break;
             }
             if (!has) return false;
         }
@@ -69,18 +61,12 @@ public class W3Util {
     }
 
     public boolean compareIngredientContains(Ingredient ingredient, ItemStack itemStack) {
-        if (ingredient == null || ingredient.obj == null) return false;
-        Object obj = ingredient.obj;
-        if (obj instanceof ItemStack[])
-            return isStackArrayContains((ItemStack[]) obj, itemStack);
-        if (obj instanceof ItemStack)
-            return Util.itemStackEquals((ItemStack) obj, itemStack);
-
-        return false;
+        if (ingredient == null || ingredient.getObj().isEmpty()) return false;
+        return isStackArrayContains(ingredient.getObj(), itemStack);
     }
 
-    public boolean isStackArrayContains(ItemStack[] array, ItemStack target) {
-        return Arrays.stream(array).anyMatch(it -> Util.itemStackEquals(it, target));
+    public boolean isStackArrayContains(List<ItemStack> array, ItemStack target) {
+        return array.stream().anyMatch(it -> Util.itemStackEquals(it, target));
     }
 
     public void giveOrThrowOut(EntityPlayer player, ItemStack item) {

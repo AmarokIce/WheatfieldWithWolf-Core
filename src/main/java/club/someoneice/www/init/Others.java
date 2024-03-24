@@ -38,6 +38,7 @@ public class Others {
         GameRegistry.addShapedRecipe(new ItemStack(ItemList.knife), "  R", " R ", "S  ", 'R', Items.iron_ingot, 'S', Items.stick);
         GameRegistry.addShapedRecipe(new ItemStack(ItemList.grinder_knife), "RR ", " R ", " RR", 'R', Items.iron_ingot);
         GameRegistry.addShapedRecipe(new ItemStack(BlockList.grinder), "BKB", "RFR", "BRB", 'B', Blocks.brick_block, 'R', Blocks.stonebrick, 'K', ItemList.grinder_knife, 'F', Blocks.furnace);
+        GameRegistry.addShapedRecipe(new ItemStack(ItemList.lunch_bag), " P ", "P P", "PPP", 'P', Items.paper);
     }
 
     private void RecipeCuttingInit() {

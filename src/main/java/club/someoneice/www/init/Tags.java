@@ -23,16 +23,13 @@ public class Tags {
     public static final ItemStackTag FRUIT_TAG = creativeItemStackTag("fruit", Blocks.melon_block, Items.melon, Items.apple, Items.golden_apple);
     public static final ItemStackTag VEGETABLE_TAG = creativeItemStackTag("vegetable", Blocks.pumpkin, Items.potato, Items.carrot, Items.golden_carrot);
     public static final ItemStackTag MEAT_TAG = creativeItemStackTag("meat", Items.porkchop, Items.cooked_porkchop, Items.chicken, Items.cooked_chicken, Items.beef, Items.cooked_beef);
+    
     private static ItemStackTag creativeItemStackTag(String name, Object ... o) {
         return ObjectUtil.objectRun(TagsManager.manager().registerItemStackTag(name), tag -> {
             Arrays.stream(o).forEach(it -> {
-                if (it instanceof Item) {
-                    tag.put(new ItemStack((Item) it));
-                } else if (it instanceof Block) {
-                    tag.put(new ItemStack((Block) it));
-                } else if (it instanceof ItemStack) {
-                    tag.put((ItemStack) it);
-                }
+                if (it instanceof Item)             tag.put(new ItemStack((Item) it));
+                else if (it instanceof Block)       tag.put(new ItemStack((Block) it));
+                else if (it instanceof ItemStack)   tag.put((ItemStack) it);
             });
         });
     }
