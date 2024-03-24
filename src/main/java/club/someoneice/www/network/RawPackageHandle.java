@@ -3,12 +3,10 @@ package club.someoneice.www.network;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.network.message.AbstractMessageKey;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 
 import java.util.List;
-import java.util.Map;
 
 public class RawPackageHandle implements IMessage {
     static final List<Class<? extends AbstractMessageKey<?>>> mapping = Lists.newArrayList();

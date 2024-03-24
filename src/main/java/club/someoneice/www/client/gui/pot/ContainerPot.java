@@ -1,6 +1,5 @@
 package club.someoneice.www.client.gui.pot;
 
-import club.someoneice.www.client.gui.slot.SlotOutput;
 import club.someoneice.www.common.tile.TilePot;
 import club.someoneice.www.init.BlockList;
 import net.minecraft.entity.player.EntityPlayer;

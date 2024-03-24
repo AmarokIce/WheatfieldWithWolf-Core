@@ -1,13 +1,11 @@
 package club.someoneice.www.client.gui.lunchBag;
 
 import club.someoneice.pineapplepsychic.inventory.SimpleInventory;
-import club.someoneice.www.common.item.ItemLunchBag;
 import club.someoneice.www.util.W3Util;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 

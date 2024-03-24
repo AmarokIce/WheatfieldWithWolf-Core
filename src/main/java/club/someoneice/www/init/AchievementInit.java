@@ -1,7 +1,5 @@
 package club.someoneice.www.init;
 
-import club.someoneice.www.init.BlockList;
-import club.someoneice.www.init.ItemList;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;

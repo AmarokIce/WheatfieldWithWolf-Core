@@ -1,7 +1,6 @@
 package club.someoneice.www.common.block;
 
 import club.someoneice.www.WWWMain;
-import club.someoneice.www.common.tile.TileCuttingBoard;
 import club.someoneice.www.common.tile.TileGrinder;
 import club.someoneice.www.util.W3Util;
 import com.google.common.collect.Lists;
@@ -19,7 +18,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Grinder extends BlockContainer {
