@@ -1,9 +1,13 @@
 package club.someoneice.www.util;
 
+import club.someoneice.pineapplepsychic.inventory.SimpleInventory;
 import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.WWWMain;
 import com.google.common.collect.Lists;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +15,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class W3Util {
     public static final W3Util init = new W3Util();
+
+    private W3Util() {}
 
     public String getTexturesName(String name) {
         return WWWMain.MODID + ":" + name;
@@ -77,6 +83,11 @@ public class W3Util {
         return Arrays.stream(array).anyMatch(it -> Util.itemStackEquals(it, target));
     }
 
+    public void giveOrThrowOut(EntityPlayer player, ItemStack item) {
+        if (player.inventory.addItemStackToInventory(item)) return;
+        player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, item));
+    }
+
     public boolean stackArraySame(ItemStack[] A, ItemStack[] B) {
         if (A.length != B.length) return false;
         List<Integer> intArray = Lists.newArrayList();
@@ -94,5 +105,21 @@ public class W3Util {
         }
 
         return true;
+    }
+
+    @SuppressWarnings("all")
+    public SimpleInventory getInvFromItemStack(ItemStack item, int size) {
+        if (item == null || item.getTagCompound() == null) return null;
+        SimpleInventory inventory = new SimpleInventory(size);
+        if (item.getTagCompound().hasKey("inv_data"))
+            inventory.load(item.getTagCompound().getCompoundTag("inv_data"));
+        return inventory;
+    }
+
+    @SuppressWarnings("all")
+    public void setInvFromItemStack(ItemStack item, SimpleInventory inventory) {
+        if (item == null) return;
+        if (item.getTagCompound() == null) item.stackTagCompound = new NBTTagCompound();
+        item.getTagCompound().setTag("inv_data", inventory.write());
     }
 }

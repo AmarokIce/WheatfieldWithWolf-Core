@@ -9,6 +9,10 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
+/**
+ * @deprecated Use pineapple-tag Ingredient.
+ */
+@Deprecated
 public class Ingredient {
     final Object obj;
 

@@ -17,8 +17,8 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 
-public class BlockPot extends BlockContainer {
-    public BlockPot() {
+public class CookingPot extends BlockContainer {
+    public CookingPot() {
         super(Material.rock);
         this.setBlockName("pot");
         this.setBlockTextureName(W3Util.init.getTexturesName("pot"));

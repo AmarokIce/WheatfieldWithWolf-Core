@@ -174,12 +174,10 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
 
     @Override
     public void openInventory() {
-
     }
 
     @Override
     public void closeInventory() {
-
     }
 
     @Override

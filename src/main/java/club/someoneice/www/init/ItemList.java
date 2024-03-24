@@ -3,6 +3,7 @@ package club.someoneice.www.init;
 import club.someoneice.www.common.bean.item.FoodFactory;
 import club.someoneice.www.common.bean.item.ItemFactory;
 import club.someoneice.www.common.item.ItemKnife;
+import club.someoneice.www.common.item.ItemLunchBag;
 import club.someoneice.www.common.item.RottenTomato;
 import net.minecraft.item.Item;
 
@@ -47,6 +48,7 @@ public class ItemList {
     /* Item */
     public static final Item grinder_knife = new ItemFactory("grinder_knife");
     public static final Item knife = new ItemKnife("knife");
+    public static final Item lunch_bag = new ItemLunchBag();
 
     /* Cutting */
     public static final Item bacon = new FoodFactory("bacon", 2, 0.3F).addTag(Tags.MEAT_TAG);

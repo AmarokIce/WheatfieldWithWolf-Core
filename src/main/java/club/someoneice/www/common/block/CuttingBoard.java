@@ -44,6 +44,7 @@ public class CuttingBoard extends BlockContainer {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity instanceof TileCuttingBoard) {
             TileCuttingBoard tile = (TileCuttingBoard) tileEntity;
+            tile.updateItem();
             if (tile.itemInv != null) list.add(tile.itemInv.copy());
         }
         return list;

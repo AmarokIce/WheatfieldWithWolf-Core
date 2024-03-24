@@ -25,7 +25,7 @@ public class ContainerPot extends Container {
             this.addSlotToContainer(new Slot(inventory, l + h * 3, 38 + l * 18, 22 + h * 18));
 
         this.addSlotToContainer(new Slot(inventory, 6, 96, 52));
-        this.addSlotToContainer(new SlotOutput(inventory, 7, 122, 32));
+        this.addSlotToContainer(new PotSlotOutput(inventory, 7, 122, 32));
 
         for (int h = 0; h < 3; ++h) {
             for (int l = 0; l < 9; ++l) {

@@ -59,5 +59,5 @@ public class BlockList {
     /* Tile */
     public static final Block grinder = new Grinder();
     public static final Block cutting_board = new CuttingBoard();
-    public static final Block pot = new BlockPot();
+    public static final Block pot = new CookingPot();
 }

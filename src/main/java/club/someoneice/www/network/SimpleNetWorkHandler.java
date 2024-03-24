@@ -9,15 +9,11 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 
 public class SimpleNetWorkHandler {
-    public static final SimpleNetworkWrapper INSTANCE;
+    public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(WWWMain.MODID);
 
     public static void init() {
         INSTANCE.registerMessage(Handler.class, RawPackageHandle.class, 0, Side.CLIENT);
         INSTANCE.registerMessage(Handler.class, RawPackageHandle.class, 0, Side.SERVER);
-    }
-
-    static {
-        INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(WWWMain.MODID);
     }
 
     public static final class Handler implements IMessageHandler<RawPackageHandle, IMessage> {

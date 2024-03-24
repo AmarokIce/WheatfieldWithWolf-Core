@@ -48,6 +48,7 @@ public class Grinder extends BlockContainer {
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         TileGrinder grinder = (TileGrinder) world.getTileEntity(x, y, z);
         ArrayList<ItemStack> list = Lists.newArrayList(new ItemStack(this));
+        grinder.updateEntity();
         list.addAll(grinder.getInventory());
         return list;
     }
