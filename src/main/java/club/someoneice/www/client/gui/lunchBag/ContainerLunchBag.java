@@ -1,11 +1,14 @@
 package club.someoneice.www.client.gui.lunchBag;
 
 import club.someoneice.pineapplepsychic.inventory.SimpleInventory;
+import club.someoneice.www.common.item.ItemLunchBag;
 import club.someoneice.www.util.W3Util;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 
 
@@ -15,8 +18,8 @@ public class ContainerLunchBag extends Container {
 
 
     public ContainerLunchBag(InventoryPlayer player) {
-
         final ItemStack itemInHand = player.getCurrentItem();
+
         this.uuid = itemInHand.getTagCompound().getString("inv_uuid");
         this.inventory = W3Util.init.getInvFromItemStack(itemInHand, 3);
 
@@ -44,22 +47,36 @@ public class ContainerLunchBag extends Container {
     }
 
     public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber) {
-        ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(slotNumber);
+        Slot slot = (Slot) this.inventorySlots.get(slotNumber);
+        if (slot == null || !slot.getHasStack()) return null;
+        ItemStack item = slot.getStack();
+        if (!(item.getItem() instanceof ItemFood)) return mergeItemStackInPlayer(slotNumber, item, slot);
+        else return mergeFood(slotNumber, item, slot);
+    }
 
-        if (slot == null || !slot.getHasStack()) return itemstack;
-
-        ItemStack itemstack1 = slot.getStack();
-        itemstack = itemstack1.copy();
-
-        if (slotNumber < this.inventory.getSizeInventory()) {
-            if (!this.mergeItemStack(itemstack1, this.inventory.getSizeInventory(), this.inventorySlots.size(), true))
+    public ItemStack mergeItemStackInPlayer(int slotNumber, ItemStack item, Slot slot) {
+        if (slotNumber < 27 + this.inventory.getSizeInventory()) {
+            if (!this.mergeItemStack(item, 27 + this.inventory.getSizeInventory(), this.inventorySlots.size(), false))
                 return null;
         }
-        else if (!this.mergeItemStack(itemstack1, 0, this.inventory.getSizeInventory(), false)) return null;
-        if (itemstack1.stackSize == 0) slot.putStack(null);
+        else if (!this.mergeItemStack(item, this.inventory.getSizeInventory(), 27 + this.inventory.getSizeInventory(), false)) return null;
+
+        if (item.stackSize == 0) slot.putStack(null);
         else slot.onSlotChanged();
 
-        return itemstack;
+        return item;
+    }
+
+    private ItemStack mergeFood(int slotNumber, ItemStack item, Slot slot) {
+        if (slotNumber < this.inventory.getSizeInventory()) {
+            if (!this.mergeItemStack(item, this.inventory.getSizeInventory(), this.inventorySlots.size(), true))
+                return null;
+        }
+        else if (!this.mergeItemStack(item, 0, this.inventory.getSizeInventory(), false)) return null;
+
+        if (item.stackSize == 0) slot.putStack(null);
+        else slot.onSlotChanged();
+
+        return item;
     }
 }

@@ -13,14 +13,13 @@ import java.util.Random;
 public class EventBlockEvent {
     @SubscribeEvent
     public void onBlockBreakByPlayer(BlockEvent.BreakEvent event) {
-        if (event.block == Blocks.tallgrass || event.block == Blocks.grass) {
-            if (event.world.rand.nextDouble() > 0.1d) return;
+        if (event.block != Blocks.tallgrass) return;
+        if (event.world.rand.nextDouble() > 0.1d) return;
 
-            List<ItemStack> itemSeeds = Tags.SEED_TAG.getList();
-            ItemStack seed = itemSeeds.get(new Random().nextInt(itemSeeds.size()));
+        List<ItemStack> itemSeeds = Tags.SEED_TAG.getList();
+        ItemStack seed = itemSeeds.get(new Random().nextInt(itemSeeds.size()));
 
-            EntityItem entityItem = new EntityItem(event.world, event.x, event.y + 0.5d, event.z, seed);
-            event.world.spawnEntityInWorld(entityItem);
-        }
+        EntityItem entityItem = new EntityItem(event.world, event.x, event.y + 0.5d, event.z, seed);
+        event.world.spawnEntityInWorld(entityItem);
     }
 }

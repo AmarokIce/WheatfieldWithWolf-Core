@@ -12,11 +12,18 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 import java.util.List;
 
 public class TilePot extends TileEntity implements IInventory {
     private final ItemStack[] inventory = new ItemStack[9];
+
+    public TilePot(World world, int meta) {
+        this.worldObj = world;
+        this.blockMetadata = meta;
+    }
+
 
     public int time = 0;
 

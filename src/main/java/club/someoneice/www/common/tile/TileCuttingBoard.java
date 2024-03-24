@@ -8,13 +8,17 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 import java.util.List;
 
 public class TileCuttingBoard extends TileEntity {
     public ItemStack itemInv;
 
-    public TileCuttingBoard() {
+    public TileCuttingBoard(World world, int meta) {
+        this.worldObj = world;
+        this.blockMetadata = meta;
+
         this.itemInv = null;
     }
 

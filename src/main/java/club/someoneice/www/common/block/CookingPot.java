@@ -8,14 +8,16 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CookingPot extends BlockContainer {
     public CookingPot() {
@@ -37,11 +39,16 @@ public class CookingPot extends BlockContainer {
     }
 
     @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-        TilePot tile = (TilePot) world.getTileEntity(x, y, z);
-        ArrayList<ItemStack> list = Lists.newArrayList(new ItemStack(this));
-        list.addAll(tile.getInventory());
-        return list;
+    public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+        List<ItemStack> list = Lists.newArrayList();
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity instanceof TilePot) {
+            TilePot tile = (TilePot) tileEntity;
+            list.addAll(tile.getInventory());
+        }
+
+        W3Util.init.itemThrowOut(world, new ChunkPosition(x, y, z), list);
+        super.breakBlock(world, x, y, z, block, meta);
     }
 
     @Override
@@ -51,7 +58,7 @@ public class CookingPot extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-        return new TilePot();
+        return new TilePot(world, meta);
     }
 
 

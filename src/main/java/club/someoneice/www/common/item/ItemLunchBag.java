@@ -35,10 +35,9 @@ public class ItemLunchBag extends ItemFactory {
 
     private static void onUse(ItemStack item, World world, EntityPlayer player) {
         initNBT(item);
+        if (world.isRemote) return;
         if (player.isSneaking()) player.openGui(WWWMain.INSTANCE, 2, world, player.serverPosX, player.serverPosY, player.serverPosZ);
-        else if (player.canEat(false)) {
-            player.setItemInUse(item, 32);
-        }
+        else if (player.canEat(false)) player.setItemInUse(item, 32);
     }
 
     private static void initNBT(@Nonnull ItemStack item) {

@@ -1,31 +1,51 @@
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
-        maven { url "https://files.minecraftforge.net/maven"                    }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/"  }
+        maven {
+            url = "https://jcenter.bintray.com/"
+        }
+        maven {
+            name = "forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
     }
+
     dependencies {
-        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.1.+') {
+        classpath('com.anatawa12.forge:ForgeGradle:1.2-1.1.+') {
             changing = true
         }
+
+        if (project.enableUsingKotlin.toBoolean()) { classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$project.kotlin_version" }
     }
 }
 
 apply plugin: 'forge'
-apply plugin: 'java'
+apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: "maven-publish"
+apply plugin: 'java'
+apply plugin: 'maven-publish'
 
-version = "Day-1-Fix3"
-group= "club.someoneice.www"
-archivesBaseName = "WheatfieldWithWolf-1.7.10"
+if (project.enableUsingKotlin.toBoolean()) {
+    apply plugin: 'kotlin'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+}
 
-ext {
-    PineapplePsychicVersion = "1.5"
-    PineappleTagsVersion = "1.5"
+if (project.enableUsingScala.toBoolean()) {
+    apply plugin: 'scala'
+}
 
-    NEIVersion = "2.5.17"
-    CCVersion = "1.2.1"
+version = "${project.modVersion}"
+group = "${project.modGroupId}"
+archivesBaseName = "${project.modArchivesName}"
+
+configurations {
+    includeCompile
+    implementation.extendsFrom includeCompile
 }
 
 minecraft {
@@ -36,61 +56,108 @@ minecraft {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url "https://api.modrinth.com/maven"   }
+
+    flatDir {
+        dirs 'libs'
+    }
+
     maven {
+        name "Amarok Maven"
         url "http://maven.snowlyicewolf.club/"
         allowInsecureProtocol true
+    }
+
+    maven {
+        name "Curse Maven"
+        url "https://cursemaven.com"
+    }
+
+    maven {
+        name "Modrinth Maven"
+        url "https://api.modrinth.com/maven"
     }
 }
 
 dependencies {
-    // compileOnly "club.someoneice.togocup.recipebook:PineappleRecipeBook:1.0"
+    if (project.enableUsingKotlin.toBoolean()) {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+        implementation "curse.maven:AJSCore-445557:$asjcore_laster"
+    }
 
-    implementation "club.someoneice.pineapplepsychic:pineapple-psychic:${PineapplePsychicVersion}"
-    implementation "club.someoneice.togocup.pineapple_tag:pineapple-tag:${PineappleTagsVersion}"
+    if (project.enableUsingMysteriumLib.toBoolean()) {
+        implementation "curse.maven:MysteriumLib-645051:3963822"
+    }
 
-    implementation "maven.modrinth:notenoughitems-unofficial:${NEIVersion}-GTNH"
-    implementation "maven.modrinth:codechickencore-unofficial:${CCVersion}"
-    implementation "maven.modrinth:codechickenlib-unofficial:${CCVersion}"
+    implementation "club.someoneice.pineapplepsychic:pineapple-psychic:${project.psychic_version}"
+    implementation "club.someoneice.togocup.pineapple_tag:pineapple-tag:${project.tags_version}"
+    implementation "club.someoneice.togocup.recipebook:PineappleRecipeBook:${project.recipe_book_version}"
+
+    implementation "maven.modrinth:notenoughitems-unofficial:${project.nei_version}-GTNH"
+    implementation "maven.modrinth:codechickencore-unofficial:${project.cc_version}"
+    implementation "maven.modrinth:codechickenlib-unofficial:${project.cc_version}"
+
+    implementation fileTree(dir: 'lib', includes: ['*.jar'])
 }
+
+def dependenciesList = []
+if (!project.modDependencies.isEmpty()) dependenciesList.add(project.modDependencies)
+if (project.enableUsingMysteriumLib.toBoolean()) dependenciesList.add("\"required-after:MysteriumLib\"")
 
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
     filesMatching("mcmod.info") {
-        expand 'version': project.version, 'mcversion': project.minecraft.version
+        expand  'version': project.version, 'mcversion': project.minecraft.version
     }
+}
 
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
+if (project.enableUsingMixin.toBoolean()) {
+    apply from: 'mixin.gradle'
+} else {
+    jar {
+        from {
+            configurations.includeCompile.collect { it.isDirectory() ? it : zipTree(it) }
+        }
     }
+}
 
-    artifacts {
-        archives sourcesJar
+if (project.enableUsingMysteriumLib.toBoolean()) {
+    jar {
+        manifest {
+            attributes 'FMLCorePlugin': "${project.patchClass}"
+            attributes 'FMLCorePluginContainsFMLMod': 'true'
+        }
     }
 }
 
 sourceCompatibility = targetCompatibility = "1.8"
 
-tasks.withType(Jar) {
+tasks.withType(Jar).configureEach {
     compileJava.options.encoding = 'UTF-8'
     compileJava.options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Xlint:all"
 }
 
 allprojects {
     gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Xlint:all"
+        tasks.withType(JavaCompile).tap {
+            configureEach {
+                options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Xlint:all"
+            }
         }
     }
 }
 
-publishing {
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
+if (project.enableUsingKotlin.toBoolean()) {
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
         }
     }
 }

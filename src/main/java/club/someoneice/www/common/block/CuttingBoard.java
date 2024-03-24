@@ -11,15 +11,18 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class CuttingBoard extends BlockContainer {
@@ -35,19 +38,20 @@ public class CuttingBoard extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-        return new TileCuttingBoard();
+        return new TileCuttingBoard(world, meta);
     }
 
     @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-        ArrayList<ItemStack> list = Lists.newArrayList(new ItemStack(this));
+    public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+        List<ItemStack> list = Lists.newArrayList();
         TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity instanceof TileCuttingBoard) {
             TileCuttingBoard tile = (TileCuttingBoard) tileEntity;
-            tile.updateItem();
             if (tile.itemInv != null) list.add(tile.itemInv.copy());
         }
-        return list;
+
+        W3Util.init.itemThrowOut(world, new ChunkPosition(x, y, z), list);
+        super.breakBlock(world, x, y, z, block, meta);
     }
 
     @Override
