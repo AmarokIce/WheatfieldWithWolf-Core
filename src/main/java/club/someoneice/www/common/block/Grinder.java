@@ -28,7 +28,7 @@ public class Grinder extends BlockContainer {
     public Grinder() {
         super(Material.rock);
         this.setBlockName("grinder");
-        this.setBlockTextureName(W3Util.init.getTexturesName("grinder"));
+        this.setBlockTextureName(W3Util.init.getResourceName("grinder"));
         this.setCreativeTab(WWWMain.TABS);
 
         GameRegistry.registerBlock(this, "grinder");

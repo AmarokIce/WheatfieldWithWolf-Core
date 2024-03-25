@@ -14,7 +14,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -28,7 +27,7 @@ public class CuttingBoard extends BlockContainer {
     public CuttingBoard() {
         super(Material.wood);
         this.setBlockName("cutting_board");
-        this.setBlockTextureName(W3Util.init.getTexturesName("cutting_board"));
+        this.setBlockTextureName(W3Util.init.getResourceName("cutting_board"));
         this.setCreativeTab(WWWMain.TABS);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1F, 1.0F);
 
@@ -76,7 +75,6 @@ public class CuttingBoard extends BlockContainer {
             } else if (tile.itemInv != null && player.getHeldItem() != null && player.getHeldItem().getItem() == ItemList.knife) {
                 return cutting(tile, world, player, x, y, z);
             }
-            tile.updateItem();
         }
         return false;
     }
@@ -84,12 +82,12 @@ public class CuttingBoard extends BlockContainer {
     private boolean cutting(TileCuttingBoard tile, World world, EntityPlayer player, int x, int y, int z) {
         for (Map.Entry<ItemStack, ItemStack> kv : WWWApi.CUT_RECIPES.entrySet()) {
             if (!Util.itemStackEquals(kv.getKey(), tile.itemInv)) continue;
-            ItemStack output = kv.getValue();
-            if (!player.inventory.addItemStackToInventory(output.copy()))
-                world.spawnEntityInWorld(new EntityItem(world, x + 0.5D, y + 0.5D, z + 0.5D, output.copy()));
+            ItemStack output = kv.getValue().copy();
+            if (!world.isRemote) W3Util.init.itemThrowOut(world, new ChunkPosition(x, y, z), output);
             tile.itemInv.stackSize--;
+            world.playSoundEffect(x, y, z, W3Util.init.getResourceName("cutting"), 0.7F, world.rand.nextFloat() * 0.1F + 0.9F);
             if (tile.itemInv.stackSize == 0) tile.setItemInv(null);
-            else tile.updateItem();
+            tile.updateItem();
             return true;
         }
 

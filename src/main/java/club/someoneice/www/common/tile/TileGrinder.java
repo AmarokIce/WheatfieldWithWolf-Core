@@ -74,7 +74,7 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
 
         for (int i = 0; i < inventory.length; i++) {
             if (inventory[i] != null)
-                nbt.setTag("Craft" + i, inventory[i].writeToNBT(new NBTTagCompound()));
+                nbt.setTag("craft" + i, inventory[i].writeToNBT(new NBTTagCompound()));
         }
 
         super.writeToNBT(nbt);
@@ -89,8 +89,8 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
         this.burnTime   = nbt.getInteger("burn");
 
         for (int i = 0; i < inventory.length; i++) {
-            if (nbt.hasKey("Craft" + i)) {
-                inventory[i] = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("Craft" + i));
+            if (nbt.hasKey("craft" + i)) {
+                inventory[i] = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("craft" + i));
             }
         }
     }
@@ -182,9 +182,9 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack item) {
-        if (slot == 0) return true;
+        if (slot == 0) return false;
         else if (slot == 1) return item.getItem() == ItemList.grinder_knife;
-        else if (slot == 2) return false;
+        else if (slot == 2) return true;
         else if (slot == 3) return true;
 
         return true;
@@ -198,7 +198,7 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
     public Packet getDescriptionPacket() {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         this.writeToNBT(nbttagcompound);
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 5, nbttagcompound);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbttagcompound);
     }
 
     @Override

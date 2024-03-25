@@ -27,7 +27,7 @@ public class ItemHellCrop extends ItemBlock {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register) {
-        this.icon = register.registerIcon(W3Util.init.getTexturesName(this.name));
+        this.icon = register.registerIcon(W3Util.init.getResourceName(this.name));
     }
 
     @Override

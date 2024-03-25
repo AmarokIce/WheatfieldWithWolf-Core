@@ -29,6 +29,9 @@ public class CuttingBoardRenderer extends TileEntitySpecialRenderer {
     public void renderTileEntityAt(TileEntity tileEntity, double posX, double posY, double posZ, float f) {
         // bindTexture(CommonProxy.texture);
 
+        if (!(tileEntity instanceof TileCuttingBoard)) return;
+        TileCuttingBoard tile = (TileCuttingBoard) tileEntity;
+
         GL11.glPushMatrix();
         {
             GL11.glTranslated(posX + 0.5, posY + 0.5, posZ + 0.5);
@@ -43,35 +46,33 @@ public class CuttingBoardRenderer extends TileEntitySpecialRenderer {
         }
         GL11.glPopMatrix();
 
-        if (tileEntity instanceof TileCuttingBoard) {
-            TileCuttingBoard tile = (TileCuttingBoard) tileEntity;
-            if (tile.itemInv != null) {
-                item.setEntityItemStack(tile.itemInv);
+        if (tile.itemInv != null) {
+            item.setEntityItemStack(tile.itemInv);
 
-                GL11.glPushMatrix();
-                {
-                    item.hoverStart = 0.0F;
-                    RenderItem.renderInFrame = true;
+            GL11.glPushMatrix();
+            {
+                item.hoverStart = 0.0F;
+                RenderItem.renderInFrame = true;
 
-                    if (item.getEntityItem().getItem() == ItemList.knife) {
-                        GL11.glTranslatef((float) (posX + 0.26F), (float) (posY), (float) (posZ + 0.255D));
-                        GL11.glScaled(1.25D, 1.25D, 1.25D);
-                        GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
-                        GL11.glRotatef(-90.0F, 0.0F, 1.0F, 1.0F);
-                        GL11.glRotatef(-60.0F, 0.0F, 0.0F, 1.0F);
-                    } else {
-                        GL11.glTranslatef((float) (posX + 0.30F), (float) (posY - 0.20F), (float) (posZ + 0.50F));
-                        GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-                        GL11.glRotatef(180.0F, 0.0F, 1.0F, 1.0F);
-                    }
 
-                    RenderManager.instance.renderEntityWithPosYaw(item, 0.0D, 0.0D, 0.35D, 0.0F, 0.0F);
-                    RenderItem.renderInFrame = false;
+                if (item.getEntityItem().getItem() == ItemList.knife) {
+                    GL11.glTranslatef((float) (posX + 0.26F), (float) (posY), (float) (posZ + 0.255D));
+                    GL11.glScaled(1.25D, 1.25D, 1.25D);
+                    GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(-90.0F, 0.0F, 1.0F, 1.0F);
+                    GL11.glRotatef(-60.0F, 0.0F, 0.0F, 1.0F);
+                } else {
+                    GL11.glTranslatef((float) (posX + 0.30F), (float) (posY - 0.20F), (float) (posZ + 0.50F));
+                    GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(180.0F, 0.0F, 1.0F, 1.0F);
                 }
-                GL11.glPopMatrix();
-            } else {
-                item.setEntityItemStack(null);
+
+                RenderManager.instance.renderEntityWithPosYaw(item, 0.0D, 0.0D, 0.35D, 0.0F, 0.0F);
+                RenderItem.renderInFrame = false;
             }
+            GL11.glPopMatrix();
+        } else {
+            item.setEntityItemStack(null);
         }
     }
 }

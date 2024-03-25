@@ -23,7 +23,7 @@ public class TreeSaplingFactory extends BlockBush implements IGrowable {
         float f = 0.5F;
         this.setLightLevel(0.3f);
         this.setBlockName(name);
-        this.setBlockTextureName(W3Util.init.getTexturesName(name));
+        this.setBlockTextureName(W3Util.init.getResourceName(name));
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
         this.setCreativeTab(WWWMain.TABS);
         this.setStepSound(soundTypeGrass);

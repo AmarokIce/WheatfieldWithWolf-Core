@@ -22,7 +22,7 @@ public class W3Util {
 
     private W3Util() {}
 
-    public String getTexturesName(String name) {
+    public String getResourceName(String name) {
         return WWWMain.MODID + ":" + name;
     }
 

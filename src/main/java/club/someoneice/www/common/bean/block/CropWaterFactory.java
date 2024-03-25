@@ -38,7 +38,7 @@ public class CropWaterFactory extends BlockCrops {
         this.oneOnly = oneOnly;
 
         this.setBlockName(name);
-        this.setBlockTextureName(W3Util.init.getTexturesName(name));
+        this.setBlockTextureName(W3Util.init.getResourceName(name));
         this.setCreativeTab(WWWMain.TABS);
 
         SeedTagUtil.WATER_CROPS.add(this);

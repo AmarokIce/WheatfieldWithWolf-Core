@@ -15,43 +15,47 @@ import java.util.List;
 public class TileCuttingBoard extends TileEntity {
     public ItemStack itemInv;
 
-    public TileCuttingBoard(World world, int meta) {
-        this.worldObj = world;
-        this.blockMetadata = meta;
-
+    public TileCuttingBoard() {
         this.itemInv = null;
     }
 
-    public ItemStack getItemInv() {
-        return this.itemInv.copy();
+    public TileCuttingBoard(World world, int meta) {
+        this();
+
+        this.worldObj = world;
+        this.blockMetadata = meta;
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
+    public boolean canUpdate() {
+        return false;
+    }
+
     public void setItemInv(ItemStack item) {
         this.itemInv = item;
-        this.updateItem();
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         if (this.itemInv != null)
-            nbt.setTag("itemInv", itemInv.writeToNBT(new NBTTagCompound()));
+            nbt.setTag("item_inv", itemInv.writeToNBT(new NBTTagCompound()));
+
         super.writeToNBT(nbt);
+        this.markDirty();
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        if (nbt.hasKey("itemInv"))
-            this.itemInv = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("itemInv"));
-        else this.itemInv = null;
+        this.itemInv = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("item_inv"));
     }
 
     @Override
     public Packet getDescriptionPacket() {
+        super.getDescriptionPacket();
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         this.writeToNBT(nbttagcompound);
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 5, nbttagcompound);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbttagcompound);
     }
 
     @Override
@@ -63,8 +67,7 @@ public class TileCuttingBoard extends TileEntity {
     @SuppressWarnings("unchecked")
     public void updateItem() {
         if (worldObj.isRemote) return;
-        ((List<EntityPlayer>) this.worldObj.playerEntities).forEach(it -> {
-            ((EntityPlayerMP) it).playerNetServerHandler.sendPacket(this.getDescriptionPacket());
-        });
+        ((List<EntityPlayer>) this.worldObj.playerEntities).forEach(it ->
+                ((EntityPlayerMP) it).playerNetServerHandler.sendPacket(this.getDescriptionPacket()));
     }
 }

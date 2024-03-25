@@ -11,6 +11,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -24,6 +27,8 @@ public class TilePot extends TileEntity implements IInventory {
         this.blockMetadata = meta;
     }
 
+    public TilePot() {
+    }
 
     public int time = 0;
 
@@ -59,8 +64,8 @@ public class TilePot extends TileEntity implements IInventory {
             for (int i = 0; i < 7; i ++) {
                 ItemStack item = this.inventory[i];
                 if (item == null) continue;
-                if (!this.worldObj.isRemote && item.getItem().hasContainerItem()) {
-                    this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.xCoord, this.yCoord + 0.8D, this.zCoord, new ItemStack(item.getItem().getContainerItem())));
+                if (!this.worldObj.isRemote && item.getItem().hasContainerItem(item)) {
+                    this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.xCoord, this.yCoord + 0.8D, this.zCoord, item.getItem().getContainerItem(item)));
                 }
                 if (item.stackSize > 1) item.stackSize--;
                 else this.inventory[i] = null;
@@ -79,9 +84,8 @@ public class TilePot extends TileEntity implements IInventory {
         nbt.setInteger("time", this.time);
 
         for (int i = 0; i < inventory.length; i++) {
-            if (inventory[i] != null) {
-                nbt.setTag("Craft" + i, inventory[i].writeToNBT(new NBTTagCompound()));
-            }
+            if (inventory[i] != null)
+                nbt.setTag("craft" + i, inventory[i].writeToNBT(new NBTTagCompound()));
         }
 
         super.writeToNBT(nbt);
@@ -95,8 +99,8 @@ public class TilePot extends TileEntity implements IInventory {
         this.time = nbt.getInteger("time");
 
         for (int i = 0; i < inventory.length; i++) {
-            if (nbt.hasKey("Craft" + i)) {
-                inventory[i] = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("Craft" + i));
+            if (nbt.hasKey("craft" + i)) {
+                inventory[i] = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("craft" + i));
             }
         }
     }
@@ -122,8 +126,9 @@ public class TilePot extends TileEntity implements IInventory {
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int p_70304_1_) {
-        return null;
+    public ItemStack getStackInSlotOnClosing(int slot) {
+        if (slot >= this.getSizeInventory()) return null;
+        return this.inventory[slot];
     }
 
     @Override
@@ -164,5 +169,18 @@ public class TilePot extends TileEntity implements IInventory {
 
     public List<ItemStack> getInventory() {
         return Lists.newArrayList(this.inventory);
+    }
+
+    @Override
+    public Packet getDescriptionPacket() {
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        this.writeToNBT(nbttagcompound);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbttagcompound);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+        super.onDataPacket(net, pkt);
+        this.readFromNBT(pkt.func_148857_g());
     }
 }

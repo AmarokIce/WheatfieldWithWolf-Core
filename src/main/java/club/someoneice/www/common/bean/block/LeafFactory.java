@@ -47,8 +47,8 @@ public class LeafFactory extends BlockLeaves {
 
     @Override
     public void registerBlockIcons(IIconRegister register) {
-        icon0 = register.registerIcon(W3Util.init.getTexturesName(this.name) + 0);
-        icon1 = register.registerIcon(W3Util.init.getTexturesName(this.name) + 1);
+        icon0 = register.registerIcon(W3Util.init.getResourceName(this.name) + 0);
+        icon1 = register.registerIcon(W3Util.init.getResourceName(this.name) + 1);
     }
 
     @Override

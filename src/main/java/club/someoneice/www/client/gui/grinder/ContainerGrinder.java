@@ -10,6 +10,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemLead;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
@@ -24,10 +25,10 @@ public class ContainerGrinder extends Container {
         this.pos = new ChunkPosition(x, y, z);
         inventory = tile;
 
-        this.addSlotToContainer(new Slot(tile, 0, 56, 17));
-        this.addSlotToContainer(new SlotFlue(tile, 1, 56, 53, new ItemStack(ItemList.grinder_knife)));
-        this.addSlotToContainer(new SlotOutput(tile, 2, 116, 35));
-        this.addSlotToContainer(new Slot(tile, 3, 141, 35));
+        this.addSlotToContainer(new SlotOutput(tile, 2, 116, 35)); // 0
+        this.addSlotToContainer(new SlotFlue(tile, 1, 56, 53, new ItemStack(ItemList.grinder_knife))); // 1
+        this.addSlotToContainer(new Slot(tile, 0, 56, 17)); // 2
+        this.addSlotToContainer(new Slot(tile, 3, 141, 35)); // 3
 
         for (int h = 0; h < 3; ++h) for (int l = 0; l < 9; ++l) this.addSlotToContainer(new Slot(player, l + h * 9 + 9, 8 + l * 18, 84 + h * 18));
         for (int l = 0; l < 9; ++l) this.addSlotToContainer(new Slot(player, l, 8 + l * 18, 142));
@@ -41,27 +42,20 @@ public class ContainerGrinder extends Container {
         ItemStack itemstack = null;
         Slot slot = (Slot)this.inventorySlots.get(slotNumber);
 
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
+        if (slot == null || !slot.getHasStack()) return itemstack;
 
-            if (slotNumber < this.inventory.getSizeInventory()) {
-                if (!this.mergeItemStack(itemstack1, this.inventory.getSizeInventory(), this.inventorySlots.size(), true)) {
-                    return null;
-                }
-            }
-            else if (!this.mergeItemStack(itemstack1, 0, this.inventory.getSizeInventory(), false)) {
+        ItemStack itemstack1 = slot.getStack();
+        itemstack = itemstack1.copy();
+
+        if (slotNumber < this.inventory.getSizeInventory()) {
+            if (!this.mergeItemStack(itemstack1, this.inventory.getSizeInventory(), this.inventorySlots.size(), true))
                 return null;
-            }
+        } else if (itemstack1.getItem() == ItemList.grinder_knife) {
+            if (!this.mergeItemStack(itemstack1, 1, 2, true)) return null;
+        } else if (!this.mergeItemStack(itemstack1, 2, this.inventory.getSizeInventory(), false)) return null;
 
-            if (itemstack1.stackSize == 0) {
-                slot.putStack(null);
-            }
-            else
-            {
-                slot.onSlotChanged();
-            }
-        }
+        if (itemstack1.stackSize == 0) slot.putStack(null);
+        else slot.onSlotChanged();
 
         return itemstack;
     }

@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 public class ItemFactory extends Item {
     public ItemFactory(String name) {
         this.setUnlocalizedName(name);
-        this.setTextureName(W3Util.init.getTexturesName(name));
+        this.setTextureName(W3Util.init.getResourceName(name));
         this.setCreativeTab(WWWMain.TABS);
 
         GameRegistry.registerItem(this, name, WWWMain.MODID);

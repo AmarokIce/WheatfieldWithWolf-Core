@@ -19,7 +19,7 @@ public class FoodFactory extends ItemFood {
     public FoodFactory(String name, int hunger, float saturation, boolean wolf, boolean fast, boolean alwaysEat, boolean isDrink, ItemStack returnItem) {
         super(hunger, saturation, wolf);
         this.setUnlocalizedName(name);
-        this.setTextureName(W3Util.init.getTexturesName(name));
+        this.setTextureName(W3Util.init.getResourceName(name));
         this.setCreativeTab(WWWMain.TABS);
 
         if (alwaysEat) this.setAlwaysEdible();

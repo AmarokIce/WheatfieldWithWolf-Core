@@ -1,0 +1,15 @@
+{
+  "cutting": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "block/cuttingboard/knife0",
+        "stream": false
+      },
+      {
+        "name": "block/cuttingboard/knife1",
+        "stream": false
+      }
+    ]
+  }
+}
