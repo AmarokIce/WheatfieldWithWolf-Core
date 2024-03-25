@@ -17,11 +17,11 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = WWWMain.MODID, name = WWWMain.MODNAME, version = WWWMain.VERSION, dependencies = "required-after:pineapple_tags")
+@Mod(modid = WWWMain.MODID, name = WWWMain.MODNAME, version = WWWMain.VERSION, dependencies = "required-after:pineapple_tags", useMetadata = true)
 public class WWWMain {
     public static final String MODID = "wheatfieldwithwolf";
-    public static final String MODNAME = "WheatfieldWithWolf";
-    public static final String VERSION = "day-1";
+    public static final String MODNAME = "Wheatfield With Wolf";
+    public static final String VERSION = "Day-2";
 
     public static final Logger LOG = LogManager.getLogger(MODID);
 
