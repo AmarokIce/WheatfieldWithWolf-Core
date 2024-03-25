@@ -12,6 +12,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -42,8 +43,13 @@ public class Grinder extends BlockContainer {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
-        if (!world.isRemote)
-            player.openGui(WWWMain.INSTANCE, 0, world, x, y ,z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (!(tileEntity instanceof TileGrinder)) return false;
+        TileGrinder tile = (TileGrinder) tileEntity;
+        if (!world.isRemote) {
+            ((EntityPlayerMP) player).playerNetServerHandler.sendPacket(tile.getDescriptionPacket());
+            player.openGui(WWWMain.INSTANCE, 0, world, x, y, z);
+        }
         return true;
     }
 

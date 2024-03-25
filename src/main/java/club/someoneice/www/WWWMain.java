@@ -38,12 +38,19 @@ public class WWWMain {
     @Mod.Instance("wheatfieldwitlwolf")
     public static WWWMain INSTANCE;
 
+    @Mod.EventHandler
+    public void initPre(FMLPreInitializationEvent event) {
+        INSTANCE = this;
+        new ItemList();
+        new BlockList();
+    }
+
     @Mod.EventHandler @SuppressWarnings("all")
     public void initCommon(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
-        new ItemList();
-        new BlockList();
+        new AchievementInit();
         new Others();
+        new Tags();
 
         SeedTagUtil.inputTags();
 
@@ -51,12 +58,6 @@ public class WWWMain {
         SimpleNetWorkHandler.init();
 
         registryEvent(new EventBlockEvent());
-    }
-
-    @Mod.EventHandler
-    public void initPre(FMLPreInitializationEvent event) {
-        INSTANCE = this;
-        new Tags();
     }
 
     private void registryEvent(Object eventObj) {

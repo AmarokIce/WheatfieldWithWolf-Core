@@ -18,19 +18,21 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TilePot extends TileEntity implements IInventory {
     private final ItemStack[] inventory = new ItemStack[9];
+    public int time;
 
     public TilePot(World world, int meta) {
+        this();
         this.worldObj = world;
         this.blockMetadata = meta;
     }
 
     public TilePot() {
+        this.time = 0;
     }
-
-    public int time = 0;
 
     @Override
     public void updateEntity() {
@@ -43,36 +45,34 @@ public class TilePot extends TileEntity implements IInventory {
     private void checkTheRecipe() {
         ItemStack[] itemInput = new ItemStack[6];
 
-        for (int i = 0; i < 6; i ++) {
-            if (this.inventory[i] != null) itemInput[i] = this.inventory[i];
-        }
+        for (int i = 0; i < 6; i ++) if (this.inventory[i] != null) itemInput[i] = this.inventory[i];
 
-        RecipePot recipe = WWWApi.POT_RECIPES.stream().filter(it -> W3Util.init.compareRecipe(it.input, itemInput)).findFirst().orElse(null);
+        Optional<RecipePot> recipeCup = WWWApi.POT_RECIPES.stream().filter(it -> W3Util.init.compareRecipe(it.input, itemInput)).findFirst();
 
-        if (recipe == null) {
+        if (!recipeCup.isPresent()) {
             time = 0;
             return;
         }
 
-        if (this.time >= 200 && (recipe.bowl == null || Util.itemStackEquals(this.inventory[6], recipe.bowl))) {
-            if (this.inventory[7] == null) {
-                this.inventory[7] = recipe.output.copy();
-            } else if (this.inventory[7].getItem() == recipe.output.getItem()){
-                this.inventory[7].stackSize++;
-            }else return;
+        RecipePot recipe = recipeCup.get();
+        if (++this.time < 200 || (recipe.bowl != null && !Util.itemStackEquals(this.inventory[6], recipe.bowl))) return;
+        if (!this.worldObj.isRemote) crafting(recipe);
+        this.time = 0;
+    }
 
-            for (int i = 0; i < 7; i ++) {
-                ItemStack item = this.inventory[i];
-                if (item == null) continue;
-                if (!this.worldObj.isRemote && item.getItem().hasContainerItem(item)) {
-                    this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.xCoord, this.yCoord + 0.8D, this.zCoord, item.getItem().getContainerItem(item)));
-                }
-                if (item.stackSize > 1) item.stackSize--;
-                else this.inventory[i] = null;
-            }
+    private void crafting(RecipePot recipe) {
+        if (this.inventory[7] == null) this.inventory[7] = recipe.output.copy();
+        else if (this.inventory[7].getItem() == recipe.output.getItem()) this.inventory[7].stackSize++;
+        else return;
 
-            this.time = 0;
-        } else time++;
+        for (int i = 0; i < 7; i ++) {
+            ItemStack item = this.inventory[i];
+            if (item == null) continue;
+            if (item.getItem().hasContainerItem(item))
+                this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.xCoord, this.yCoord + 0.8D, this.zCoord, item.getItem().getContainerItem(item)));
+
+            this.decrStackSize(i, 1);
+        }
     }
 
     public boolean canBurn() {
@@ -116,13 +116,17 @@ public class TilePot extends TileEntity implements IInventory {
     }
 
     public ItemStack decrStackSize(int slot, int size) {
-        if (slot < 8 && this.inventory[slot] != null) {
-            ItemStack item = this.inventory[slot].copy();
+        if (slot >= this.getSizeInventory()) return null;
+        ItemStack item = this.inventory[slot];
+        ItemStack out = item.copy();
+        if (item.stackSize < size) {
             this.inventory[slot] = null;
-            return item;
+            return out;
         }
 
-        return null;
+        item.stackSize -= size;
+        out.stackSize = size;
+        return out;
     }
 
     @Override
@@ -173,6 +177,7 @@ public class TilePot extends TileEntity implements IInventory {
 
     @Override
     public Packet getDescriptionPacket() {
+        super.getDescriptionPacket();
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         this.writeToNBT(nbttagcompound);
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbttagcompound);

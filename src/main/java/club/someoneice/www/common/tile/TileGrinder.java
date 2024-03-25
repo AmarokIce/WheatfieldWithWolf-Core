@@ -34,27 +34,28 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
     @Override
     public void updateEntity() {
         super.updateEntity();
+        if (!canBurn() || this.inventory[0] == null) time = 0;
         WWWApi.GRINDER_RECIPES.stream().filter(it -> W3Util.init.compareIngredientContains(it.input, this.inventory[0])).findFirst().ifPresent(it -> {
-            if (burnTime > 0) burnTime--;
             if (time < it.cooking_time) {
+                burnTime--;
                 ++time;
                 return;
             }
-            if (!checkTheBottle(it)) return;
-            setOutput(it);
-            if (this.inventory[0].stackSize - 1 == 0) this.inventory[0] = null;
-            else this.inventory[0].stackSize--;
+            if (!this.worldObj.isRemote) crafting(it);
             time = 0;
         });
+    }
 
-        if (!canBurn() || this.inventory[0] == null) {
-            time = 0;
-        }}
+    private void crafting(RecipeGrinder recipe) {
+        if (!checkTheBottle(recipe)) return;
+        setOutput(recipe);
+        decrStackSize(0, 1);
+    }
 
     private boolean checkTheBottle(RecipeGrinder recipe) {
         if (recipe.bottle == null) return true;
         if (Util.itemStackEquals(this.inventory[3], recipe.bottle)) {
-            this.inventory[3].stackSize--;
+            decrStackSize(3, 1);
             return true;
         }
         return false;
@@ -97,8 +98,7 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
 
     private boolean canBurn() {
         if (this.inventory[1] != null && this.inventory[1].getItem() == ItemList.grinder_knife && burnTime <= 0) {
-            if (this.inventory[1].stackSize == 1) this.inventory[1] = null;
-            else this.inventory[1].stackSize--;
+            decrStackSize(1, 1);
             this.burnTime = 8000;
             markDirty();
         }
@@ -133,13 +133,17 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
 
     @Override
     public ItemStack decrStackSize(int slot, int size) {
-        if (slot < 4 && this.inventory[slot] != null) {
-            ItemStack item = this.inventory[slot].copy();
+        if (slot >= this.getSizeInventory()) return null;
+        ItemStack item = this.inventory[slot];
+        ItemStack out = item.copy();
+        if (item.stackSize < size) {
             this.inventory[slot] = null;
-            return item;
+            return out;
         }
 
-        return null;
+        item.stackSize -= size;
+        out.stackSize = size;
+        return out;
     }
 
     @Override
@@ -196,6 +200,7 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
 
     @Override
     public Packet getDescriptionPacket() {
+        super.getDescriptionPacket();
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         this.writeToNBT(nbttagcompound);
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbttagcompound);

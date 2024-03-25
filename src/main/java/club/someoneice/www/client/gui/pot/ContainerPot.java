@@ -1,5 +1,6 @@
 package club.someoneice.www.client.gui.pot;
 
+import club.someoneice.www.client.gui.slot.SlotOutput;
 import club.someoneice.www.common.tile.TilePot;
 import club.someoneice.www.init.BlockList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +21,7 @@ public class ContainerPot extends Container {
         this.pos = new ChunkPosition(x, y, z);
         inventory = tile;
 
-        this.addSlotToContainer(new PotSlotOutput(inventory, 7, 122, 32));
+        this.addSlotToContainer(new SlotOutput(inventory, 7, 122, 32));
         for (int h = 0; h < 2; h ++) for (int l = 0; l < 3; l ++)
             this.addSlotToContainer(new Slot(inventory, l + h * 3, 38 + l * 18, 22 + h * 18));
         this.addSlotToContainer(new Slot(inventory, 6, 96, 52));
