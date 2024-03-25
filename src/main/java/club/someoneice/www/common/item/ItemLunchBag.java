@@ -59,12 +59,10 @@ public class ItemLunchBag extends ItemFactory {
             ItemStack it = inventory.getStackInSlot(slot);
             if (it == null) continue;
             if (!(it.getItem() instanceof ItemFood)) continue;
+
             ItemFood food = (ItemFood) it.getItem();
-            player.getFoodStats().func_151686_a(food, it);
-
+            inventory.setInventorySlotContents(slot, food.onEaten(item, world, player));
             if (food.hasContainerItem(item)) W3Util.init.giveOrThrowOut(player, food.getContainerItem(item));
-
-            inventory.decrStackSize(slot, 1);
             W3Util.init.setInvFromItemStack(item, inventory);
             return item;
         }
