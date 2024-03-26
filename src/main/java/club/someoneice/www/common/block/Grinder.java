@@ -13,12 +13,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Grinder extends BlockContainer {
@@ -28,6 +30,7 @@ public class Grinder extends BlockContainer {
 
     public Grinder() {
         super(Material.rock);
+        this.setHardness(0.3f);
         this.setBlockName("grinder");
         this.setBlockTextureName(W3Util.init.getResourceName("grinder"));
         this.setCreativeTab(WWWMain.TABS);
@@ -53,6 +56,10 @@ public class Grinder extends BlockContainer {
         return true;
     }
 
+    public boolean isToolEffective(String type, int metadata) {
+        return type.equals("pickaxe");
+    }
+
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
         List<ItemStack> list = Lists.newArrayList();
@@ -64,6 +71,11 @@ public class Grinder extends BlockContainer {
 
         W3Util.init.itemThrowOut(world, new ChunkPosition(x, y, z), list);
         super.breakBlock(world, x, y, z, block, meta);
+    }
+
+    @Override
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+        return Lists.newArrayList(new ItemStack(this));
     }
 
     @SideOnly(Side.CLIENT)

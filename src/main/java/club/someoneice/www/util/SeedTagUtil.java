@@ -1,8 +1,8 @@
 package club.someoneice.www.util;
 
-import club.someoneice.www.common.bean.block.CropFactory;
-import club.someoneice.www.common.bean.block.CropHellFactory;
-import club.someoneice.www.common.bean.block.CropWaterFactory;
+import club.someoneice.www.common.block.factory.CropFactory;
+import club.someoneice.www.common.block.factory.CropHellFactory;
+import club.someoneice.www.common.block.factory.CropWaterFactory;
 import club.someoneice.www.init.Tags;
 import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;

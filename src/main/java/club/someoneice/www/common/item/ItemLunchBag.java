@@ -2,7 +2,7 @@ package club.someoneice.www.common.item;
 
 import club.someoneice.pineapplepsychic.inventory.SimpleInventory;
 import club.someoneice.www.WWWMain;
-import club.someoneice.www.common.bean.item.ItemFactory;
+import club.someoneice.www.common.item.factory.ItemFactory;
 import club.someoneice.www.util.W3Util;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -22,12 +22,6 @@ public class ItemLunchBag extends ItemFactory {
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player) {
-        onUse(item, world, player);
-        return item;
-    }
-
-    @Override
     public boolean onItemUseFirst(ItemStack item, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         onUse(item, world, player);
         return true;
@@ -35,7 +29,6 @@ public class ItemLunchBag extends ItemFactory {
 
     private static void onUse(ItemStack item, World world, EntityPlayer player) {
         initNBT(item);
-        if (world.isRemote) return;
         if (player.isSneaking()) player.openGui(WWWMain.INSTANCE, 2, world, player.serverPosX, player.serverPosY, player.serverPosZ);
         else if (player.canEat(false)) player.setItemInUse(item, 32);
     }
@@ -56,13 +49,13 @@ public class ItemLunchBag extends ItemFactory {
     public ItemStack onEaten(ItemStack item, World world, EntityPlayer player) {
         SimpleInventory inventory = W3Util.init.getInvFromItemStack(item, 3);
         for (int slot = 0; slot < inventory.getSizeInventory(); slot ++) {
-            ItemStack it = inventory.getStackInSlot(slot);
-            if (it == null) continue;
-            if (!(it.getItem() instanceof ItemFood)) continue;
+            ItemStack itemFood = inventory.getStackInSlot(slot);
+            if (itemFood == null) continue;
+            if (!(itemFood.getItem() instanceof ItemFood)) continue;
 
-            ItemFood food = (ItemFood) it.getItem();
-            inventory.setInventorySlotContents(slot, food.onEaten(item, world, player));
-            if (food.hasContainerItem(item)) W3Util.init.giveOrThrowOut(player, food.getContainerItem(item));
+            ItemFood food = (ItemFood) itemFood.getItem();
+            food.onEaten(itemFood, world, player);
+            if (itemFood.stackSize <= 0) inventory.setInventorySlotContents(slot, null);
             W3Util.init.setInvFromItemStack(item, inventory);
             return item;
         }

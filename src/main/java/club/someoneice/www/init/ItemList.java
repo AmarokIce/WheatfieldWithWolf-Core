@@ -1,7 +1,7 @@
 package club.someoneice.www.init;
 
-import club.someoneice.www.common.bean.item.FoodFactory;
-import club.someoneice.www.common.bean.item.ItemFactory;
+import club.someoneice.www.common.item.factory.FoodFactory;
+import club.someoneice.www.common.item.factory.ItemFactory;
 import club.someoneice.www.common.item.ItemKnife;
 import club.someoneice.www.common.item.ItemLunchBag;
 import club.someoneice.www.common.item.RottenTomato;

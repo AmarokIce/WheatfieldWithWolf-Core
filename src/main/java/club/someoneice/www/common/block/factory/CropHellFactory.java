@@ -1,7 +1,7 @@
-package club.someoneice.www.common.bean.block;
+package club.someoneice.www.common.block.factory;
 
 import club.someoneice.www.WWWMain;
-import club.someoneice.www.common.bean.item.ItemSeedFactory;
+import club.someoneice.www.common.item.factory.ItemHellCrop;
 import club.someoneice.www.init.Tags;
 import club.someoneice.www.util.SeedTagUtil;
 import club.someoneice.www.util.W3Util;
@@ -20,15 +20,14 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.List;
-import java.util.Random;
 
 @SuppressWarnings("unused")
-public class CropFactory extends BlockCrops {
-    public final Item crop, seed;
+public class CropHellFactory extends BlockCrops {
+    protected final Item crop, seed;
     protected final boolean oneOnly;
     public final String name;
 
-    public CropFactory(String name, Item crop, Item seed, boolean oneOnly) {
+    public CropHellFactory(String name, Item crop, Item seed, boolean oneOnly) {
         this.name = name;
         this.crop = crop;
         this.seed = seed;
@@ -38,29 +37,24 @@ public class CropFactory extends BlockCrops {
         this.setBlockTextureName(W3Util.init.getResourceName(name));
         this.setCreativeTab(WWWMain.TABS);
 
-        SeedTagUtil.CROPS.add(this);
-        GameRegistry.registerBlock(this, ItemSeedFactory.class, name);
+        SeedTagUtil.HELL_CROPS.add(this);
+        GameRegistry.registerBlock(this, ItemHellCrop.class, name);
 
         if (this.seed != null) {
             GameRegistry.addShapelessRecipe(new ItemStack(seed, 2), this);
         }
     }
 
-    public CropFactory(String name, Item crop, boolean oneOnly) {
+    public CropHellFactory(String name, Item crop, boolean oneOnly) {
         this(name, crop, null, oneOnly);
     }
 
-    public CropFactory(String name, Item crop) {
+    public CropHellFactory(String name, Item crop) {
         this(name, crop, null, false);
     }
 
-    public CropFactory(String name) {
+    public CropHellFactory(String name) {
         this(name, null, null, false);
-    }
-
-    @Override
-    protected boolean canPlaceBlockOn(Block block) {
-        return Tags.DIRT_TAG.has(block);
     }
 
     IIcon[] icons;
@@ -96,6 +90,12 @@ public class CropFactory extends BlockCrops {
         }
     }
 
+
+    @Override
+    protected boolean canPlaceBlockOn(Block block) {
+        return Tags.SOUL_SAND_TAG.has(block);
+    }
+
     @Override
     public Item func_149866_i() {
         return this.seed != null? seed : Item.getItemFromBlock(this);
@@ -104,11 +104,6 @@ public class CropFactory extends BlockCrops {
     @Override
     public Item func_149865_P() {
         return this.crop != null? this.crop : Item.getItemFromBlock(this);
-    }
-
-    @Override
-    public int quantityDropped(Random random) {
-        return super.quantityDropped(random);
     }
 
     @Override

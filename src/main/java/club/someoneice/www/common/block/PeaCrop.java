@@ -1,6 +1,6 @@
 package club.someoneice.www.common.block;
 
-import club.someoneice.www.common.bean.block.CropFactory;
+import club.someoneice.www.common.block.factory.CropFactory;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

@@ -1,4 +1,4 @@
-package club.someoneice.www.common.bean;
+package club.someoneice.www.common.factory;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;

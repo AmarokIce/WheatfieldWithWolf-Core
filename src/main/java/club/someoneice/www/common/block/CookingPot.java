@@ -20,15 +20,17 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CookingPot extends BlockContainer {
     public CookingPot() {
-        super(Material.rock);
+        super(Material.iron);
         this.setBlockName("pot");
         this.setBlockTextureName(W3Util.init.getResourceName("pot"));
         this.setCreativeTab(WWWMain.TABS);
         this.setBlockBounds(0.15F, 0.0F, 0.15F, 0.85F, 0.4F, 0.85F);
+        this.setHardness(0.05f);
 
         GameRegistry.registerBlock(this, "pot");
     }
@@ -60,6 +62,15 @@ public class CookingPot extends BlockContainer {
     }
 
     @Override
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+        return Lists.newArrayList(new ItemStack(this));
+    }
+
+    public boolean isToolEffective(String type, int metadata) {
+        return true;
+    }
+
+    @Override
     public boolean hasTileEntity(int metadata) {
         return true;
     }
@@ -68,7 +79,6 @@ public class CookingPot extends BlockContainer {
     public TileEntity createNewTileEntity(World world, int meta) {
         return new TilePot(world, meta);
     }
-
 
     @Override
     @SideOnly(Side.CLIENT)

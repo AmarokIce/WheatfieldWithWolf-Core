@@ -1,4 +1,4 @@
-package club.someoneice.www.common.bean.item;
+package club.someoneice.www.common.item.factory;
 
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.util.W3Util;

@@ -1,6 +1,6 @@
-package club.someoneice.www.common.bean.item;
+package club.someoneice.www.common.item.factory;
 
-import club.someoneice.www.common.bean.block.CropWaterFactory;
+import club.someoneice.www.common.block.factory.CropWaterFactory;
 import club.someoneice.www.init.Tags;
 import club.someoneice.www.util.W3Util;
 import cpw.mods.fml.relauncher.Side;

@@ -1,4 +1,4 @@
-package club.someoneice.www.common.bean.item;
+package club.someoneice.www.common.item.factory;
 
 import club.someoneice.togocup.tags.ItemStackTag;
 import club.someoneice.togocup.tags.Tag;
@@ -62,7 +62,7 @@ public class FoodFactory extends ItemFood {
     @Override
     public ItemStack onEaten(ItemStack item, World world, EntityPlayer player) {
         super.onEaten(item, world, player);
-        if (this.returnItem != null) player.inventory.addItemStackToInventory(returnItem);
+        if (this.returnItem != null) W3Util.init.giveOrThrowOut(player, returnItem);
         return item;
     }
 }
