@@ -19,6 +19,10 @@ public class RecipeGrinder {
         this.bottle = bottle;
     }
 
+    public static RecipeGrinder initRecipe(Ingredient input, ItemStack output, @Nullable ItemStack bottle) {
+        return new RecipeGrinder(input, output, 200, bottle);
+    }
+
     public static RecipeGrinder initRecipe(ItemStack input, ItemStack output, @Nullable ItemStack bottle) {
         return new RecipeGrinder(new Ingredient(input), output, 200, bottle);
     }

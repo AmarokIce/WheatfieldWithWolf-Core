@@ -4,7 +4,7 @@ import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.tile.TileCuttingBoard;
 import club.someoneice.www.init.ItemList;
-import club.someoneice.www.proxy.ClientProxy;
+import club.someoneice.www.network.proxy.ClientProxy;
 import club.someoneice.www.util.W3Util;
 import club.someoneice.www.util.WWWApi;
 import com.google.common.collect.Lists;
@@ -30,6 +30,7 @@ public class CuttingBoard extends BlockContainer {
         this.setBlockTextureName(W3Util.init.getResourceName("cutting_board"));
         this.setCreativeTab(WWWMain.TABS);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1F, 1.0F);
+        this.setStepSound(Block.soundTypeWood);
 
         GameRegistry.registerBlock(this, "cutting_board");
     }
@@ -88,6 +89,7 @@ public class CuttingBoard extends BlockContainer {
             world.playSoundEffect(x, y, z, W3Util.init.getResourceName("cutting"), 0.7F, world.rand.nextFloat() * 0.1F + 0.9F);
             if (tile.itemInv.stackSize == 0) tile.setItemInv(null);
             tile.updateItem();
+            player.getHeldItem().damageItem(1, player);
             return true;
         }
 

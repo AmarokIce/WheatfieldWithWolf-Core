@@ -10,10 +10,12 @@ import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +59,7 @@ public class NEIRecipeGrinder extends TemplateRecipeHandler {
     public void loadCraftingRecipes(ItemStack result) {
         if (result == null) findAllRecipe();
         else WWWApi.GRINDER_RECIPES.forEach(it -> {
-            if (Util.itemStackEquals(it.output, result)) arecipes.add(this.getCachedRecipe(it));
+            if (Util.itemStackEquals(it.output, result)) arecipes.add(new RecipeGrinderCached(it));
         });
     }
 
@@ -66,37 +68,54 @@ public class NEIRecipeGrinder extends TemplateRecipeHandler {
         if (ingredient == null) findAllRecipe();
         else if (Util.itemStackEquals(new ItemStack(ItemList.grinder_knife), ingredient)) findAllRecipe();
         else WWWApi.GRINDER_RECIPES.forEach(it -> {
-            if (W3Util.init.compareIngredientContains(it.input, ingredient) || Util.itemStackEquals(it.bottle, ingredient))
-                arecipes.add(this.getCachedRecipe(it));
+            if (W3Util.init.compareIngredientContains(it.input, ingredient))
+                arecipes.add(new RecipeGrinderCached(ingredient, it.bottle, it.output));
+            else if (Util.itemStackEquals(it.bottle, ingredient)) {
+                arecipes.add(new RecipeGrinderCached(it));
+            }
         });
     }
 
     private void findAllRecipe() {
-        WWWApi.GRINDER_RECIPES.stream().map(this::getCachedRecipe).forEach(this.arecipes::add);
+        WWWApi.GRINDER_RECIPES.stream().map(RecipeGrinderCached::new).forEach(this.arecipes::add);
     }
 
-    private CachedRecipe getCachedRecipe(RecipeGrinder it) {
-        return new CachedRecipe() {
-            @Override
-            public List<PositionedStack> getIngredients() {
-                ArrayList<PositionedStack> stacks = Lists.newArrayList();
-                stacks.add(new PositionedStack(it.input.getObj(), 31, 9));
-                if (it.bottle != null) stacks.add(new PositionedStack(it.bottle, 51, 9));
+    private final class RecipeGrinderCached extends CachedRecipe {
+        public final ImmutableList<ItemStack> items;
+        public final @Nullable ItemStack bottle;
+        public final ItemStack output;
 
-                return stacks;
-            }
+        public RecipeGrinderCached(ItemStack input, @Nullable ItemStack bottle, ItemStack output) {
+            this.items = ImmutableList.of(input);
+            this.bottle = bottle;
+            this.output = output;
+        }
 
-            @Override
-            public PositionedStack getResult() {
-                return new PositionedStack(it.output, 106, 23);
-            }
+        public RecipeGrinderCached(RecipeGrinder recipe) {
+            this.items = recipe.input.getObj();
+            this.bottle = recipe.bottle;
+            this.output = recipe.output;
+        }
 
-            @Override
-            public List<PositionedStack> getOtherStacks() {
-                ArrayList<PositionedStack> stacks = Lists.newArrayList();
-                stacks.add(new PositionedStack(new ItemStack(ItemList.grinder_knife), 42, 36));
-                return stacks;
-            }
-        };
+        @Override
+        public List<PositionedStack> getIngredients() {
+            ArrayList<PositionedStack> stacks = Lists.newArrayList();
+            stacks.addAll(this.getCycledIngredients(cycleticks / 48, Lists.newArrayList(new PositionedStack(this.items, 31, 9))));
+            if (this.bottle != null) stacks.add(new PositionedStack(this.bottle, 51, 9));
+
+            return stacks;
+        }
+
+        @Override
+        public PositionedStack getResult() {
+            return new PositionedStack(this.output, 106, 23);
+        }
+
+        @Override
+        public List<PositionedStack> getOtherStacks() {
+            ArrayList<PositionedStack> stacks = Lists.newArrayList();
+            stacks.add(new PositionedStack(new ItemStack(ItemList.grinder_knife), 42, 36));
+            return stacks;
+        }
     }
 }

@@ -1,27 +1,37 @@
 package club.someoneice.www.common.tile;
 
+import club.someoneice.pineapplepsychic.inventory.SimpleInventory;
+import club.someoneice.pineapplepsychic.util.ObjectUtil;
 import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.init.Tags;
 import club.someoneice.www.init.recipe.RecipePot;
 import club.someoneice.www.util.W3Util;
 import club.someoneice.www.util.WWWApi;
 import com.google.common.collect.Lists;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Optional;
 
-public class TilePot extends TileEntity implements IInventory {
-    private final ItemStack[] inventory = new ItemStack[9];
+public class TilePot extends TileEntity {
+    private final SimpleInventory inventory = new SimpleInventory("cooking_pot", 9, this) {
+        @Override
+        public boolean isItemValidForSlot(int slot, ItemStack item) {
+            return slot < 7;
+        }
+
+        @Override
+        public String getInventoryName() {
+            return "www.pot.name";
+        }
+    };
     public int time;
 
     public TilePot(World world, int meta) {
@@ -37,15 +47,13 @@ public class TilePot extends TileEntity implements IInventory {
     @Override
     public void updateEntity() {
         super.updateEntity();
-        if (canBurn() && this.inventory[0] != null) {
-            checkTheRecipe();
-        }
+        if (canBurn() && !this.getItemStackInInventory().isEmpty()) checkTheRecipe();
     }
 
     private void checkTheRecipe() {
         ItemStack[] itemInput = new ItemStack[6];
 
-        for (int i = 0; i < 6; i ++) if (this.inventory[i] != null) itemInput[i] = this.inventory[i];
+        for (int i = 0; i < 6; i ++) if (this.inventory.getStackInSlot(i) != null) itemInput[i] = this.inventory.getStackInSlot(i);
 
         Optional<RecipePot> recipeCup = WWWApi.POT_RECIPES.stream().filter(it -> W3Util.init.compareRecipe(it.input, itemInput)).findFirst();
 
@@ -55,23 +63,22 @@ public class TilePot extends TileEntity implements IInventory {
         }
 
         RecipePot recipe = recipeCup.get();
-        if (++this.time < 200 || (recipe.bowl != null && !Util.itemStackEquals(this.inventory[6], recipe.bowl))) return;
-        if (!this.worldObj.isRemote) crafting(recipe);
+        if (++this.time < 200 || (recipe.bowl != null && !Util.itemStackEquals(this.inventory.getStackInSlot(6), recipe.bowl))) return;
+        crafting(recipe);
         this.time = 0;
     }
 
     private void crafting(RecipePot recipe) {
-        if (this.inventory[7] == null) this.inventory[7] = recipe.output.copy();
-        else if (this.inventory[7].getItem() == recipe.output.getItem()) this.inventory[7].stackSize++;
+        if (this.inventory.getStackInSlot(7) == null) this.inventory.setInventorySlotContents(7, recipe.output.copy());
+        else if (this.inventory.getStackInSlot(7).getItem() == recipe.output.getItem()) this.inventory.getStackInSlot(7).stackSize++;
         else return;
 
-        for (int i = 0; i < 7; i ++) {
-            ItemStack item = this.inventory[i];
+        for (int i = 0; i < 7; i++) {
+            ItemStack item = this.inventory.getStackInSlot(i);
             if (item == null) continue;
             if (item.getItem().hasContainerItem(item))
-                this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.xCoord, this.yCoord + 0.8D, this.zCoord, item.getItem().getContainerItem(item)));
-
-            this.decrStackSize(i, 1);
+                W3Util.init.itemThrowOut(this.worldObj, new ChunkPosition(this.xCoord, this.yCoord + 1, this.zCoord), item.getItem().getContainerItem(item));
+            this.inventory.decrStackSize(i, 1);
         }
     }
 
@@ -83,10 +90,7 @@ public class TilePot extends TileEntity implements IInventory {
     public void writeToNBT(NBTTagCompound nbt) {
         nbt.setInteger("time", this.time);
 
-        for (int i = 0; i < inventory.length; i++) {
-            if (inventory[i] != null)
-                nbt.setTag("craft" + i, inventory[i].writeToNBT(new NBTTagCompound()));
-        }
+        nbt.setTag("inventory", inventory.write());
 
         super.writeToNBT(nbt);
         this.markDirty();
@@ -98,81 +102,19 @@ public class TilePot extends TileEntity implements IInventory {
 
         this.time = nbt.getInteger("time");
 
-        for (int i = 0; i < inventory.length; i++) {
-            if (nbt.hasKey("craft" + i)) {
-                inventory[i] = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("craft" + i));
-            }
-        }
+        if (nbt.hasKey("inventory"))
+            this.inventory.load(nbt.getCompoundTag("inventory"));
     }
 
-    @Override
-    public int getSizeInventory() {
-        return this.inventory.length;
+    public List<ItemStack> getItemStackInInventory() {
+        return ObjectUtil.objectLet(Lists.newArrayList(), it -> {
+            for (int i = 0; i < inventory.getSizeInventory(); i++)
+                it.add(inventory.getStackInSlot(i));
+        });
     }
 
-    @Override
-    public ItemStack getStackInSlot(int slot) {
-        return this.inventory[slot];
-    }
-
-    public ItemStack decrStackSize(int slot, int size) {
-        if (slot >= this.getSizeInventory()) return null;
-        ItemStack item = this.inventory[slot];
-        ItemStack out = item.copy();
-        if (item.stackSize < size) {
-            this.inventory[slot] = null;
-            return out;
-        }
-
-        item.stackSize -= size;
-        out.stackSize = size;
-        return out;
-    }
-
-    @Override
-    public ItemStack getStackInSlotOnClosing(int slot) {
-        if (slot >= this.getSizeInventory()) return null;
-        return this.inventory[slot];
-    }
-
-    @Override
-    public void setInventorySlotContents(int slot, ItemStack item) {
-        this.inventory[slot] = item;
-    }
-
-    @Override
-    public String getInventoryName() {
-        return "www.pot.name";
-    }
-
-    @Override
-    public boolean hasCustomInventoryName() {
-        return false;
-    }
-
-    @Override
-    public int getInventoryStackLimit() {
-        return 64;
-    }
-
-    @Override
-    public boolean isUseableByPlayer(EntityPlayer p_70300_1_) {
-        return true;
-    }
-
-    @Override
-    public void openInventory() {}
-
-    @Override
-    public void closeInventory() {}
-
-    @Override
-    public boolean isItemValidForSlot(int slot, ItemStack item) {
-        return slot < 7;
-    }
-
-    public List<ItemStack> getInventory() {
-        return Lists.newArrayList(this.inventory);
+    public SimpleInventory getInventory() {
+        return this.inventory;
     }
 
     @Override

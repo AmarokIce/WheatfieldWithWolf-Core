@@ -6,6 +6,8 @@ import net.minecraft.block.Block;
 
 @SuppressWarnings("unused")
 public class BlockList {
+    public static void init() {}
+
     /* Crop */
     public static final Block red_beans = new CropFactory("red_beans");
     public static final Block green_beans = new CropFactory("green_beans");
@@ -22,16 +24,16 @@ public class BlockList {
     public static final Block peanut = new CropFactory("peanut");
     public static final Block onion = new CropFactory("onion");
 
-    public static final Block pineapple_crop = new CropFactory("pineapple_seed", ItemList.pineapple);
-    public static final Block strawberry_seed = new CropFactory("strawberry_seed", ItemList.strawberry);
-    public static final Block tomato_seed = new TomatoCrop();
+    public static final Block pineapple_crop = new CropFactory("pineapple_seed", ItemList.pineapple).setHavenLevel(5);
+    public static final Block strawberry_seed = new CropFactory("strawberry_seed", ItemList.strawberry).setHavenLevel(5);
+    public static final Block tomato_seed = new TomatoCrop().setHavenLevel(5);
     public static final Block cucumber_seed = new CropFactory("cucumber_seed", ItemList.cucumber);
     public static final Block eggplant_seed = new CropFactory("eggplant_seed", ItemList.eggplant);
     public static final Block leek_seed = new CropFactory("leek_seed", ItemList.leek);
     public static final Block cabbage_seed = new CropFactory("cabbage_seed", ItemList.cabbage);
     public static final Block asparagus_seed = new CropFactory("asparagus_seed", ItemList.asparagus);
     public static final Block lettuce_seed = new CropFactory("lettuce_seed", ItemList.lettuce);
-    public static final Block okra_seed = new CropFactory("okra_seed", ItemList.okra);
+    public static final Block okra_seed = new CropFactory("okra_seed", ItemList.okra).setHavenLevel(3);
     public static final Block spinach_seed = new CropFactory("spinach_seed", ItemList.spinach);
     public static final Block tea_leaves_seed = new CropFactory("tea_leaves_seed", ItemList.tea_leaves);
     public static final Block beetroot_seed = new CropFactory("beetroot_seed", ItemList.beetroot);
@@ -60,4 +62,6 @@ public class BlockList {
     public static final Block grinder = new Grinder();
     public static final Block cutting_board = new CuttingBoard();
     public static final Block pot = new CookingPot();
+
+    public static final Block cheese_wheel = new CheeseWheel();
 }

@@ -110,20 +110,22 @@ public class CropHellFactory extends BlockCrops {
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int face, float hitX, float hitY, float hitZ) {
         super.onBlockActivated(world, x, y, z, player, face, hitX, hitY, hitX);
 
-        if (!world.isRemote) {
-            int meta = world.getBlockMetadata(x, y, z);
-            if (meta == 7) {
-                List<ItemStack> rat = Lists.newArrayList();
+        if (world.isRemote) return false;
 
-                rat.add(new ItemStack(this.func_149865_P(), this.oneOnly ? 1 : world.rand.nextInt(5) + 1));
-                if (world.rand.nextInt(10) > 6) rat.add(new ItemStack(this.func_149866_i()));
-                for (ItemStack item : rat) world.spawnEntityInWorld(new EntityItem(world, x, y + 0.5D, z, item));
+        int meta = world.getBlockMetadata(x, y, z);
+        if (meta < 7) return false;
+        List<ItemStack> rat = Lists.newArrayList();
 
-                world.setBlockMetadataWithNotify(x, y, z, 0, 2);
-                return true;
-            }
-        }
+        rat.add(new ItemStack(this.func_149865_P(), this.oneOnly ? 1 : world.rand.nextInt(5) + 1));
+        if (world.rand.nextInt(10) > 6) rat.add(new ItemStack(this.func_149866_i()));
+        for (ItemStack item : rat) world.spawnEntityInWorld(new EntityItem(world, x, y + 0.5D, z, item));
 
-        return false;
+        world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+        return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_) {
+        return this.seed;
     }
 }

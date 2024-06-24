@@ -1,7 +1,7 @@
 package club.someoneice.www.common.item;
 
-import club.someoneice.www.common.item.factory.ItemFactory;
 import club.someoneice.www.common.entity.EntityRottenTomato;
+import club.someoneice.www.common.item.factory.ItemFactory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;

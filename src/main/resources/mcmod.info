@@ -7,7 +7,7 @@
       "mcversion": "${mcversion}",
       "url": "https://www.mcmod.cn/class/12755.html",
       "updateUrl": "https://github.com/AmarokIce/WheatfieldWithWolf-Core",
-      "authorList": "Someoneice",
+      "authorList": ["Someoneice"],
       "credits": "Someoneice",
       "logoFile": "",
       "screenshots": [],

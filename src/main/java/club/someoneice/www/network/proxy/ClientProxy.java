@@ -1,4 +1,4 @@
-package club.someoneice.www.proxy;
+package club.someoneice.www.network.proxy;
 
 import club.someoneice.www.client.renderer.CuttingBoardRenderer;
 import club.someoneice.www.client.renderer.PotRenderer;

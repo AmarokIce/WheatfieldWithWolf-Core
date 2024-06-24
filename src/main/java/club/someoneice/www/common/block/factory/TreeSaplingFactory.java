@@ -5,10 +5,13 @@ import club.someoneice.www.common.factory.TreeFactory;
 import club.someoneice.www.init.Tags;
 import club.someoneice.www.util.W3Util;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -91,5 +94,10 @@ public class TreeSaplingFactory extends BlockBush implements IGrowable {
         int l = world.getBlockMetadata(x, y, z);
         if ((l & 8) == 0) world.setBlockMetadataWithNotify(x, y, z, l | 8, 3);
         else this.growTree(world, x, y, z, rand);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_) {
+        return Item.getItemFromBlock(this);
     }
 }

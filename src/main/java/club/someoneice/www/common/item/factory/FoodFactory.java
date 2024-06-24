@@ -12,6 +12,8 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
+
 public class FoodFactory extends ItemFood {
     protected ItemStack returnItem;
     private final boolean isDrink, fast;
@@ -39,13 +41,13 @@ public class FoodFactory extends ItemFood {
         this(name, hunger, saturation, false, false, false, false, null);
     }
 
-    public FoodFactory addTag(Tag<Item> tag) {
+    public FoodFactory addTag(Tag<Item>  tag) {
         tag.put(this);
         return this;
     }
 
-    public FoodFactory addTag(ItemStackTag tag) {
-        tag.put(new ItemStack(this));
+    public FoodFactory addTag(ItemStackTag ... tag) {
+        Arrays.stream(tag).forEach( it -> it.put(new ItemStack(this)));
         return this;
     }
 

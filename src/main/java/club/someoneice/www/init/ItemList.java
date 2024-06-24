@@ -1,13 +1,15 @@
 package club.someoneice.www.init;
 
-import club.someoneice.www.common.item.factory.FoodFactory;
-import club.someoneice.www.common.item.factory.ItemFactory;
 import club.someoneice.www.common.item.ItemKnife;
 import club.someoneice.www.common.item.ItemLunchBag;
 import club.someoneice.www.common.item.RottenTomato;
+import club.someoneice.www.common.item.factory.FoodFactory;
+import club.someoneice.www.common.item.factory.ItemFactory;
 import net.minecraft.item.Item;
 
 public class ItemList {
+    public static void init() {}
+
     /* crop */
     public static final Item pineapple = new FoodFactory("pineapple", 3, 0.1F).addTag(Tags.FRUIT_TAG);
     public static final Item strawberry = new FoodFactory("strawberry", 1, 0.1F, false, true).addTag(Tags.FRUIT_TAG);
@@ -30,7 +32,7 @@ public class ItemList {
 
     /* Tree fruit */
     public static final Item lemon = new FoodFactory("lemon", 2, 0.1F).addTag(Tags.FRUIT_TAG);
-    public static final Item olive = new FoodFactory("olive", 2, 0.1F).addTag(Tags.FRUIT_TAG);
+    public static final Item olive = new FoodFactory("olive", 2, 0.1F).addTag(Tags.FRUIT_TAG, Tags.OIL_CROP_TAG);
     public static final Item orange = new FoodFactory("orange", 2, 0.1F).addTag(Tags.FRUIT_TAG);
     public static final Item pear = new FoodFactory("pear", 2, 0.1F).addTag(Tags.FRUIT_TAG);
     public static final Item peach = new FoodFactory("peach", 2, 0.1F).addTag(Tags.FRUIT_TAG);
@@ -39,10 +41,10 @@ public class ItemList {
 
     /* Food */
     public static final Item cinnamon = new FoodFactory("cinnamon", 1, 0.2F);
-    public static final Item oil = new ItemFactory("oil");
-    public static final Item butter = new ItemFactory("butter");
+    public static final Item oil = new ItemFactory("oil").addTag(Tags.OIL_TAG);
+    public static final Item butter = new ItemFactory("butter").addTag(Tags.MILK);
     public static final Item salt = new ItemFactory("salt");
-    public static final Item cheese = new FoodFactory("cheese", 2, 0.5F);
+    public static final Item cheese = new FoodFactory("cheese", 2, 0.5F).addTag(Tags.MILK);
     public static final Item cornmeal = new FoodFactory("cornmeal", 2, 0.4F);
 
     /* Item */

@@ -3,6 +3,8 @@ package club.someoneice.www.common.block.factory;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.util.W3Util;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,7 +58,7 @@ public class LeafFactory extends BlockLeaves {
         super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
         int meta = world.getBlockMetadata(x, y, z);
         if (meta >= 1) {
-            player.inventory.addItemStackToInventory(new ItemStack(this.fruit, world.rand.nextInt(3) + 1));
+            W3Util.init.giveOrThrowOut(player, new ItemStack(fruit, world.rand.nextInt(3) + 1));
             world.setBlockMetadataWithNotify(x, y, z, 0, 2);
             return true;
         }
@@ -77,5 +79,10 @@ public class LeafFactory extends BlockLeaves {
     @Override
     public boolean isOpaqueCube() {
         return false;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_) {
+        return Item.getItemFromBlock(this);
     }
 }

@@ -1,5 +1,7 @@
 package club.someoneice.www.common.tile;
 
+import club.someoneice.pineapplepsychic.inventory.SimpleInventory;
+import club.someoneice.pineapplepsychic.util.ObjectUtil;
 import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.init.ItemList;
 import club.someoneice.www.init.recipe.RecipeGrinder;
@@ -22,7 +24,22 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
     private static final int[] slotsBottom = new int[] { 2, 1 };
     private static final int[] slotsSides = new int[] { 1 };
 
-    private final ItemStack[] inventory = new ItemStack[4];
+    private final SimpleInventory inventory = new SimpleInventory(4) {
+        @Override
+        public String getInventoryName() {
+            return "www.grinder.name";
+        }
+
+        @Override
+        public boolean isItemValidForSlot(int slot, ItemStack item) {
+            if (slot == 0) return false;
+            else if (slot == 1) return item.getItem() == ItemList.grinder_knife;
+            else if (slot == 2) return true;
+            else if (slot == 3) return true;
+
+            return true;
+        }
+    };
 
     public int time, burnTime;
 
@@ -34,8 +51,8 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
     @Override
     public void updateEntity() {
         super.updateEntity();
-        if (!canBurn() || this.inventory[0] == null) time = 0;
-        WWWApi.GRINDER_RECIPES.stream().filter(it -> W3Util.init.compareIngredientContains(it.input, this.inventory[0])).findFirst().ifPresent(it -> {
+        if (!canBurn() || this.inventory.getStackInSlot(0) == null) time = 0;
+        WWWApi.GRINDER_RECIPES.stream().filter(it -> W3Util.init.compareIngredientContains(it.input, this.inventory.getStackInSlot(0))).findFirst().ifPresent(it -> {
             if (time < it.cooking_time) {
                 burnTime--;
                 ++time;
@@ -54,7 +71,7 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
 
     private boolean checkTheBottle(RecipeGrinder recipe) {
         if (recipe.bottle == null) return true;
-        if (Util.itemStackEquals(this.inventory[3], recipe.bottle)) {
+        if (Util.itemStackEquals(this.inventory.getStackInSlot(3), recipe.bottle)) {
             decrStackSize(3, 1);
             return true;
         }
@@ -62,9 +79,10 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
     }
 
     private void setOutput(RecipeGrinder recipe) {
-        if (this.inventory[2] == null) this.inventory[2] = recipe.output.copy();
-        else if (this.inventory[2].getItem() == recipe.output.getItem() && inventory[2].stackSize < inventory[2].getMaxStackSize()) {
-            this.inventory[2].stackSize += recipe.output.stackSize;
+        ItemStack item = this.inventory.getStackInSlot(2);
+        if (item == null) this.inventory.setInventorySlotContents(2, recipe.output.copy());
+        else if (item.getItem() == recipe.output.getItem() && inventory.getStackInSlot(2).stackSize < inventory.getStackInSlot(2).getMaxStackSize()) {
+            item.stackSize += recipe.output.stackSize;
         }
     }
 
@@ -73,10 +91,7 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
         nbt.setInteger("time", this.time);
         nbt.setInteger("burn", this.burnTime);
 
-        for (int i = 0; i < inventory.length; i++) {
-            if (inventory[i] != null)
-                nbt.setTag("craft" + i, inventory[i].writeToNBT(new NBTTagCompound()));
-        }
+        nbt.setTag("inventory", this.inventory.write());
 
         super.writeToNBT(nbt);
         this.markDirty();
@@ -89,15 +104,14 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
         this.time       = nbt.getInteger("time");
         this.burnTime   = nbt.getInteger("burn");
 
-        for (int i = 0; i < inventory.length; i++) {
-            if (nbt.hasKey("craft" + i)) {
-                inventory[i] = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("craft" + i));
-            }
-        }
+        if (nbt.hasKey("inventory"))
+            this.inventory.load(nbt.getCompoundTag("inventory"));
     }
 
     private boolean canBurn() {
-        if (this.inventory[1] != null && this.inventory[1].getItem() == ItemList.grinder_knife && burnTime <= 0) {
+        if (this.inventory.getStackInSlot(1) != null
+                && this.inventory.getStackInSlot(1).getItem() == ItemList.grinder_knife
+                && burnTime <= 0) {
             decrStackSize(1, 1);
             this.burnTime = 8000;
             markDirty();
@@ -123,47 +137,37 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
 
     @Override
     public int getSizeInventory() {
-        return this.inventory.length;
+        return this.inventory.getSizeInventory();
     }
 
     @Override
     public ItemStack getStackInSlot(int slot) {
-        return this.inventory[slot];
+        return this.inventory.getStackInSlot(slot);
     }
 
     @Override
     public ItemStack decrStackSize(int slot, int size) {
-        if (slot >= this.getSizeInventory()) return null;
-        ItemStack item = this.inventory[slot];
-        ItemStack out = item.copy();
-        if (item.stackSize < size) {
-            this.inventory[slot] = null;
-            return out;
-        }
-
-        item.stackSize -= size;
-        out.stackSize = size;
-        return out;
+        return this.inventory.decrStackSize(slot, size);
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int p_70304_1_) {
-        return null;
+    public ItemStack getStackInSlotOnClosing(int slot) {
+        return this.inventory.getStackInSlotOnClosing(slot);
     }
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack item) {
-        this.inventory[slot] = item;
+        this.inventory.setInventorySlotContents(slot, item);
     }
 
     @Override
     public String getInventoryName() {
-        return "www.grinder.name";
+        return this.inventory.getInventoryName();
     }
 
     @Override
     public boolean hasCustomInventoryName() {
-        return false;
+        return this.inventory.hasCustomInventoryName();
     }
 
     @Override
@@ -178,24 +182,28 @@ public class TileGrinder extends TileEntity implements ISidedInventory {
 
     @Override
     public void openInventory() {
+        this.inventory.openInventory();
     }
 
     @Override
     public void closeInventory() {
+        this.inventory.closeInventory();
     }
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack item) {
-        if (slot == 0) return false;
-        else if (slot == 1) return item.getItem() == ItemList.grinder_knife;
-        else if (slot == 2) return true;
-        else if (slot == 3) return true;
-
-        return true;
+        return this.inventory.isItemValidForSlot(slot, item);
     }
 
-    public List<ItemStack> getInventory() {
-        return Lists.newArrayList(this.inventory);
+    public List<ItemStack> getItemStackInInventory() {
+        return ObjectUtil.objectLet(Lists.newArrayList(), it -> {
+            for (int i = 0; i < inventory.getSizeInventory(); i++)
+                it.add(inventory.getStackInSlot(i));
+        });
+    }
+
+    public SimpleInventory getInventory() {
+        return this.inventory;
     }
 
     @Override

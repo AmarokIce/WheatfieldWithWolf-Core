@@ -18,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.List;
 import java.util.Random;
@@ -44,6 +45,8 @@ public class CropFactory extends BlockCrops {
         if (this.seed != null) {
             GameRegistry.addShapelessRecipe(new ItemStack(seed, 2), this);
         }
+
+        OreDictionary.registerOre(this.name, this);
     }
 
     public CropFactory(String name, Item crop, boolean oneOnly) {
@@ -61,6 +64,13 @@ public class CropFactory extends BlockCrops {
     @Override
     protected boolean canPlaceBlockOn(Block block) {
         return Tags.DIRT_TAG.has(block);
+    }
+
+    private int havenLevel = 0;
+
+    public CropFactory setHavenLevel(int i) {
+        this.havenLevel = i;
+        return this;
     }
 
     IIcon[] icons;
@@ -115,20 +125,22 @@ public class CropFactory extends BlockCrops {
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int face, float hitX, float hitY, float hitZ) {
         super.onBlockActivated(world, x, y, z, player, face, hitX, hitY, hitX);
 
-        if (!world.isRemote) {
-            int meta = world.getBlockMetadata(x, y, z);
-            if (meta == 7) {
-                List<ItemStack> rat = Lists.newArrayList();
+        if (world.isRemote) return false;
+        int meta = world.getBlockMetadata(x, y, z);
+        if (meta < 7) return false;
+        List<ItemStack> rat = Lists.newArrayList();
 
-                rat.add(new ItemStack(this.func_149865_P(), this.oneOnly ? 1 : world.rand.nextInt(5) + 1));
-                if (world.rand.nextInt(10) > 6) rat.add(new ItemStack(this.func_149866_i()));
-                for (ItemStack item : rat) world.spawnEntityInWorld(new EntityItem(world, x, y + 0.5D, z, item));
+        rat.add(new ItemStack(this.func_149865_P(), this.oneOnly ? 1 : world.rand.nextInt(5) + 1));
+        if (world.rand.nextInt(10) > 6) rat.add(new ItemStack(this.func_149866_i()));
+        for (ItemStack item : rat) world.spawnEntityInWorld(new EntityItem(world, x, y + 0.5D, z, item));
 
-                world.setBlockMetadataWithNotify(x, y, z, 0, 2);
-                return true;
-            }
-        }
+        world.setBlockMetadataWithNotify(x, y, z, havenLevel, 2);
+        return true;
 
-        return false;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_) {
+        return this.seed;
     }
 }

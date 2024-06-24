@@ -11,15 +11,13 @@ import net.minecraft.item.ItemStack;
 
 
 public class ContainerLunchBag extends Container {
-    private final String uuid;
     private final SimpleInventory inventory;
-
+    private final ItemStack itemIn;
 
     public ContainerLunchBag(InventoryPlayer player) {
-        final ItemStack itemInHand = player.getCurrentItem();
+        this.itemIn = player.getCurrentItem();
 
-        this.uuid = itemInHand.getTagCompound().getString("inv_uuid");
-        this.inventory = W3Util.init.getInvFromItemStack(itemInHand, 3);
+        this.inventory = W3Util.init.getInvFromItemStack(itemIn, 3);
 
         for (int l = 0; l < 3; ++l) this.addSlotToContainer(new SlotLunch(inventory, l, 53 + l * 27, 31));
 
@@ -30,24 +28,19 @@ public class ContainerLunchBag extends Container {
     @Override
     public void onContainerClosed(EntityPlayer player) {
         super.onContainerClosed(player);
-
-        if (!canInteractWith(player)) return;
-        final ItemStack item = player.getHeldItem();
-        W3Util.init.setInvFromItemStack(item, this.inventory);
+        W3Util.init.setInvFromItemStack(itemIn, this.inventory);
     }
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        final ItemStack item = player.getHeldItem();
-        if (item == null) return false;
-        String uuid = item.getTagCompound().getString("inv_uuid");
-        return !uuid.isEmpty() && uuid.equals(this.uuid);
+        return this.itemIn != null && player != null && player.getHeldItem() == this.itemIn;
     }
 
     public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber) {
         Slot slot = (Slot) this.inventorySlots.get(slotNumber);
         if (slot == null || !slot.getHasStack()) return null;
         ItemStack item = slot.getStack();
+        if (item == this.itemIn) return item;
         if (!(item.getItem() instanceof ItemFood)) return mergeItemStackInPlayer(slotNumber, item, slot);
         else return mergeFood(slotNumber, item, slot);
     }

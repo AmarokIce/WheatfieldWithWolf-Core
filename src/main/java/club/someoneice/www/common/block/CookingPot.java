@@ -2,7 +2,7 @@ package club.someoneice.www.common.block;
 
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.tile.TilePot;
-import club.someoneice.www.proxy.ClientProxy;
+import club.someoneice.www.network.proxy.ClientProxy;
 import club.someoneice.www.util.W3Util;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -14,6 +14,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
@@ -31,6 +32,7 @@ public class CookingPot extends BlockContainer {
         this.setCreativeTab(WWWMain.TABS);
         this.setBlockBounds(0.15F, 0.0F, 0.15F, 0.85F, 0.4F, 0.85F);
         this.setHardness(0.05f);
+        this.setStepSound(Block.soundTypeMetal);
 
         GameRegistry.registerBlock(this, "pot");
     }
@@ -54,7 +56,7 @@ public class CookingPot extends BlockContainer {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity instanceof TilePot) {
             TilePot tile = (TilePot) tileEntity;
-            list.addAll(tile.getInventory());
+            list.addAll(tile.getItemStackInInventory());
         }
 
         W3Util.init.itemThrowOut(world, new ChunkPosition(x, y, z), list);
@@ -106,5 +108,10 @@ public class CookingPot extends BlockContainer {
         super.onBlockPlacedBy(world, x, y, z, entity, item);
         int face = MathHelper.floor_double((double) (entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
         world.setBlockMetadataWithNotify(x, y, z, face, 2);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_) {
+        return Item.getItemFromBlock(this);
     }
 }

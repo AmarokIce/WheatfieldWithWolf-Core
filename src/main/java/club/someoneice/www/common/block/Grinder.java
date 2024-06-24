@@ -13,7 +13,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -34,6 +33,7 @@ public class Grinder extends BlockContainer {
         this.setBlockName("grinder");
         this.setBlockTextureName(W3Util.init.getResourceName("grinder"));
         this.setCreativeTab(WWWMain.TABS);
+        this.setStepSound(Block.soundTypeMetal);
 
         GameRegistry.registerBlock(this, "grinder");
     }
@@ -66,7 +66,7 @@ public class Grinder extends BlockContainer {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity instanceof TileGrinder) {
             TileGrinder tile = (TileGrinder) tileEntity;
-            list.addAll(tile.getInventory());
+            list.addAll(tile.getItemStackInInventory());
         }
 
         W3Util.init.itemThrowOut(world, new ChunkPosition(x, y, z), list);

@@ -12,7 +12,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
 
 @SuppressWarnings("all")
 public class ItemLunchBag extends ItemFactory {
@@ -22,22 +21,21 @@ public class ItemLunchBag extends ItemFactory {
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack item, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+    public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player) {
         onUse(item, world, player);
-        return true;
+        return item;
     }
 
     private static void onUse(ItemStack item, World world, EntityPlayer player) {
         initNBT(item);
-        if (player.isSneaking()) player.openGui(WWWMain.INSTANCE, 2, world, player.serverPosX, player.serverPosY, player.serverPosZ);
-        else if (player.canEat(false)) player.setItemInUse(item, 32);
+        if (player.isSneaking()) {
+            if (!world.isRemote) player.openGui(WWWMain.INSTANCE, 2, world, player.serverPosX, player.serverPosY, player.serverPosZ);
+        } else if (player.canEat(false)) player.setItemInUse(item, 32);
     }
 
     private static void initNBT(@Nonnull ItemStack item) {
         if (item.stackTagCompound == null) item.stackTagCompound = new NBTTagCompound();
         NBTTagCompound nbt = item.getTagCompound();
-        if (nbt.hasKey("inv_uuid")) return;
-        nbt.setString("inv_uuid", UUID.randomUUID().toString());
     }
 
     @Override

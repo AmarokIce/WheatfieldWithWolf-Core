@@ -6,6 +6,7 @@ import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.togocup.tags.Ingredient;
 import club.someoneice.www.WWWMain;
 import com.google.common.collect.Lists;
+import net.minecraft.block.BlockCrops;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,11 +24,11 @@ public class W3Util {
     private W3Util() {}
 
     public String getResourceName(String name) {
-        return WWWMain.MODID + ":" + name;
+        return String.format("%s:%s", WWWMain.MODID, name);
     }
 
     public <A> boolean arraySame(A[] aArray, A[] bArray){
-        if (aArray.length != bArray.length) return false;
+        if (!checkArraySizeSame(aArray, bArray)) return false;
         List<Integer> intArray = Lists.newArrayList();
 
         for (A a : aArray) {
@@ -46,7 +47,7 @@ public class W3Util {
     }
 
     public boolean compareRecipe(final Ingredient[] recipeIn, final ItemStack[] input) {
-        if (recipeIn.length != input.length) return false;
+        if (!checkArraySizeSame(recipeIn, input)) return false;
         List<Integer> intArray = Lists.newArrayList();
         for (Ingredient recipeIngredient : recipeIn) {
             if (recipeIngredient == null || recipeIngredient.getObj().isEmpty()) continue;
@@ -74,15 +75,17 @@ public class W3Util {
     }
 
     public void giveOrThrowOut(EntityPlayer player, ItemStack item) {
+        if (player.worldObj.isRemote) return;
         if (player.inventory.addItemStackToInventory(item)) return;
         player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, item));
     }
 
     public void itemThrowOut(World world, ChunkPosition pos, ItemStack ... item) {
-        itemThrowOut(world, pos, ObjectUtil.objectRun(Lists.newArrayList(), it -> { it.addAll(Arrays.asList(item)); }));
+        itemThrowOut(world, pos, ObjectUtil.objectLet(Lists.newArrayList(), it -> it.addAll(Arrays.asList(item))));
     }
 
     public void itemThrowOut(World world, ChunkPosition pos, List<ItemStack> item) {
+        if (world.isRemote) return;
         item.forEach(it -> {
             if (it == null) return;
             else if (it.getItem() == null) return;
@@ -91,17 +94,16 @@ public class W3Util {
     }
 
     public boolean stackArraySame(ItemStack[] A, ItemStack[] B) {
-        if (A.length != B.length) return false;
+        if (!checkArraySizeSame(A, B)) return false;
         List<Integer> intArray = Lists.newArrayList();
         for (ItemStack a : A) {
             if (a == null) continue;
             boolean has = false;
             for (int i = 0; i < A.length; i++) {
-                if (!intArray.contains(i) && Util.itemStackEquals(a, B[i])) {
-                    intArray.add(i);
-                    has = true;
-                    break;
-                }
+                if (intArray.contains(i) || !Util.itemStackEquals(a, B[i])) continue;
+                intArray.add(i);
+                has = true;
+                break;
             }
             if (!has) return false;
         }
@@ -109,10 +111,25 @@ public class W3Util {
         return true;
     }
 
+    public boolean checkArraySizeSame(Object[] A, Object[] B) {
+        List<Object> objectsA = ObjectUtil.objectLet(Lists.newArrayList(), it ->
+                Arrays.stream(A).forEach(item -> {
+                    if (item == null) return;
+                    it.add(item);
+                }));
+        List<Object> objectsB = ObjectUtil.objectLet(Lists.newArrayList(), it ->
+            Arrays.stream(B).forEach(item -> {
+                if (item == null) return;
+                it.add(item);
+            }));
+
+        return objectsA.size() == objectsB.size();
+    }
+
     @SuppressWarnings("all")
     public SimpleInventory getInvFromItemStack(ItemStack item, int size) {
-        if (item == null || item.getTagCompound() == null) return null;
         SimpleInventory inventory = new SimpleInventory(size);
+        if (item == null || item.getTagCompound() == null) return inventory;
         if (item.getTagCompound().hasKey("inv_data"))
             inventory.load(item.getTagCompound().getCompoundTag("inv_data"));
         return inventory;

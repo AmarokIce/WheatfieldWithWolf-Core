@@ -11,6 +11,6 @@ public class SlotLunch extends Slot {
     }
 
     public boolean isItemValid(ItemStack item) {
-        return item.getItem() instanceof ItemFood;
+        return item == null || item.getItem() instanceof ItemFood;
     }
 }
