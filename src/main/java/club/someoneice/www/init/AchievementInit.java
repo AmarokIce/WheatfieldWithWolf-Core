@@ -18,8 +18,6 @@ public class AchievementInit {
 
     public static AchievementPage page;
 
-    public static void init() {}
-
     static {
         Welcome = register("welcome", 0, 0, new ItemStack(Items.wheat), null, true);
         TimeToCook = register("time_to_cook", -1, -1, new ItemStack(BlockList.pot));

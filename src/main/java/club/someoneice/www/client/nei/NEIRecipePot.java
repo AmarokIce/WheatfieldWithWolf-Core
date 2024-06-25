@@ -1,5 +1,6 @@
 package club.someoneice.www.client.nei;
 
+import club.someoneice.pineapplepsychic.util.MatchUtil;
 import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.togocup.tags.Ingredient;
 import club.someoneice.www.WWWMain;
@@ -10,10 +11,13 @@ import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +62,7 @@ public class NEIRecipePot extends TemplateRecipeHandler {
     public void loadCraftingRecipes(ItemStack result) {
         if (result == null) findAllRecipe();
         else WWWApi.POT_RECIPES.forEach(it -> {
-            if (Util.itemStackEquals(it.output, result)) arecipes.add(this.getCachedRecipe(it));
+            if (Util.itemStackEquals(it.output, result)) arecipes.add(new RecipePotCached(it));
         });
     }
 
@@ -67,33 +71,57 @@ public class NEIRecipePot extends TemplateRecipeHandler {
         if (ingredient == null) findAllRecipe();
         else WWWApi.POT_RECIPES.forEach(it -> {
             if (Arrays.stream(it.input).anyMatch(in -> W3Util.init.compareIngredientContains(in, ingredient)))
-                arecipes.add(this.getCachedRecipe(it));
+                arecipes.add(new RecipePotCached(ingredient, it));
+            if (Util.itemStackEquals(ingredient, it.bowl)) arecipes.add(new RecipePotCached(it));
         });
     }
 
     private void findAllRecipe() {
-        WWWApi.POT_RECIPES.stream().map(this::getCachedRecipe).forEach(this.arecipes::add);
+        WWWApi.POT_RECIPES.stream().map(RecipePotCached::new).forEach(this.arecipes::add);
     }
 
-    private CachedRecipe getCachedRecipe(RecipePot it) {
-        return new CachedRecipe() {
-            @Override
-            public List<PositionedStack> getIngredients() {
-                ArrayList<PositionedStack> stacks = Lists.newArrayList();
-                for (int h = 0; h < 2; h ++) for (int l = 0; l < 3; l ++) {
-                    Ingredient ingredient = it.input[l + h * 3];
-                    if (ingredient != null) stacks.add(new PositionedStack(ingredient.getObj(), 33 + l * 18, 10 + h * 18));
-                }
+    private final class RecipePotCached extends CachedRecipe {
+        public final ImmutableList<Ingredient> items;
+        public final @Nullable ItemStack item;
+        public final @Nullable ItemStack bowl;
+        public final ItemStack output;
 
-                if (it.bowl != null) stacks.add(new PositionedStack(it.bowl, 91, 40));
+        public RecipePotCached(@Nonnull ItemStack input, RecipePot recipe) {
+            this.items = ImmutableList.copyOf(recipe.input);
+            this.item = input;
+            this.bowl = recipe.bowl;
+            this.output = recipe.output;
+        }
 
-                return stacks;
+        public RecipePotCached(RecipePot recipe) {
+            this.items = ImmutableList.copyOf(recipe.input);
+            this.item = null;
+            this.bowl = recipe.bowl;
+            this.output = recipe.output;
+        }
+
+        @Override
+        public List<PositionedStack> getIngredients() {
+            ArrayList<PositionedStack> stacks = Lists.newArrayList();
+            for (int h = 0; h < 2; h ++) for (int l = 0; l < 3; l ++) {
+                Ingredient ingredient = this.items.get(l + h * 3);
+                if (ingredient == null) continue;
+                if (item != null && MatchUtil.matchItemStackInIngredient(ingredient, item))
+                    stacks.add(new PositionedStack(this.item, 33 + l * 18, 10 + h * 18));
+                else
+                    stacks.addAll(this.getCycledIngredients(cycleticks / 48, Lists.newArrayList(new PositionedStack(ingredient.getObj(), 33 + l * 18, 10 + h * 18))));
+
+
             }
 
-            @Override
-            public PositionedStack getResult() {
-                return new PositionedStack(it.output, 117, 20);
-            }
-        };
+            if (this.bowl != null) stacks.add(new PositionedStack(this.bowl, 91, 40));
+
+            return stacks;
+        }
+
+        @Override
+        public PositionedStack getResult() {
+            return new PositionedStack(this.output, 117, 20);
+        }
     }
 }

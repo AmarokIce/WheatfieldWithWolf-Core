@@ -2,6 +2,22 @@ buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
+
+        maven {
+            name = "aliyun-public"
+            url = "https://maven.aliyun.com/nexus/content/groups/public/"
+        }
+
+        maven {
+            name = "lss233-repo"
+            url = "https://lss233.littleservice.cn/repositories/forgedev"
+        }
+
+        maven {
+            name = "gradle-plugin"
+            url = "https://maven.aliyun.com/repository/gradle-plugin"
+        }
+
         maven {
             url = "https://jcenter.bintray.com/"
         }
@@ -90,7 +106,6 @@ dependencies {
 
     implementation "club.someoneice.pineapplepsychic:pineapple-psychic:${project.psychic_version}"
     implementation "club.someoneice.togocup.pineapple_tag:pineapple-tag:${project.tags_version}"
-    // implementation "club.someoneice.togocup.recipebook:PineappleRecipeBook:${project.recipe_book_version}"
 
     implementation "maven.modrinth:notenoughitems-unofficial:${project.nei_version}-GTNH"
     implementation "maven.modrinth:codechickencore-unofficial:${project.cc_version}"

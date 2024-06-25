@@ -6,8 +6,6 @@ import net.minecraft.block.Block;
 
 @SuppressWarnings("unused")
 public class BlockList {
-    public static void init() {}
-
     /* Crop */
     public static final Block red_beans = new CropFactory("red_beans");
     public static final Block green_beans = new CropFactory("green_beans");
@@ -15,13 +13,13 @@ public class BlockList {
     public static final Block pea = new PeaCrop();
     public static final Block coffee_beans = new CropFactory("coffee_beans");
     public static final Block chickpeas = new CropFactory("chickpeas");
-    public static final Block soybean = new CropFactory("soybean");
-    public static final Block sesame = new CropFactory("sesame");
+    public static final Block soybean = new CropFactory("soybean").addTag(Tags.MILKABLE_PLANT_TAG);
+    public static final Block sesame = new CropFactory("sesame").addTag(Tags.OIL_CROP_TAG);
     public static final Block kale = new CropFactory("kale");
     public static final Block sweet_potato = new CropFactory("sweetpotato");
     public static final Block ginger = new CropFactory("ginger");
     public static final Block garlic = new CropFactory("garlic");
-    public static final Block peanut = new CropFactory("peanut");
+    public static final Block peanut = new CropFactory("peanut").addTag(Tags.OIL_CROP_TAG);
     public static final Block onion = new CropFactory("onion");
 
     public static final Block pineapple_crop = new CropFactory("pineapple_seed", ItemList.pineapple).setHavenLevel(5);

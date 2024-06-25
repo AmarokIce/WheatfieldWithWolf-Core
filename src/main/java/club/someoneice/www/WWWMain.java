@@ -13,7 +13,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -21,7 +20,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = WWWMain.MODID, name = WWWMain.MODNAME, version = WWWMain.VERSION, dependencies = "required-after:pineapple_tags", useMetadata = true)
@@ -30,7 +28,7 @@ public class WWWMain {
     public static final String MODNAME = "Wheatfield With Wolf";
     public static final String VERSION = "@VERSION@";
 
-    public static final Logger LOG = LogManager.getLogger(MODID);
+    public static  Logger LOG;
 
     @SidedProxy(modId = WWWMain.MODID, clientSide = "club.someoneice.www.network.proxy.ClientProxy", serverSide = "club.someoneice.www.network.proxy.CommonProxy")
     public static CommonProxy proxy;
@@ -48,15 +46,18 @@ public class WWWMain {
     @Mod.EventHandler
     public void initPre(FMLPreInitializationEvent event) {
         INSTANCE = this;
+        LOG = event.getModLog();
 
-        ItemList.init();
-        BlockList.init();
+        new ItemList();
+        new BlockList();
     }
 
     @Mod.EventHandler @SuppressWarnings("all")
     public void initCommon(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
-        AchievementInit.init();
+        new AchievementInit();
+        new Tags();
+
         Recipes.INSTANCE.init();
 
         tileInit();
@@ -68,11 +69,6 @@ public class WWWMain {
         SimpleNetWorkHandler.init();
 
         registryEvent(new EventBlockEvent());
-    }
-
-    @Mod.EventHandler
-    public void initPost(FMLPostInitializationEvent event) {
-        new Tags();
     }
 
     private void tileInit() {

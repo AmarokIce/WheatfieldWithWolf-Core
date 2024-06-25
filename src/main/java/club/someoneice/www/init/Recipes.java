@@ -33,9 +33,9 @@ public class Recipes {
     }
 
     private void recipeCutting() {
-        WWWApi.CUT_RECIPES.put(new ItemStack(Items.porkchop)        , new ItemStack(ItemList.bacon, 3));
-        WWWApi.CUT_RECIPES.put(new ItemStack(Items.beef)            , new ItemStack(ItemList.meat_stuffing, 3));
-        WWWApi.CUT_RECIPES.put(new ItemStack(Items.chicken)         , new ItemStack(ItemList.chicken_breast, 3));
+        WWWApi.CUT_RECIPES.put(new ItemStack(Items.porkchop)        , new ItemStack(ItemList.bacon, 2));
+        WWWApi.CUT_RECIPES.put(new ItemStack(Items.beef)            , new ItemStack(ItemList.meat_stuffing, 2));
+        WWWApi.CUT_RECIPES.put(new ItemStack(Items.chicken)         , new ItemStack(ItemList.chicken_breast, 2));
         WWWApi.CUT_RECIPES.put(new ItemStack(ItemList.eggplant)     , new ItemStack(ItemList.cut_eggplant, 3));
         WWWApi.CUT_RECIPES.put(new ItemStack(ItemList.tomato)       , new ItemStack(ItemList.cut_tomato, 3));
         WWWApi.CUT_RECIPES.put(new ItemStack(Items.potato)          , new ItemStack(ItemList.cut_potato, 3));
@@ -55,6 +55,7 @@ public class Recipes {
         WWWApi.POT_RECIPES.add(new RecipePot(new ItemStack(ItemList.butter), null, Items.milk_bucket, ItemList.salt));
         WWWApi.POT_RECIPES.add(new RecipePot(new ItemStack(ItemList.salt), null, Items.water_bucket, Items.paper));
         WWWApi.POT_RECIPES.add(new RecipePot(new ItemStack(ItemList.cooked_cut_onion), null, ItemList.cut_onion, ItemList.oil));
+        WWWApi.POT_RECIPES.add(new RecipePot(new ItemStack(ItemList.artificial_meat), null, new Ingredient(Tags.MEATABLE_PLANT_TAG), new Ingredient(Tags.MEATABLE_PLANT_TAG), new Ingredient(Tags.MEATABLE_PLANT_TAG), new Ingredient(ItemList.salt)));
     }
 
     private void recipeSmelting() {
@@ -63,13 +64,13 @@ public class Recipes {
         GameRegistry.addSmelting(ItemList.chicken_breast, new ItemStack(ItemList.cooked_chicken_breast), 0.2f);
         GameRegistry.addSmelting(ItemList.cut_eggplant, new ItemStack(ItemList.cooked_cut_eggplant), 0.2f);
         GameRegistry.addSmelting(ItemList.bread_slice, new ItemStack(ItemList.toast), 0.2f);
+        GameRegistry.addSmelting(ItemList.cornmeal, new ItemStack(Items.bread), 0.2f);
     }
 
     private void recipeGrinder() {
         WWWApi.GRINDER_RECIPES.add(RecipeGrinder.initRecipe(new Ingredient(Tags.OIL_CROP_TAG), new ItemStack(ItemList.oil), new ItemStack(Items.glass_bottle)));
+        WWWApi.GRINDER_RECIPES.add(RecipeGrinder.initRecipe(new Ingredient(Tags.MILKABLE_PLANT_TAG), new ItemStack(ItemList.plant_base_milk), new ItemStack(Items.glass_bottle)));
         WWWApi.GRINDER_RECIPES.add(RecipeGrinder.initRecipe(new ItemStack(Items.wheat_seeds), new ItemStack(ItemList.cornmeal, 2), null));
     }
-
-
 }
 

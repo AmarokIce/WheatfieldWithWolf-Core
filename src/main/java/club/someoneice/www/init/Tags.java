@@ -23,9 +23,11 @@ public class Tags {
     public static final ItemStackTag FRUIT_TAG = creativeItemStackTag("fruit", Blocks.melon_block, Items.melon, Items.apple, Items.golden_apple);
     public static final ItemStackTag VEGETABLE_TAG = creativeItemStackTag("vegetable", Blocks.pumpkin, Items.potato, Items.carrot, Items.golden_carrot);
     public static final ItemStackTag MEAT_TAG = creativeItemStackTag("meat", Items.porkchop, Items.cooked_porkchop, Items.chicken, Items.cooked_chicken, Items.beef, Items.cooked_beef);
-    public static final ItemStackTag OIL_CROP_TAG = creativeItemStackTag("oil_crop", BlockList.peanut, BlockList.sesame);
+    public static final ItemStackTag OIL_CROP_TAG = creativeItemStackTag("oil_crop");
+    public static final ItemStackTag MILKABLE_PLANT_TAG = creativeItemStackTag("milkable_plants");
+    public static final ItemStackTag MEATABLE_PLANT_TAG = creativeItemStackTag("meatable_plants");
 
-    public static final ItemStackTag MILK = creativeItemStackTag("milk", Items.milk_bucket, BlockList.cheese_wheel);
+    public static final ItemStackTag MILK = creativeItemStackTag("milk", Items.milk_bucket);
     public static final ItemStackTag OIL_TAG = creativeItemStackTag("oil");
 
     public Tags() {

@@ -3,6 +3,7 @@ package club.someoneice.www.common.block;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.item.ItemKnife;
 import club.someoneice.www.init.ItemList;
+import club.someoneice.www.init.Tags;
 import club.someoneice.www.util.W3Util;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -33,6 +34,8 @@ public class CheeseWheel extends BlockCake {
         this.setCreativeTab(WWWMain.TABS);
 
         GameRegistry.registerBlock(this, name);
+
+        Tags.MILK.put(new ItemStack(this));
     }
 
     @SideOnly(Side.CLIENT)

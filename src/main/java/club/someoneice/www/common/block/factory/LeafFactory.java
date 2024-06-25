@@ -56,14 +56,12 @@ public class LeafFactory extends BlockLeaves {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
+        if (world.isRemote) return false;
         int meta = world.getBlockMetadata(x, y, z);
-        if (meta >= 1) {
-            W3Util.init.giveOrThrowOut(player, new ItemStack(fruit, world.rand.nextInt(3) + 1));
-            world.setBlockMetadataWithNotify(x, y, z, 0, 2);
-            return true;
-        }
-
-        return false;
+        if (meta < 1) return false;
+        W3Util.init.giveOrThrowOut(player, new ItemStack(fruit, world.rand.nextInt(3) + 1));
+        world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+        return true;
     }
 
     @Override

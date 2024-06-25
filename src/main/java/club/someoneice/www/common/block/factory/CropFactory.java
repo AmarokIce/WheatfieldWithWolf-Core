@@ -1,5 +1,6 @@
 package club.someoneice.www.common.block.factory;
 
+import club.someoneice.togocup.tags.ItemStackTag;
 import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.item.factory.ItemSeedFactory;
 import club.someoneice.www.init.Tags;
@@ -20,6 +21,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -59,6 +61,11 @@ public class CropFactory extends BlockCrops {
 
     public CropFactory(String name) {
         this(name, null, null, false);
+    }
+
+    public CropFactory addTag(ItemStackTag... tag) {
+        Arrays.stream(tag).forEach(it -> it.put(new ItemStack(this)));
+        return this;
     }
 
     @Override

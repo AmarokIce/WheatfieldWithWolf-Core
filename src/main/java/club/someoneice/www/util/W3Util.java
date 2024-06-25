@@ -6,7 +6,6 @@ import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.togocup.tags.Ingredient;
 import club.someoneice.www.WWWMain;
 import com.google.common.collect.Lists;
-import net.minecraft.block.BlockCrops;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
