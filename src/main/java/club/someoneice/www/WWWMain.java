@@ -56,7 +56,6 @@ public class WWWMain {
     public void initCommon(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
         new AchievementInit();
-        new Tags();
 
         Recipes.INSTANCE.init();
 
@@ -64,6 +63,7 @@ public class WWWMain {
         EntityInit();
 
         SeedTagUtil.inputTags();
+        Tags.registerToOD();
 
         proxy.initRender();
         SimpleNetWorkHandler.init();

@@ -13,11 +13,11 @@ public class ItemList {
     /* crop */
     public static final Item pineapple = new FoodFactory("pineapple", 3, 0.1F).addTag(Tags.FRUIT_TAG);
     public static final Item strawberry = new FoodFactory("strawberry", 1, 0.1F, false, true).addTag(Tags.FRUIT_TAG);
-    public static final Item tomato = new FoodFactory("tomato", 3, 0.2F, true, false).addTag(Tags.FRUIT_TAG);
+    public static final Item tomato = new FoodFactory("tomato", 3, 0.2F, true, false).addTag(Tags.FRUIT_TAG, Tags.TOMATO_TAG);
     public static final Item cherry_tomato = new FoodFactory("cherry_tomato", 2, 0.2F, true, true).addTag(Tags.FRUIT_TAG);
     public static final Item rotten_tomato = new RottenTomato();
     public static final Item cucumber = new FoodFactory("cucumber", 3, 0.2F, false, false).addTag(Tags.VEGETABLE_TAG);
-    public static final Item eggplant = new FoodFactory("eggplant", 3, 0.2F, false, false).addTag(Tags.VEGETABLE_TAG).addTag(Tags.MEATABLE_PLANT_TAG);
+    public static final Item eggplant = new FoodFactory("eggplant", 3, 0.2F, false, false).addTag(Tags.VEGETABLE_TAG, Tags.MEATABLE_PLANT_TAG, Tags.EGGPLANT_TAG);
     public static final Item leek = new FoodFactory("leek", 3, 0.2F, false, false).addTag(Tags.VEGETABLE_TAG);
     public static final Item cabbage = new FoodFactory("cabbage", 3, 0.2F, false, false).addTag(Tags.VEGETABLE_TAG);
     public static final Item asparagus = new FoodFactory("asparagus", 3, 0.2F, false, false).addTag(Tags.VEGETABLE_TAG);
@@ -56,19 +56,19 @@ public class ItemList {
     public static final Item lunch_bag = new ItemLunchBag();
 
     /* Cutting */
-    public static final Item bacon = new FoodFactory("bacon", 2, 0.3F).addTag(Tags.MEAT_TAG);
-    public static final Item chicken_breast = new FoodFactory("chicken_breast", 2, 0.3F).addTag(Tags.MEAT_TAG);
-    public static final Item meat_stuffing = new FoodFactory("meat_stuffing", 2, 0.3F).addTag(Tags.MEAT_TAG);
-    public static final Item cut_potato = new FoodFactory("cut_potato", 1, 0.1F).addTag(Tags.VEGETABLE_TAG);
-    public static final Item cut_tomato = new FoodFactory("cut_tomato", 1, 0.1F).addTag(Tags.FRUIT_TAG);
-    public static final Item cut_onion = new FoodFactory("cut_onion", 1, 0.1F).addTag(Tags.VEGETABLE_TAG);
-    public static final Item cut_eggplant = new FoodFactory("cut_eggplant", 1, 0.1F).addTag(Tags.VEGETABLE_TAG).addTag(Tags.MEATABLE_PLANT_TAG);
-    public static final Item bread_slice = new FoodFactory("bread_slice", 1, 0.2F);
+    public static final Item bacon = new FoodFactory("bacon", 2, 0.3F).addTag(Tags.MEAT_TAG, Tags.PORK_TAG, Tags.ALL_PORK_TAG);
+    public static final Item chicken_breast = new FoodFactory("chicken_breast", 2, 0.3F).addTag(Tags.MEAT_TAG, Tags.CHICKEN_TAG, Tags.ALL_CHICKEN_TAG);
+    public static final Item meat_stuffing = new FoodFactory("meat_stuffing", 2, 0.3F).addTag(Tags.MEAT_TAG, Tags.BEEF_TAG, Tags.ALL_BEEF_TAG);
+    public static final Item cut_potato = new FoodFactory("cut_potato", 1, 0.1F).addTag(Tags.VEGETABLE_TAG, Tags.POTATO_TAG);
+    public static final Item cut_tomato = new FoodFactory("cut_tomato", 1, 0.1F).addTag(Tags.FRUIT_TAG, Tags.TOMATO_TAG);
+    public static final Item cut_onion = new FoodFactory("cut_onion", 1, 0.1F).addTag(Tags.VEGETABLE_TAG, Tags.ONION_TAG);
+    public static final Item cut_eggplant = new FoodFactory("cut_eggplant", 1, 0.1F).addTag(Tags.VEGETABLE_TAG, Tags.MEATABLE_PLANT_TAG, Tags.EGGPLANT_TAG);
+    public static final Item bread_slice = new FoodFactory("bread_slice", 1, 0.2F).addTag(Tags.BREAD_TAG);
 
-    public static final Item cooked_bacon = new FoodFactory("cooked_bacon", 5, 0.3F).addTag(Tags.MEAT_TAG);
-    public static final Item cooked_chicken_breast = new FoodFactory("cooked_chicken_breast", 4, 0.3F).addTag(Tags.MEAT_TAG);
-    public static final Item cooked_meat_stuffing = new FoodFactory("cooked_meat_stuffing", 8, 0.3F).addTag(Tags.MEAT_TAG);
-    public static final Item cooked_cut_eggplant = new FoodFactory("cooked_cut_eggplant", 4, 0.3F).addTag(Tags.VEGETABLE_TAG).addTag(Tags.MEATABLE_PLANT_TAG);
+    public static final Item cooked_bacon = new FoodFactory("cooked_bacon", 5, 0.3F).addTag(Tags.MEAT_TAG, Tags.ALL_PORK_TAG);
+    public static final Item cooked_chicken_breast = new FoodFactory("cooked_chicken_breast", 4, 0.3F).addTag(Tags.MEAT_TAG, Tags.ALL_CHICKEN_TAG);
+    public static final Item cooked_meat_stuffing = new FoodFactory("cooked_meat_stuffing", 8, 0.3F).addTag(Tags.MEAT_TAG, Tags.ALL_BEEF_TAG);
+    public static final Item cooked_cut_eggplant = new FoodFactory("cooked_cut_eggplant", 4, 0.3F).addTag(Tags.VEGETABLE_TAG, Tags.MEATABLE_PLANT_TAG);
     public static final Item cooked_cut_onion = new FoodFactory("cooked_cut_onion", 1, 0.1F).addTag(Tags.VEGETABLE_TAG);
-    public static final Item toast = new FoodFactory("toast", 4, 0.3F);
+    public static final Item toast = new FoodFactory("toast", 4, 0.3F).addTag(Tags.BREAD_TAG);
 }

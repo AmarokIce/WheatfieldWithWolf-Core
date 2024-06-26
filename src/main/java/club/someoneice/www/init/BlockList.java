@@ -20,7 +20,7 @@ public class BlockList {
     public static final Block ginger = new CropFactory("ginger");
     public static final Block garlic = new CropFactory("garlic");
     public static final Block peanut = new CropFactory("peanut").addTag(Tags.OIL_CROP_TAG);
-    public static final Block onion = new CropFactory("onion");
+    public static final Block onion = new CropFactory("onion").addTag(Tags.ONION_TAG);
 
     public static final Block pineapple_crop = new CropFactory("pineapple_seed", ItemList.pineapple).setHavenLevel(5);
     public static final Block strawberry_seed = new CropFactory("strawberry_seed", ItemList.strawberry).setHavenLevel(5);
