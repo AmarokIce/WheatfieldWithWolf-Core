@@ -11,7 +11,6 @@ import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
@@ -19,8 +18,7 @@ import org.lwjgl.opengl.GL11;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class NEIRecipePot extends TemplateRecipeHandler {
@@ -81,20 +79,20 @@ public class NEIRecipePot extends TemplateRecipeHandler {
     }
 
     private final class RecipePotCached extends CachedRecipe {
-        public final ImmutableList<Ingredient> items;
+        public final List<Ingredient> items;
         public final @Nullable ItemStack item;
         public final @Nullable ItemStack bowl;
         public final ItemStack output;
 
         public RecipePotCached(@Nonnull ItemStack input, RecipePot recipe) {
-            this.items = ImmutableList.copyOf(recipe.input);
+            this.items = Lists.newArrayList(Arrays.stream(recipe.input).iterator());
             this.item = input;
             this.bowl = recipe.bowl;
             this.output = recipe.output;
         }
 
         public RecipePotCached(RecipePot recipe) {
-            this.items = ImmutableList.copyOf(recipe.input);
+            this.items = Lists.newArrayList(Arrays.stream(recipe.input).iterator());
             this.item = null;
             this.bowl = recipe.bowl;
             this.output = recipe.output;
