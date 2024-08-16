@@ -1,7 +1,7 @@
 package club.someoneice.www.common.tile;
 
+import club.someoneice.cookie.util.ObjectUtil;
 import club.someoneice.pineapplepsychic.inventory.SimpleInventory;
-import club.someoneice.pineapplepsychic.util.ObjectUtil;
 import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.init.Tags;
 import club.someoneice.www.init.recipe.RecipePot;

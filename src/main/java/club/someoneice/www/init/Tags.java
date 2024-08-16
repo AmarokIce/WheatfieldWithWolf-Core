@@ -1,6 +1,6 @@
 package club.someoneice.www.init;
 
-import club.someoneice.pineapplepsychic.util.ObjectUtil;
+import club.someoneice.cookie.util.ObjectUtil;
 import club.someoneice.togocup.tags.ItemStackTag;
 import club.someoneice.togocup.tags.Tag;
 import club.someoneice.togocup.tags.TagsManager;
@@ -64,11 +64,12 @@ public class Tags {
     }
 
     private static ItemStackTag creativeItemStackTag(String name, Object ... o) {
-        return ObjectUtil.objectLet(TagsManager.manager().registerItemStackTag(name),
-                tag -> Arrays.stream(o).forEach(it -> {
-                    if (it instanceof Item)             tag.put(new ItemStack((Item) it));
-                    else if (it instanceof Block)       tag.put(new ItemStack((Block) it));
-                    else if (it instanceof ItemStack)   tag.put((ItemStack) it);
-        }));
+        return ObjectUtil.objectLet(TagsManager.manager().registerItemStackTag(name), tag -> {
+            Arrays.stream(o).forEach(it -> {
+                if (it instanceof Item) tag.put(new ItemStack((Item) it));
+                else if (it instanceof Block) tag.put(new ItemStack((Block) it));
+                else if (it instanceof ItemStack) tag.put((ItemStack) it);
+            });
+        });
     }
 }

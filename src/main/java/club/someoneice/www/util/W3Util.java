@@ -1,7 +1,7 @@
 package club.someoneice.www.util;
 
+import club.someoneice.cookie.util.ObjectUtil;
 import club.someoneice.pineapplepsychic.inventory.SimpleInventory;
-import club.someoneice.pineapplepsychic.util.ObjectUtil;
 import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.togocup.tags.Ingredient;
 import club.someoneice.www.WWWMain;
@@ -80,7 +80,9 @@ public class W3Util {
     }
 
     public void itemThrowOut(World world, ChunkPosition pos, ItemStack ... item) {
-        itemThrowOut(world, pos, ObjectUtil.objectLet(Lists.newArrayList(), it -> it.addAll(Arrays.asList(item))));
+        itemThrowOut(world, pos, ObjectUtil.objectLet(Lists.newArrayList(), it -> {
+            it.addAll(Arrays.asList(item));
+        }));
     }
 
     public void itemThrowOut(World world, ChunkPosition pos, List<ItemStack> item) {
@@ -111,16 +113,20 @@ public class W3Util {
     }
 
     public boolean checkArraySizeSame(Object[] A, Object[] B) {
-        List<Object> objectsA = ObjectUtil.objectLet(Lists.newArrayList(), it ->
-                Arrays.stream(A).forEach(item -> {
-                    if (item == null) return;
-                    it.add(item);
-                }));
-        List<Object> objectsB = ObjectUtil.objectLet(Lists.newArrayList(), it ->
-            Arrays.stream(B).forEach(item -> {
-                if (item == null) return;
-                it.add(item);
-            }));
+        List<Object> objectsA = ObjectUtil.objectLet(Lists.newArrayList(), it -> {
+                    Arrays.stream(A).forEach(item -> {
+                        if (item == null) return;
+                        it.add(item);
+                    });
+                }
+        );
+        List<Object> objectsB = ObjectUtil.objectLet(Lists.newArrayList(), it -> {
+                    Arrays.stream(B).forEach(item -> {
+                        if (item == null) return;
+                        it.add(item);
+                    });
+                }
+        );
 
         return objectsA.size() == objectsB.size();
     }
