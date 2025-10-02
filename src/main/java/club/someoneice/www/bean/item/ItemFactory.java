@@ -16,7 +16,7 @@ public class ItemFactory extends Item {
     this.setTextureName(W3Util.init.getResourceName(name));
     this.setCreativeTab(WWWMain.TABS);
 
-    GameRegistry.registerItem(this, name, WWWMain.ID);
+    GameRegistry.registerItem(this, name);
   }
 
   public ItemFactory addTag(Tag<Item> tag) {

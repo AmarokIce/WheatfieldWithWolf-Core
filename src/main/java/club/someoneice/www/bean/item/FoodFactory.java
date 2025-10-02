@@ -30,7 +30,7 @@ public class FoodFactory extends ItemFood {
     this.returnItem = returnItem;
     this.isDrink = isDrink;
 
-    GameRegistry.registerItem(this, name, WWWMain.ID);
+    GameRegistry.registerItem(this, name);
   }
 
   public FoodFactory(String name, int hunger, float saturation, boolean wolf, boolean fast) {

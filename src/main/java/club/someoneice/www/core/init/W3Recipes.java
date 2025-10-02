@@ -3,6 +3,7 @@ package club.someoneice.www.core.init;
 import club.someoneice.togocup.tags.Ingredient;
 import club.someoneice.www.api.recipe.RecipeGrinder;
 import club.someoneice.www.api.recipe.RecipePot;
+import club.someoneice.www.common.item.ItemKnife;
 import club.someoneice.www.util.WWWApi;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
@@ -27,7 +28,7 @@ public class W3Recipes {
   private void recipeCommon() {
     GameRegistry.addShapedRecipe(new ItemStack(W3Blocks.pot), "WWW", "RSR", "RRR", 'W', Blocks.planks, 'R', Items.iron_ingot, 'S', Items.stick);
     GameRegistry.addShapedRecipe(new ItemStack(W3Blocks.cutting_board), "R  ", "WWW", 'R', Items.iron_ingot, 'W', Blocks.planks);
-    GameRegistry.addShapedRecipe(new ItemStack(W3Items.knife), "  R", " R ", "S  ", 'R', Items.iron_ingot, 'S', Items.stick);
+    GameRegistry.addShapedRecipe(ItemKnife.RECIPE_HELPER.get(), "  R", " R ", "S  ", 'R', Items.iron_ingot, 'S', Items.stick);
     GameRegistry.addShapedRecipe(new ItemStack(W3Items.grinder_knife, 6), "RR ", " R ", " RR", 'R', Items.iron_ingot);
     GameRegistry.addShapedRecipe(new ItemStack(W3Blocks.grinder), "BKB", "RFR", "BRB", 'B', Blocks.brick_block, 'R', Blocks.stonebrick, 'K', W3Items.grinder_knife, 'F', Blocks.furnace);
     GameRegistry.addShapedRecipe(new ItemStack(W3Items.lunch_bag), " P ", "P P", "PPP", 'P', Items.paper);

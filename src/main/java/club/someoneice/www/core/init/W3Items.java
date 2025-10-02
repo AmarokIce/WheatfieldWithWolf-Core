@@ -52,7 +52,7 @@ public class W3Items {
 
   /* Item */
   public static final Item grinder_knife = new ItemFactory("grinder_knife");
-  public static final Item knife = new ItemKnife("knife");
+  public static final Item knife = new ItemKnife();
   public static final Item lunch_bag = new ItemLunchBag();
 
   /* Cutting */
