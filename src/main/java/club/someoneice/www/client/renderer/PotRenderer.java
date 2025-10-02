@@ -2,9 +2,7 @@ package club.someoneice.www.client.renderer;
 
 import club.someoneice.www.core.WWWMain;
 import cpw.mods.fml.client.FMLClientHandler;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
@@ -19,8 +17,6 @@ public class PotRenderer extends TileEntitySpecialRenderer {
   public PotRenderer() {
     this.model = AdvancedModelLoader.loadModel(objModelLocation);
   }
-
-  private final EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld, 0.0D, 0.0D, 0.0D);
 
   @Override
   public void renderTileEntityAt(TileEntity tileEntity, double posX, double posY, double posZ, float f) {

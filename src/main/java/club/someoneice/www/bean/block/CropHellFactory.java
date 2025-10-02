@@ -73,10 +73,6 @@ public class CropHellFactory extends BlockCrops {
   @SideOnly(Side.CLIENT)
   public IIcon getIcon(int side, int meta) {
     switch (meta) {
-      case 0:
-      case 1:
-      default:
-        return this.icons[0];
       case 2:
       case 3:
         return this.icons[1];
@@ -87,6 +83,10 @@ public class CropHellFactory extends BlockCrops {
       case 7:
       case 8:
         return this.icons[3];
+      case 0:
+      case 1:
+      default:
+        return this.icons[0];
     }
   }
 

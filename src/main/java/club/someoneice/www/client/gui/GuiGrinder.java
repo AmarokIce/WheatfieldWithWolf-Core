@@ -32,7 +32,7 @@ public class GuiGrinder extends GuiContainer {
     }
 
     if (tile.time > 0) {
-      int process = (int) (Math.floor(tile.time) * (20 / 200.0D));
+      int process = (int) ((double) tile.time * (20 / 200.0D));
       this.drawTexturedModalRect(foo + 79, bar + 37, 176, 17, process, 11);
     }
   }
