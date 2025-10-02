@@ -1,6 +1,6 @@
 package club.someoneice.www.common.item;
 
-import club.someoneice.www.common.item.factory.ItemFactory;
+import club.someoneice.www.bean.item.ItemFactory;
 import club.someoneice.www.core.init.W3Items;
 import net.minecraft.item.Item;
 

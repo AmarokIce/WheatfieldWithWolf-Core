@@ -2,8 +2,8 @@ package club.someoneice.www.core;
 
 import club.someoneice.www.common.entity.EntityRottenTomato;
 import club.someoneice.www.core.init.*;
-import club.someoneice.www.core.network.SimpleNetWorkHandler;
-import club.someoneice.www.core.network.proxy.CommonProxy;
+import club.someoneice.www.network.SimpleNetWorkHandler;
+import club.someoneice.www.network.proxy.CommonProxy;
 import club.someoneice.www.event.EventBlockEvent;
 import club.someoneice.www.util.SeedTagUtil;
 import cpw.mods.fml.common.FMLCommonHandler;

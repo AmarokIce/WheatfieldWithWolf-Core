@@ -1,7 +1,7 @@
 package club.someoneice.www.common.item;
 
 import club.someoneice.pineapplepsychic.inventory.SimpleInventory;
-import club.someoneice.www.common.item.factory.ItemFactory;
+import club.someoneice.www.bean.item.ItemFactory;
 import club.someoneice.www.core.WWWMain;
 import club.someoneice.www.util.W3Util;
 import net.minecraft.entity.player.EntityPlayer;

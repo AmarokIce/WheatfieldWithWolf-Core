@@ -1,7 +1,7 @@
 package club.someoneice.www.core.init;
 
+import club.someoneice.www.bean.block.*;
 import club.someoneice.www.common.block.*;
-import club.someoneice.www.common.block.factory.*;
 import net.minecraft.block.Block;
 
 @SuppressWarnings("unused")

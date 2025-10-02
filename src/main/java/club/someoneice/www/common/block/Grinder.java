@@ -25,7 +25,7 @@ import java.util.List;
 public class Grinder extends BlockContainer {
   IIcon topIcon;
   IIcon sideIcon;
-  IIcon buttomIcon;
+  IIcon bottomIcon;
 
   public Grinder() {
     super(Material.rock);
@@ -48,12 +48,16 @@ public class Grinder extends BlockContainer {
   public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
     super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
     TileEntity tileEntity = world.getTileEntity(x, y, z);
-    if (!(tileEntity instanceof TileGrinder)) return false;
+    if (!(tileEntity instanceof TileGrinder)) {
+      return false;
+    }
+
     TileGrinder tile = (TileGrinder) tileEntity;
     if (!world.isRemote) {
       ((EntityPlayerMP) player).playerNetServerHandler.sendPacket(tile.getDescriptionPacket());
       player.openGui(WWWMain.INSTANCE, 0, world, x, y, z);
     }
+
     return true;
   }
 
@@ -85,15 +89,14 @@ public class Grinder extends BlockContainer {
     blockIcon = icon.registerIcon(WWWMain.ID + ":grinder_side");
     this.sideIcon = icon.registerIcon(WWWMain.ID + ":grinder_side");
     this.topIcon = icon.registerIcon(WWWMain.ID + ":grinder_top");
-    this.buttomIcon = icon.registerIcon(WWWMain.ID + ":grinder_bottom");
+    this.bottomIcon = icon.registerIcon(WWWMain.ID + ":grinder_bottom");
   }
 
   @SideOnly(Side.CLIENT)
   @Override
   public IIcon getIcon(int side, int meta) {
     if (side == 1) return topIcon;
-    if (side == 0) return buttomIcon;
-
+    if (side == 0) return bottomIcon;
     return sideIcon;
   }
 }

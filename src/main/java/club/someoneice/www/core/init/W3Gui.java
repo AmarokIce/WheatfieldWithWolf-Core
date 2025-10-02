@@ -1,11 +1,11 @@
 package club.someoneice.www.core.init;
 
-import club.someoneice.www.client.gui.grinder.ContainerGrinder;
-import club.someoneice.www.client.gui.grinder.GuiGrinder;
-import club.someoneice.www.client.gui.lunchBag.ContainerLunchBag;
-import club.someoneice.www.client.gui.lunchBag.GuiLunchBag;
-import club.someoneice.www.client.gui.pot.ContainerPot;
-import club.someoneice.www.client.gui.pot.GuiPot;
+import club.someoneice.www.common.container.ContainerGrinder;
+import club.someoneice.www.client.gui.GuiGrinder;
+import club.someoneice.www.common.container.ContainerLunchBag;
+import club.someoneice.www.client.gui.GuiLunchBag;
+import club.someoneice.www.common.container.ContainerPot;
+import club.someoneice.www.client.gui.GuiPot;
 import club.someoneice.www.common.tile.TileGrinder;
 import club.someoneice.www.common.tile.TilePot;
 import cpw.mods.fml.common.network.IGuiHandler;

@@ -4,7 +4,7 @@ import club.someoneice.pineapplepsychic.util.Util;
 import club.someoneice.www.common.tile.TileCuttingBoard;
 import club.someoneice.www.core.WWWMain;
 import club.someoneice.www.core.init.W3Items;
-import club.someoneice.www.core.network.proxy.ClientProxy;
+import club.someoneice.www.network.proxy.ClientProxy;
 import club.someoneice.www.util.W3Util;
 import club.someoneice.www.util.WWWApi;
 import com.google.common.collect.Lists;
