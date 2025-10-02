@@ -4,16 +4,6 @@ buildscript {
         mavenCentral()
 
         maven {
-            name = "aliyun-public"
-            url = "https://maven.aliyun.com/nexus/content/groups/public/"
-        }
-
-        maven {
-            name = "lss233-repo"
-            url = "https://lss233.littleservice.cn/repositories/forgedev"
-        }
-
-        maven {
             name = "gradle-plugin"
             url = "https://maven.aliyun.com/repository/gradle-plugin"
         }
@@ -78,12 +68,6 @@ repositories {
     }
 
     maven {
-        name "Amarok Maven"
-        url "http://maven.snowlyicewolf.club/"
-        allowInsecureProtocol true
-    }
-
-    maven {
         name "Curse Maven"
         url "https://cursemaven.com"
     }
@@ -95,6 +79,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
     if (project.enableUsingKotlin.toBoolean()) {
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
         implementation "curse.maven:AJSCore-445557:$asjcore_laster"
@@ -104,8 +90,8 @@ dependencies {
         implementation "curse.maven:MysteriumLib-645051:3963822"
     }
 
-    implementation "club.someoneice.pineapplepsychic:pineapple-psychic:${project.psychic_version}"
-    implementation "club.someoneice.togocup.pineapple_tag:pineapple-tag:${project.tags_version}"
+    implementation "maven.modrinth:pineapple-psychic:${project.psychic_version}"
+    implementation "maven.modrinth:pineappletags:${project.tags_version}"
 
     implementation "maven.modrinth:notenoughitems-unofficial:${project.nei_version}-GTNH"
     implementation "maven.modrinth:codechickencore-unofficial:${project.cc_version}"

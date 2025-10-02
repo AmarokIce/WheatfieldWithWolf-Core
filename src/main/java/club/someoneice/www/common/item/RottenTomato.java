@@ -7,23 +7,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class RottenTomato extends ItemFactory {
-    public RottenTomato() {
-        super("rotten_tomato");
+  public RottenTomato() {
+    super("rotten_tomato");
+  }
+
+  public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player) {
+    if (!player.capabilities.isCreativeMode) {
+      --item.stackSize;
     }
 
-    public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player) {
-        if (!player.capabilities.isCreativeMode)
-        {
-            --item.stackSize;
-        }
+    world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-        world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
-        if (!world.isRemote)
-        {
-            world.spawnEntityInWorld(new EntityRottenTomato(world, player));
-        }
-
-        return item;
+    if (!world.isRemote) {
+      world.spawnEntityInWorld(new EntityRottenTomato(world, player));
     }
+
+    return item;
+  }
 }

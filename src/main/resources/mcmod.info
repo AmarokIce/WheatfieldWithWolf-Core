@@ -2,7 +2,7 @@
     {
       "modid": "wheatfieldwithwolf",
       "name": "WheatField With Wolf",
-      "description": "We must be the best farm's Mod in 1.7.10!",
+      "description": "We must be the best farm's mod in 1.7.10!",
       "version": "${version}",
       "mcversion": "${mcversion}",
       "url": "https://www.mcmod.cn/class/12755.html",
@@ -11,6 +11,8 @@
       "credits": "Someoneice",
       "logoFile": "",
       "screenshots": [],
-      "dependencies": []
+      "dependencies": [
+        "required-after:pineapple_tags"
+      ]
     }
 ]

@@ -1,8 +1,8 @@
 package club.someoneice.www.common.block.factory;
 
-import club.someoneice.www.WWWMain;
 import club.someoneice.www.common.item.factory.ItemWaterCrop;
-import club.someoneice.www.init.Tags;
+import club.someoneice.www.core.WWWMain;
+import club.someoneice.www.core.init.W3Tags;
 import club.someoneice.www.util.SeedTagUtil;
 import club.someoneice.www.util.W3Util;
 import com.google.common.collect.Lists;
@@ -27,113 +27,113 @@ import static net.minecraftforge.common.EnumPlantType.Water;
 
 @SuppressWarnings("unused")
 public class CropWaterFactory extends BlockCrops {
-    protected final Item crop, seed;
-    protected final boolean oneOnly;
-    public final String name;
+  protected final Item crop, seed;
+  protected final boolean oneOnly;
+  public final String name;
 
-    public CropWaterFactory(String name, Item crop, Item seed, boolean oneOnly) {
-        this.name = name;
-        this.crop = crop;
-        this.seed = seed;
-        this.oneOnly = oneOnly;
+  public CropWaterFactory(String name, Item crop, Item seed, boolean oneOnly) {
+    this.name = name;
+    this.crop = crop;
+    this.seed = seed;
+    this.oneOnly = oneOnly;
 
-        this.setBlockName(name);
-        this.setBlockTextureName(W3Util.init.getResourceName(name));
-        this.setCreativeTab(WWWMain.TABS);
+    this.setBlockName(name);
+    this.setBlockTextureName(W3Util.init.getResourceName(name));
+    this.setCreativeTab(WWWMain.TABS);
 
-        SeedTagUtil.WATER_CROPS.add(this);
-        GameRegistry.registerBlock(this, ItemWaterCrop.class, name);
+    SeedTagUtil.WATER_CROPS.add(this);
+    GameRegistry.registerBlock(this, ItemWaterCrop.class, name);
 
-        if (this.seed != null) {
-            GameRegistry.addShapelessRecipe(new ItemStack(seed, 2), this);
-        }
+    if (this.seed != null) {
+      GameRegistry.addShapelessRecipe(new ItemStack(seed, 2), this);
     }
+  }
 
-    public CropWaterFactory(String name, Item crop, boolean oneOnly) {
-        this(name, crop, null, oneOnly);
+  public CropWaterFactory(String name, Item crop, boolean oneOnly) {
+    this(name, crop, null, oneOnly);
+  }
+
+  public CropWaterFactory(String name, Item crop) {
+    this(name, crop, null, false);
+  }
+
+  public CropWaterFactory(String name) {
+    this(name, null, null, false);
+  }
+
+  IIcon[] icons;
+
+  @Override
+  @SideOnly(Side.CLIENT)
+  public void registerBlockIcons(IIconRegister register) {
+    this.icons = new IIcon[4];
+
+    for (int i = 0; i < 4; ++i) {
+      this.icons[i] = register.registerIcon(this.textureName.replaceAll("_seed", "") + "_crop_" + i);
     }
+  }
 
-    public CropWaterFactory(String name, Item crop) {
-        this(name, crop, null, false);
+  @Override
+  @SideOnly(Side.CLIENT)
+  public IIcon getIcon(int side, int meta) {
+    switch (meta) {
+      case 0:
+      case 1:
+      default:
+        return this.icons[0];
+      case 2:
+      case 3:
+        return this.icons[1];
+      case 4:
+      case 5:
+      case 6:
+        return this.icons[2];
+      case 7:
+      case 8:
+        return this.icons[3];
     }
+  }
 
-    public CropWaterFactory(String name) {
-        this(name, null, null, false);
-    }
+  @Override
+  protected boolean canPlaceBlockOn(Block block) {
+    return W3Tags.WATER_TAG.has(block);
+  }
 
-    IIcon[] icons;
+  @Override
+  public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z) {
+    return Water;
+  }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister register) {
-        this.icons = new IIcon[4];
+  @Override
+  public Item func_149866_i() {
+    return this.seed != null ? seed : Item.getItemFromBlock(this);
+  }
 
-        for(int i = 0; i < 4; ++i) {
-            this.icons[i] = register.registerIcon(this.textureName.replaceAll("_seed", "") + "_crop_" + i);
-        }
-    }
+  @Override
+  public Item func_149865_P() {
+    return this.crop != null ? this.crop : Item.getItemFromBlock(this);
+  }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta) {
-        switch(meta) {
-            case 0:
-            case 1:
-            default:
-                return this.icons[0];
-            case 2:
-            case 3:
-                return this.icons[1];
-            case 4:
-            case 5:
-            case 6:
-                return this.icons[2];
-            case 7:
-            case 8:
-                return this.icons[3];
-        }
-    }
+  @Override
+  public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int face, float hitX, float hitY, float hitZ) {
+    super.onBlockActivated(world, x, y, z, player, face, hitX, hitY, hitX);
 
-    @Override
-    protected boolean canPlaceBlockOn(Block block) {
-        return Tags.WATER_TAG.has(block);
-    }
+    if (world.isRemote) return false;
 
-    @Override
-    public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z) {
-        return Water;
-    }
+    int meta = world.getBlockMetadata(x, y, z);
+    if (meta < 7) return false;
+    List<ItemStack> rat = Lists.newArrayList();
 
-    @Override
-    public Item func_149866_i() {
-        return this.seed != null? seed : Item.getItemFromBlock(this);
-    }
+    rat.add(new ItemStack(this.func_149865_P(), this.oneOnly ? 1 : world.rand.nextInt(5) + 1));
+    if (world.rand.nextInt(10) > 6) rat.add(new ItemStack(this.func_149866_i()));
+    for (ItemStack item : rat) world.spawnEntityInWorld(new EntityItem(world, x, y + 0.5D, z, item));
 
-    @Override
-    public Item func_149865_P() {
-        return this.crop != null? this.crop : Item.getItemFromBlock(this);
-    }
+    world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+    return true;
+  }
 
-    @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int face, float hitX, float hitY, float hitZ) {
-        super.onBlockActivated(world, x, y, z, player, face, hitX, hitY, hitX);
-
-        if (world.isRemote) return false;
-
-        int meta = world.getBlockMetadata(x, y, z);
-        if (meta < 7) return false;
-        List<ItemStack> rat = Lists.newArrayList();
-
-        rat.add(new ItemStack(this.func_149865_P(), this.oneOnly ? 1 : world.rand.nextInt(5) + 1));
-        if (world.rand.nextInt(10) > 6) rat.add(new ItemStack(this.func_149866_i()));
-        for (ItemStack item : rat) world.spawnEntityInWorld(new EntityItem(world, x, y + 0.5D, z, item));
-
-        world.setBlockMetadataWithNotify(x, y, z, 0, 2);
-        return true;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_) {
-        return this.seed;
-    }
+  @SideOnly(Side.CLIENT)
+  public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_) {
+    return this.seed;
+  }
 }
